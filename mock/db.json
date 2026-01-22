@@ -1,22 +1,27 @@
 {
-  "companies": [{ "id": 1, "name": "RetailMart MMC" }],
+  "companies": [
+    {
+      "id": "1",
+      "name": "RetailMart MMC"
+    }
+  ],
   "stores": [
     {
-      "id": 1,
+      "id": "1",
       "companyId": 1,
       "name": "Nərimanov Filialı",
       "code": "ST-001",
       "address": "Bakı, Nərimanov"
     },
     {
-      "id": 2,
+      "id": "2",
       "companyId": 1,
       "name": "Nizami Filialı",
       "code": "ST-002",
       "address": "Bakı, Nizami"
     },
     {
-      "id": 3,
+      "id": "3",
       "companyId": 1,
       "name": "Xətai Filialı",
       "code": "ST-003",
@@ -24,28 +29,84 @@
     }
   ],
   "departments": [
-    { "id": 1, "companyId": 1, "name": "Pərakəndə", "code": "RET" },
-    { "id": 2, "companyId": 1, "name": "Marketinq", "code": "MKT" },
-    { "id": 3, "companyId": 1, "name": "İT", "code": "IT" },
-    { "id": 4, "companyId": 1, "name": "HR", "code": "HR" }
+    {
+      "id": "1",
+      "companyId": 1,
+      "name": "Pərakəndə",
+      "code": "RET"
+    },
+    {
+      "id": "2",
+      "companyId": 1,
+      "name": "Marketinq",
+      "code": "MKT"
+    },
+    {
+      "id": "3",
+      "companyId": 1,
+      "name": "İT",
+      "code": "IT"
+    },
+    {
+      "id": "4",
+      "companyId": 1,
+      "name": "HR",
+      "code": "HR"
+    }
   ],
   "roles": [
-    { "id": 1, "name": "Ümumi Rəhbər" },
-    { "id": 2, "name": "Mağaza Müdiri" },
-    { "id": 3, "name": "Müdir Müavini" },
-    { "id": 4, "name": "Kassir" },
-    { "id": 5, "name": "Satıcı" },
-    { "id": 6, "name": "SMM" },
-    { "id": 7, "name": "Art Director" },
-    { "id": 8, "name": "Kopirayter" },
-    { "id": 9, "name": "Frontend Developer" },
-    { "id": 10, "name": "Backend Developer" },
-    { "id": 11, "name": "HR Specialist" },
-    { "id": 12, "name": "HR Manager" }
+    {
+      "id": "1",
+      "name": "Ümumi Rəhbər"
+    },
+    {
+      "id": "2",
+      "name": "Mağaza Müdiri"
+    },
+    {
+      "id": "3",
+      "name": "Müdir Müavini"
+    },
+    {
+      "id": "4",
+      "name": "Kassir"
+    },
+    {
+      "id": "5",
+      "name": "Satıcı"
+    },
+    {
+      "id": "6",
+      "name": "SMM"
+    },
+    {
+      "id": "7",
+      "name": "Art Director"
+    },
+    {
+      "id": "8",
+      "name": "Kopirayter"
+    },
+    {
+      "id": "9",
+      "name": "Frontend Developer"
+    },
+    {
+      "id": "10",
+      "name": "Backend Developer"
+    },
+    {
+      "id": "11",
+      "name": "HR Specialist"
+    },
+    {
+      "id": "12",
+      "name": "HR Manager"
+    }
   ],
   "employees": [
     {
-      "id": 1,
+      "id": "1",
       "companyId": 1,
       "fullName": "Elvin Məmmədov",
       "email": "elvin.mammadov@retailmart.az",
@@ -56,10 +117,14 @@
       "managerId": null,
       "status": "active",
       "hireDate": "2023-02-15",
-      "salary": { "currency": "AZN", "base": 3500, "bonus": 0 }
+      "salary": {
+        "currency": "AZN",
+        "base": 3500,
+        "bonus": 0
+      }
     },
     {
-      "id": 2,
+      "id": "2",
       "companyId": 1,
       "fullName": "Aysel Əliyeva",
       "email": "aysel.aliyeva@retailmart.az",
@@ -70,10 +135,14 @@
       "managerId": 1,
       "status": "active",
       "hireDate": "2023-05-10",
-      "salary": { "currency": "AZN", "base": 1800, "bonus": 200 }
+      "salary": {
+        "currency": "AZN",
+        "base": 1800,
+        "bonus": 200
+      }
     },
     {
-      "id": 3,
+      "id": "3",
       "companyId": 1,
       "fullName": "Murad Həsənov",
       "email": "murad.hasanov@retailmart.az",
@@ -84,10 +153,14 @@
       "managerId": 2,
       "status": "active",
       "hireDate": "2024-01-05",
-      "salary": { "currency": "AZN", "base": 1400, "bonus": 100 }
+      "salary": {
+        "currency": "AZN",
+        "base": 1400,
+        "bonus": 100
+      }
     },
     {
-      "id": 4,
+      "id": "4",
       "companyId": 1,
       "fullName": "Nigar Quliyeva",
       "email": "nigar.quliyeva@retailmart.az",
@@ -98,10 +171,14 @@
       "managerId": 2,
       "status": "active",
       "hireDate": "2024-03-12",
-      "salary": { "currency": "AZN", "base": 900, "bonus": 50 }
+      "salary": {
+        "currency": "AZN",
+        "base": 900,
+        "bonus": 50
+      }
     },
     {
-      "id": 5,
+      "id": "5",
       "companyId": 1,
       "fullName": "Kənan İsmayılov",
       "email": "kenan.ismayilov@retailmart.az",
@@ -112,10 +189,14 @@
       "managerId": 2,
       "status": "active",
       "hireDate": "2024-06-01",
-      "salary": { "currency": "AZN", "base": 750, "bonus": 0 }
+      "salary": {
+        "currency": "AZN",
+        "base": 750,
+        "bonus": 0
+      }
     },
     {
-      "id": 6,
+      "id": "6",
       "companyId": 1,
       "fullName": "Lalə Qəhrəmanova",
       "email": "lale.qehremanova@retailmart.az",
@@ -126,10 +207,14 @@
       "managerId": 1,
       "status": "active",
       "hireDate": "2023-11-20",
-      "salary": { "currency": "AZN", "base": 1600, "bonus": 150 }
+      "salary": {
+        "currency": "AZN",
+        "base": 1600,
+        "bonus": 150
+      }
     },
     {
-      "id": 7,
+      "id": "7",
       "companyId": 1,
       "fullName": "Orxan Rzayev",
       "email": "orxan.rzayev@retailmart.az",
@@ -140,10 +225,14 @@
       "managerId": 1,
       "status": "active",
       "hireDate": "2024-02-01",
-      "salary": { "currency": "AZN", "base": 2800, "bonus": 0 }
+      "salary": {
+        "currency": "AZN",
+        "base": 2800,
+        "bonus": 0
+      }
     },
     {
-      "id": 8,
+      "id": "8",
       "companyId": 1,
       "fullName": "Günel Əliyeva",
       "email": "gunel.hr@retailmart.az",
@@ -154,10 +243,14 @@
       "managerId": 1,
       "status": "active",
       "hireDate": "2023-08-10",
-      "salary": { "currency": "AZN", "base": 2200, "bonus": 100 }
+      "salary": {
+        "currency": "AZN",
+        "base": 2200,
+        "bonus": 100
+      }
     },
     {
-      "id": 9,
+      "id": "9",
       "companyId": 1,
       "fullName": "Rauf Əliyev",
       "email": "rauf.aliyev@retailmart.az",
@@ -168,10 +261,13 @@
       "managerId": 1,
       "status": "active",
       "hireDate": "2023-09-18",
-      "salary": { "currency": "AZN", "base": 1850, "bonus": 150 }
+      "salary": {
+        "currency": "AZN",
+        "base": 1850,
+        "bonus": 150
+      }
     },
     {
-      "id": 10,
       "companyId": 1,
       "fullName": "Sevda Məmmədli",
       "email": "sevda.mammadli@retailmart.az",
@@ -182,10 +278,15 @@
       "managerId": 9,
       "status": "active",
       "hireDate": "2024-02-20",
-      "salary": { "currency": "AZN", "base": 1450, "bonus": 100 }
+      "salary": {
+        "currency": "AZN",
+        "base": 1440,
+        "bonus": 100
+      },
+      "id": "10"
     },
     {
-      "id": 11,
+      "id": "11",
       "companyId": 1,
       "fullName": "Tural Qasımov",
       "email": "tural.qasimov@retailmart.az",
@@ -196,10 +297,14 @@
       "managerId": 9,
       "status": "active",
       "hireDate": "2024-05-08",
-      "salary": { "currency": "AZN", "base": 920, "bonus": 60 }
+      "salary": {
+        "currency": "AZN",
+        "base": 920,
+        "bonus": 60
+      }
     },
     {
-      "id": 12,
+      "id": "12",
       "companyId": 1,
       "fullName": "Nərgiz Hacıyeva",
       "email": "nergiz.haciyeva@retailmart.az",
@@ -210,10 +315,14 @@
       "managerId": 10,
       "status": "active",
       "hireDate": "2024-06-15",
-      "salary": { "currency": "AZN", "base": 780, "bonus": 0 }
+      "salary": {
+        "currency": "AZN",
+        "base": 780,
+        "bonus": 0
+      }
     },
     {
-      "id": 13,
+      "id": "13",
       "companyId": 1,
       "fullName": "Elnur Orucov",
       "email": "elnur.orucov@retailmart.az",
@@ -224,10 +333,14 @@
       "managerId": 1,
       "status": "active",
       "hireDate": "2023-03-27",
-      "salary": { "currency": "AZN", "base": 1900, "bonus": 200 }
+      "salary": {
+        "currency": "AZN",
+        "base": 1900,
+        "bonus": 200
+      }
     },
     {
-      "id": 14,
+      "id": "14",
       "companyId": 1,
       "fullName": "Aysu Hüseynova",
       "email": "aysu.huseynova@retailmart.az",
@@ -238,10 +351,14 @@
       "managerId": 13,
       "status": "active",
       "hireDate": "2024-01-22",
-      "salary": { "currency": "AZN", "base": 1500, "bonus": 120 }
+      "salary": {
+        "currency": "AZN",
+        "base": 1500,
+        "bonus": 120
+      }
     },
     {
-      "id": 15,
+      "id": "15",
       "companyId": 1,
       "fullName": "Əli Səfərov",
       "email": "eli.seferov@retailmart.az",
@@ -252,10 +369,14 @@
       "managerId": 13,
       "status": "active",
       "hireDate": "2024-07-03",
-      "salary": { "currency": "AZN", "base": 950, "bonus": 40 }
+      "salary": {
+        "currency": "AZN",
+        "base": 950,
+        "bonus": 40
+      }
     },
     {
-      "id": 16,
+      "id": "16",
       "companyId": 1,
       "fullName": "Fəridə Rəsulova",
       "email": "feride.resulova@retailmart.az",
@@ -266,10 +387,14 @@
       "managerId": 14,
       "status": "active",
       "hireDate": "2024-08-19",
-      "salary": { "currency": "AZN", "base": 790, "bonus": 0 }
+      "salary": {
+        "currency": "AZN",
+        "base": 790,
+        "bonus": 0
+      }
     },
     {
-      "id": 17,
+      "id": "17",
       "companyId": 1,
       "fullName": "İlkin Məmmədov",
       "email": "ilkin.mammadov2@retailmart.az",
@@ -280,10 +405,14 @@
       "managerId": 1,
       "status": "active",
       "hireDate": "2023-10-05",
-      "salary": { "currency": "AZN", "base": 1700, "bonus": 200 }
+      "salary": {
+        "currency": "AZN",
+        "base": 1700,
+        "bonus": 200
+      }
     },
     {
-      "id": 18,
+      "id": "18",
       "companyId": 1,
       "fullName": "Zəhra Əliyeva",
       "email": "zehra.aliyeva@retailmart.az",
@@ -294,10 +423,14 @@
       "managerId": 1,
       "status": "active",
       "hireDate": "2024-04-12",
-      "salary": { "currency": "AZN", "base": 1550, "bonus": 250 }
+      "salary": {
+        "currency": "AZN",
+        "base": 1550,
+        "bonus": 250
+      }
     },
     {
-      "id": 19,
+      "id": "19",
       "companyId": 1,
       "fullName": "Kamal Əliyev",
       "email": "kamal.aliyev@retailmart.az",
@@ -308,10 +441,14 @@
       "managerId": 1,
       "status": "active",
       "hireDate": "2023-12-01",
-      "salary": { "currency": "AZN", "base": 2600, "bonus": 300 }
+      "salary": {
+        "currency": "AZN",
+        "base": 2600,
+        "bonus": 300
+      }
     },
     {
-      "id": 20,
+      "id": "20",
       "companyId": 1,
       "fullName": "Nihad Abdullayev",
       "email": "nihad.abdullayev@retailmart.az",
@@ -322,10 +459,14 @@
       "managerId": 1,
       "status": "active",
       "hireDate": "2024-03-01",
-      "salary": { "currency": "AZN", "base": 3100, "bonus": 0 }
+      "salary": {
+        "currency": "AZN",
+        "base": 3100,
+        "bonus": 0
+      }
     },
     {
-      "id": 21,
+      "id": "21",
       "companyId": 1,
       "fullName": "Leyla Əliyeva",
       "email": "leyla.frontend@retailmart.az",
@@ -336,10 +477,14 @@
       "managerId": 1,
       "status": "active",
       "hireDate": "2024-09-10",
-      "salary": { "currency": "AZN", "base": 2900, "bonus": 0 }
+      "salary": {
+        "currency": "AZN",
+        "base": 2900,
+        "bonus": 0
+      }
     },
     {
-      "id": 22,
+      "id": "22",
       "companyId": 1,
       "fullName": "Samir Əliyev",
       "email": "samir.dev@retailmart.az",
@@ -350,10 +495,14 @@
       "managerId": 1,
       "status": "on_leave",
       "hireDate": "2023-06-14",
-      "salary": { "currency": "AZN", "base": 2750, "bonus": 0 }
+      "salary": {
+        "currency": "AZN",
+        "base": 2750,
+        "bonus": 0
+      }
     },
     {
-      "id": 23,
+      "id": "23",
       "companyId": 1,
       "fullName": "Mədinə Nəcəfova",
       "email": "medine.hr@retailmart.az",
@@ -364,10 +513,14 @@
       "managerId": 8,
       "status": "active",
       "hireDate": "2024-02-28",
-      "salary": { "currency": "AZN", "base": 1700, "bonus": 100 }
+      "salary": {
+        "currency": "AZN",
+        "base": 1700,
+        "bonus": 100
+      }
     },
     {
-      "id": 24,
+      "id": "24",
       "companyId": 1,
       "fullName": "Vüsal Məmmədov",
       "email": "vusal.hrmanager@retailmart.az",
@@ -378,10 +531,14 @@
       "managerId": 1,
       "status": "active",
       "hireDate": "2023-01-09",
-      "salary": { "currency": "AZN", "base": 2400, "bonus": 200 }
+      "salary": {
+        "currency": "AZN",
+        "base": 2400,
+        "bonus": 200
+      }
     },
     {
-      "id": 25,
+      "id": "25",
       "companyId": 1,
       "fullName": "Gülşən Əhmədova",
       "email": "gulsen.ahmedova@retailmart.az",
@@ -392,12 +549,34 @@
       "managerId": 2,
       "status": "active",
       "hireDate": "2024-10-02",
-      "salary": { "currency": "AZN", "base": 820, "bonus": 0 }
+      "salary": {
+        "currency": "AZN",
+        "base": 820,
+        "bonus": 0
+      }
+    },
+    {
+      "id": "95d4",
+      "companyId": 1,
+      "fullName": "Alim Aliyev",
+      "email": "alimaliyev0@gmail.com",
+      "phone": "0773199387",
+      "departmentId": 1,
+      "storeId": null,
+      "roleId": 1,
+      "managerId": null,
+      "status": "active",
+      "hireDate": "2026-01-22",
+      "salary": {
+        "currency": "AZN",
+        "base": 10000,
+        "bonus": 0
+      }
     }
   ],
   "leaveRequests": [
     {
-      "id": 1,
+      "id": "1",
       "employeeId": 4,
       "type": "annual",
       "startDate": "2025-01-10",
@@ -407,7 +586,7 @@
       "note": "Ailə səbəbi"
     },
     {
-      "id": 2,
+      "id": "2",
       "employeeId": 7,
       "type": "sick",
       "startDate": "2025-02-03",
@@ -419,7 +598,7 @@
   ],
   "payroll": [
     {
-      "id": 1,
+      "id": "1",
       "employeeId": 2,
       "month": "2025-01",
       "base": 1800,
@@ -429,7 +608,7 @@
       "status": "draft"
     },
     {
-      "id": 2,
+      "id": "2",
       "employeeId": 4,
       "month": "2025-01",
       "base": 900,
