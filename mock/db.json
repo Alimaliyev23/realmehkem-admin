@@ -106,24 +106,6 @@
   ],
   "employees": [
     {
-      "id": "1",
-      "companyId": 1,
-      "fullName": "Elvin Məmmədov",
-      "email": "elvin.mammadov@retailmart.az",
-      "phone": "+994501112233",
-      "departmentId": 1,
-      "storeId": null,
-      "roleId": 1,
-      "managerId": null,
-      "status": "active",
-      "hireDate": "2023-02-15",
-      "salary": {
-        "currency": "AZN",
-        "base": 3500,
-        "bonus": 0
-      }
-    },
-    {
       "id": "2",
       "companyId": 1,
       "fullName": "Aysel Əliyeva",
@@ -616,6 +598,189 @@
       "deductions": 0,
       "net": 950,
       "status": "paid"
+    }
+  ],
+
+  "employeeProfiles": [
+    {
+      "id": "p-2",
+      "employeeId": 2,
+      "dob": "1994-02-11",
+      "gender": "female",
+      "address": "Bakı, Nərimanov, A. Sultanova 12",
+      "emergencyContact": { "name": "Rasim Əliyev", "phone": "+994505001122" },
+      "education": "Bakalavr",
+      "notes": "Filial üzrə güclü idarəetmə bacarığı"
+    },
+    {
+      "id": "p-7",
+      "employeeId": 7,
+      "dob": "1998-07-03",
+      "gender": "male",
+      "address": "Bakı, Yasamal, M. Hüseyn 25",
+      "emergencyContact": { "name": "Aytən Rzayeva", "phone": "+994507771100" },
+      "education": "Bakalavr",
+      "notes": "Frontend istiqamətində əsas məsul şəxs"
+    }
+  ],
+
+  "attendance": [
+    {
+      "id": "att-1",
+      "employeeId": 4,
+      "date": "2026-01-20",
+      "checkIn": "09:07",
+      "checkOut": "18:02",
+      "status": "present",
+      "note": ""
+    },
+    {
+      "id": "att-2",
+      "employeeId": 7,
+      "date": "2026-01-20",
+      "checkIn": "09:30",
+      "checkOut": "18:10",
+      "status": "late",
+      "note": "Nəqliyyat"
+    }
+  ],
+
+  "performanceReviews": [
+    {
+      "id": "rev-1",
+      "employeeId": 2,
+      "period": "2025-Q4",
+      "reviewerId": 1,
+      "rating": 4.6,
+      "strengths": ["Komanda idarəetməsi", "Satış planı icrası"],
+      "improvements": ["Delegasiya", "Həftəlik hesabat formatı"],
+      "decision": "promotion_candidate",
+      "createdAt": "2026-01-05"
+    },
+    {
+      "id": "rev-2",
+      "employeeId": 7,
+      "period": "2025-Q4",
+      "reviewerId": 1,
+      "rating": 4.2,
+      "strengths": ["UI keyfiyyəti", "Performans optimallaşdırma"],
+      "improvements": ["Dokumentasiya", "Test coverage"],
+      "decision": "keep",
+      "createdAt": "2026-01-06"
+    }
+  ],
+
+  "assets": [
+    {
+      "id": "as-1",
+      "type": "laptop",
+      "brand": "Dell",
+      "model": "Latitude 5420",
+      "serial": "DL-5420-AX12",
+      "status": "assigned"
+    },
+    {
+      "id": "as-2",
+      "type": "phone",
+      "brand": "Samsung",
+      "model": "A54",
+      "serial": "SM-A54-9921",
+      "status": "available"
+    }
+  ],
+
+  "assetAssignments": [
+    {
+      "id": "aa-1",
+      "assetId": "as-1",
+      "employeeId": 7,
+      "assignedAt": "2025-09-01",
+      "returnedAt": null
+    }
+  ],
+
+  "documents": [
+    {
+      "id": "doc-1",
+      "employeeId": 2,
+      "type": "contract",
+      "title": "Əmək müqaviləsi",
+      "fileUrl": "/files/contracts/contract-2.pdf",
+      "createdAt": "2023-05-10"
+    },
+    {
+      "id": "doc-2",
+      "employeeId": 7,
+      "type": "nda",
+      "title": "NDA",
+      "fileUrl": "/files/nda/nda-7.pdf",
+      "createdAt": "2024-02-01"
+    }
+  ],
+
+  "announcements": [
+    {
+      "id": "an-1",
+      "companyId": 1,
+      "title": "Yeni daxili qaydalar",
+      "body": "İşə davamiyyət və məzuniyyət prosedurları yenilənib.",
+      "priority": "high",
+      "createdAt": "2026-01-15"
+    },
+    {
+      "id": "an-2",
+      "companyId": 1,
+      "title": "IT sistem baxışı",
+      "body": "Şənbə günü 02:00-04:00 arası planlı texniki işlər olacaq.",
+      "priority": "normal",
+      "createdAt": "2026-01-18"
+    }
+  ],
+
+  "storeTargets": [
+    {
+      "id": "t-1",
+      "storeId": 1,
+      "month": "2026-01",
+      "salesTarget": 120000,
+      "transactionsTarget": 3500
+    },
+    {
+      "id": "t-2",
+      "storeId": 2,
+      "month": "2026-01",
+      "salesTarget": 95000,
+      "transactionsTarget": 2800
+    },
+    {
+      "id": "t-3",
+      "storeId": 3,
+      "month": "2026-01",
+      "salesTarget": 87000,
+      "transactionsTarget": 2500
+    }
+  ],
+
+  "payrollRuns": [
+    {
+      "id": "pr-2026-01",
+      "companyId": 1,
+      "month": "2026-01",
+      "status": "draft",
+      "createdAt": "2026-01-20",
+      "createdBy": 1
+    }
+  ],
+
+  "auditLogs": [
+    {
+      "id": "log-1",
+      "actorId": 1,
+      "action": "employee.create",
+      "entity": "employees",
+      "entityId": "95d4",
+      "at": "2026-01-22T09:10:00",
+      "meta": { "fullName": "Alim Aliyev" }
     }
   ]
 }
