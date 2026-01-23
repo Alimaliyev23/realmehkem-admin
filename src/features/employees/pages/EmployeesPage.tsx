@@ -1,4 +1,6 @@
 import { useMemo, useState } from "react";
+import { useSearchParams } from "react-router-dom";
+
 import { DataTable, type ColumnDef } from "../../../components/ui/DataTable";
 import type { EmployeeApi, EmployeeRow } from "../types";
 import { useEmployeesData } from "../useEmployeesData";
@@ -16,6 +18,7 @@ async function apiGet<T>(path: string): Promise<T> {
   if (!res.ok) throw new Error(`API error: ${res.status}`);
   return res.json();
 }
+
 async function apiPost<TBody, TRes>(path: string, body: TBody): Promise<TRes> {
   const res = await fetch(`${API_BASE_URL}${path}`, {
     method: "POST",
@@ -25,6 +28,7 @@ async function apiPost<TBody, TRes>(path: string, body: TBody): Promise<TRes> {
   if (!res.ok) throw new Error(`API error: ${res.status}`);
   return res.json();
 }
+
 async function apiPut<TBody, TRes>(path: string, body: TBody): Promise<TRes> {
   const res = await fetch(`${API_BASE_URL}${path}`, {
     method: "PUT",
@@ -34,6 +38,7 @@ async function apiPut<TBody, TRes>(path: string, body: TBody): Promise<TRes> {
   if (!res.ok) throw new Error(`API error: ${res.status}`);
   return res.json();
 }
+
 async function apiDelete(path: string): Promise<void> {
   const res = await fetch(`${API_BASE_URL}${path}`, { method: "DELETE" });
   if (!res.ok) throw new Error(`API error: ${res.status}`);
@@ -51,6 +56,19 @@ export default function EmployeesPage() {
     roleOptions,
     statusOptions,
   } = useEmployeesData();
+
+  // ✅ URL query: /employees?q=...
+  const [searchParams, setSearchParams] = useSearchParams();
+  const initialQ = searchParams.get("q") ?? "";
+  const [search, setSearch] = useState(initialQ);
+
+  function updateUrlQ(v: string) {
+    const clean = v.trim();
+    const next = new URLSearchParams(searchParams);
+    if (clean) next.set("q", clean);
+    else next.delete("q");
+    setSearchParams(next, { replace: true });
+  }
 
   const [viewOpen, setViewOpen] = useState(false);
   const [formOpen, setFormOpen] = useState(false);
@@ -137,6 +155,7 @@ export default function EmployeesPage() {
             >
               Bax
             </button>
+
             <button
               onClick={async () => {
                 setFormOpen(true);
@@ -171,7 +190,9 @@ export default function EmployeesPage() {
         const payload = toApiPayload(form);
         await apiPost(`/employees`, payload);
       }
+
       await refresh();
+
       setFormOpen(false);
       setEditId(null);
       setActiveEmployee(null);
@@ -183,10 +204,12 @@ export default function EmployeesPage() {
   async function remove() {
     if (!activeEmployee) return;
     if (!confirm("Bu əməkdaşı silmək istəyirsiniz?")) return;
+
     setSaving(true);
     try {
       await apiDelete(`/employees/${activeEmployee.id}`);
       await refresh();
+
       setFormOpen(false);
       setEditId(null);
       setActiveEmployee(null);
@@ -197,7 +220,8 @@ export default function EmployeesPage() {
 
   return (
     <div className="space-y-4">
-      <div className="flex items-center justify-between">
+      {/* ✅ responsive page header */}
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <h2 className="text-2xl font-semibold">Employees</h2>
 
         <button
@@ -207,7 +231,7 @@ export default function EmployeesPage() {
             setActiveEmployee(null);
             setForm(toFormState());
           }}
-          className="rounded bg-gray-900 px-3 py-2 text-sm text-white hover:bg-gray-800"
+          className="w-full sm:w-auto rounded-lg bg-gray-900 px-4 py-2 text-sm text-white hover:bg-gray-800"
         >
           Yeni əməkdaş
         </button>
@@ -221,6 +245,12 @@ export default function EmployeesPage() {
         emptyText="Heç bir əməkdaş tapılmadı"
         globalSearchPlaceholder="Ad üzrə axtar…"
         globalSearchKeys={["fullName"]}
+        // ✅ Header search -> URL (?q=...) -> DataTable global filter
+        globalFilterValue={search}
+        onGlobalFilterValueChange={(v) => {
+          setSearch(v);
+          updateUrlQ(v);
+        }}
       />
 
       <EmployeeViewModal
@@ -237,6 +267,7 @@ export default function EmployeesPage() {
           setViewOpen(false);
           setFormOpen(true);
           setEditId(id);
+
           const emp = await apiGet<EmployeeApi>(`/employees/${id}`);
           setActiveEmployee(emp);
           setForm(toFormState(emp));

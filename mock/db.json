@@ -106,7 +106,6 @@
   ],
   "employees": [
     {
-      "id": "2",
       "companyId": 1,
       "fullName": "Aysel Əliyeva",
       "email": "aysel.aliyeva@retailmart.az",
@@ -120,8 +119,9 @@
       "salary": {
         "currency": "AZN",
         "base": 1800,
-        "bonus": 200
-      }
+        "bonus": 50
+      },
+      "id": "2"
     },
     {
       "id": "3",
@@ -554,6 +554,24 @@
         "base": 10000,
         "bonus": 0
       }
+    },
+    {
+      "companyId": 1,
+      "fullName": "Əli Şabanov",
+      "email": "alishabanov@gmail.com",
+      "phone": "0555555555",
+      "departmentId": 3,
+      "storeId": null,
+      "roleId": 9,
+      "managerId": null,
+      "status": "active",
+      "hireDate": "2026-01-22",
+      "salary": {
+        "currency": "AZN",
+        "base": 500,
+        "bonus": 500
+      },
+      "id": "2f69"
     }
   ],
   "leaveRequests": [
@@ -600,7 +618,6 @@
       "status": "paid"
     }
   ],
-
   "employeeProfiles": [
     {
       "id": "p-2",
@@ -608,7 +625,10 @@
       "dob": "1994-02-11",
       "gender": "female",
       "address": "Bakı, Nərimanov, A. Sultanova 12",
-      "emergencyContact": { "name": "Rasim Əliyev", "phone": "+994505001122" },
+      "emergencyContact": {
+        "name": "Rasim Əliyev",
+        "phone": "+994505001122"
+      },
       "education": "Bakalavr",
       "notes": "Filial üzrə güclü idarəetmə bacarığı"
     },
@@ -618,12 +638,14 @@
       "dob": "1998-07-03",
       "gender": "male",
       "address": "Bakı, Yasamal, M. Hüseyn 25",
-      "emergencyContact": { "name": "Aytən Rzayeva", "phone": "+994507771100" },
+      "emergencyContact": {
+        "name": "Aytən Rzayeva",
+        "phone": "+994507771100"
+      },
       "education": "Bakalavr",
       "notes": "Frontend istiqamətində əsas məsul şəxs"
     }
   ],
-
   "attendance": [
     {
       "id": "att-1",
@@ -644,7 +666,6 @@
       "note": "Nəqliyyat"
     }
   ],
-
   "performanceReviews": [
     {
       "id": "rev-1",
@@ -669,7 +690,6 @@
       "createdAt": "2026-01-06"
     }
   ],
-
   "assets": [
     {
       "id": "as-1",
@@ -688,7 +708,6 @@
       "status": "available"
     }
   ],
-
   "assetAssignments": [
     {
       "id": "aa-1",
@@ -698,7 +717,6 @@
       "returnedAt": null
     }
   ],
-
   "documents": [
     {
       "id": "doc-1",
@@ -717,7 +735,6 @@
       "createdAt": "2024-02-01"
     }
   ],
-
   "announcements": [
     {
       "id": "an-1",
@@ -736,7 +753,6 @@
       "createdAt": "2026-01-18"
     }
   ],
-
   "storeTargets": [
     {
       "id": "t-1",
@@ -760,7 +776,6 @@
       "transactionsTarget": 2500
     }
   ],
-
   "payrollRuns": [
     {
       "id": "pr-2026-01",
@@ -771,7 +786,6 @@
       "createdBy": 1
     }
   ],
-
   "auditLogs": [
     {
       "id": "log-1",
@@ -780,7 +794,9 @@
       "entity": "employees",
       "entityId": "95d4",
       "at": "2026-01-22T09:10:00",
-      "meta": { "fullName": "Alim Aliyev" }
+      "meta": {
+        "fullName": "Alim Aliyev"
+      }
     }
   ]
 }

@@ -14,7 +14,7 @@ import {
 type ChartDatum = { name: string; count: number; fullName?: string };
 type TrendDatum = { month: string; count: number };
 
-function clampLabel(s: string, max = 10) {
+function clampLabel(s: string, max = 12) {
   if (!s) return "";
   return s.length > max ? s.slice(0, max - 1) + "…" : s;
 }
@@ -22,14 +22,21 @@ function clampLabel(s: string, max = 10) {
 function ChartCard({
   title,
   children,
+  hint,
 }: {
   title: string;
   children: React.ReactNode;
+  hint?: string;
 }) {
   return (
     <div className="rounded-xl border bg-white p-4 shadow-sm">
-      <div className="mb-3 flex items-center justify-between">
-        <div className="text-sm font-semibold">{title}</div>
+      <div className="mb-3 flex items-end justify-between gap-3">
+        <div>
+          <div className="text-sm font-semibold text-gray-900">{title}</div>
+          {hint ? (
+            <div className="mt-0.5 text-xs text-gray-500">{hint}</div>
+          ) : null}
+        </div>
       </div>
       {children}
     </div>
@@ -37,14 +44,14 @@ function ChartCard({
 }
 
 const PALETTE = [
-  "#2563EB", // blue-600
-  "#10B981", // emerald-500
-  "#F59E0B", // amber-500
-  "#EF4444", // red-500
-  "#8B5CF6", // violet-500
-  "#06B6D4", // cyan-500
-  "#EC4899", // pink-500
-  "#84CC16", // lime-500
+  "#2563EB",
+  "#10B981",
+  "#F59E0B",
+  "#EF4444",
+  "#8B5CF6",
+  "#06B6D4",
+  "#EC4899",
+  "#84CC16",
 ];
 
 function buildColorMap(names: string[]) {
@@ -76,7 +83,7 @@ function PeoplePercentTooltip({ active, payload, label, total }: any) {
       <div className="text-xs text-gray-500">{String(label)}</div>
       <div className="mt-1 text-sm font-semibold">
         {value.toLocaleString()} nəfər{" "}
-        <span className="text-gray-500 font-medium">({formatPct(pct)})</span>
+        <span className="font-medium text-gray-500">({formatPct(pct)})</span>
       </div>
     </div>
   );
@@ -112,16 +119,23 @@ export function DashboardCharts({
   return (
     <div className="space-y-4">
       <div className="grid gap-4 lg:grid-cols-2">
-        {/* ŞÖBƏ */}
-        <ChartCard title="Şöbələrə görə">
-          <div className="h-72">
+        <ChartCard title="Şöbələrə görə" hint="Əməkdaş sayı (və faiz)">
+          <div className="h-72 sm:h-80">
             <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={departmentData} barCategoryGap={18}>
+              <BarChart
+                data={departmentData}
+                barCategoryGap={18}
+                margin={{ left: 8, right: 8 }}
+              >
                 <CartesianGrid strokeDasharray="3 3" vertical={false} />
                 <XAxis
                   dataKey="name"
+                  interval={0}
                   tick={{ fontSize: 12 }}
-                  tickFormatter={(v) => clampLabel(String(v), 10)}
+                  tickFormatter={(v) => clampLabel(String(v), 12)}
+                  angle={-10}
+                  textAnchor="end"
+                  height={45}
                 />
                 <YAxis allowDecimals={false} tick={{ fontSize: 12 }} />
                 <Tooltip
@@ -129,7 +143,7 @@ export function DashboardCharts({
                     <PeoplePercentTooltip {...props} total={deptTotal} />
                   )}
                 />
-                <Bar dataKey="count" radius={[10, 10, 4, 4]}>
+                <Bar dataKey="count" radius={[10, 10, 6, 6]} maxBarSize={56}>
                   {departmentData.map((entry, index) => (
                     <Cell
                       key={`dept-cell-${index}`}
@@ -141,9 +155,8 @@ export function DashboardCharts({
             </ResponsiveContainer>
           </div>
 
-          {/* Legend */}
           <div className="mt-3 flex flex-wrap gap-2">
-            {departmentData.slice(0, 8).map((d) => (
+            {departmentData.slice(0, 10).map((d) => (
               <div key={d.name} className="flex items-center gap-2 text-xs">
                 <span
                   className="inline-block h-2.5 w-2.5 rounded"
@@ -155,16 +168,23 @@ export function DashboardCharts({
           </div>
         </ChartCard>
 
-        {/*  FİLİAL */}
-        <ChartCard title="Filiallara görə">
-          <div className="h-72">
+        <ChartCard title="Filiallara görə" hint="Əməkdaş sayı (və faiz)">
+          <div className="h-72 sm:h-80">
             <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={storeData} barCategoryGap={18}>
+              <BarChart
+                data={storeData}
+                barCategoryGap={18}
+                margin={{ left: 8, right: 8 }}
+              >
                 <CartesianGrid strokeDasharray="3 3" vertical={false} />
                 <XAxis
                   dataKey="name"
+                  interval={0}
                   tick={{ fontSize: 12 }}
-                  tickFormatter={(v) => clampLabel(String(v), 10)}
+                  tickFormatter={(v) => clampLabel(String(v), 12)}
+                  angle={-10}
+                  textAnchor="end"
+                  height={45}
                 />
                 <YAxis allowDecimals={false} tick={{ fontSize: 12 }} />
                 <Tooltip
@@ -172,7 +192,7 @@ export function DashboardCharts({
                     <PeoplePercentTooltip {...props} total={storeTotal} />
                   )}
                 />
-                <Bar dataKey="count" radius={[10, 10, 4, 4]}>
+                <Bar dataKey="count" radius={[10, 10, 6, 6]} maxBarSize={56}>
                   {storeData.map((entry, index) => (
                     <Cell
                       key={`store-cell-${index}`}
@@ -184,9 +204,8 @@ export function DashboardCharts({
             </ResponsiveContainer>
           </div>
 
-          {/* Legend */}
           <div className="mt-3 flex flex-wrap gap-2">
-            {storeData.slice(0, 8).map((s) => (
+            {storeData.slice(0, 10).map((s) => (
               <div key={s.name} className="flex items-center gap-2 text-xs">
                 <span
                   className="inline-block h-2.5 w-2.5 rounded"
@@ -199,11 +218,13 @@ export function DashboardCharts({
         </ChartCard>
       </div>
 
-      {/* Trend */}
-      <ChartCard title="İşə qəbul trendi (ay-ay)">
-        <div className="h-72">
+      <ChartCard
+        title="İşə qəbul trendi (ay-ay)"
+        hint="Zaman üzrə yeni əməkdaşlar"
+      >
+        <div className="h-72 sm:h-80">
           <ResponsiveContainer width="100%" height="100%">
-            <LineChart data={hiresByMonth}>
+            <LineChart data={hiresByMonth} margin={{ left: 8, right: 8 }}>
               <CartesianGrid strokeDasharray="3 3" vertical={false} />
               <XAxis dataKey="month" tick={{ fontSize: 12 }} />
               <YAxis allowDecimals={false} tick={{ fontSize: 12 }} />

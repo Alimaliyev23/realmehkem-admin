@@ -17,18 +17,20 @@ function Modal({
   onClose: () => void;
 }) {
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
-      <div className="w-full max-w-2xl rounded-lg bg-white shadow-lg">
-        <div className="flex items-center justify-between border-b px-4 py-3">
-          <h3 className="text-lg font-semibold">{title}</h3>
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4 dark:bg-black/60">
+      <div className="w-full max-w-2xl rounded-xl border border-gray-200 bg-white shadow-lg dark:border-white/10 dark:bg-slate-900 dark:shadow-black/40">
+        <div className="flex items-center justify-between border-b border-gray-200 px-4 py-3 dark:border-white/10">
+          <h3 className="text-lg font-semibold text-gray-900 dark:text-slate-100">
+            {title}
+          </h3>
           <button
             onClick={onClose}
-            className="rounded px-2 py-1 text-sm hover:bg-gray-100"
+            className="rounded-lg px-3 py-1.5 text-sm text-gray-700 hover:bg-gray-100 dark:text-slate-200 dark:hover:bg-white/10"
           >
             Bağla
           </button>
         </div>
-        <div className="p-4">{children}</div>
+        <div className="p-4 text-gray-900 dark:text-slate-100">{children}</div>
       </div>
     </div>
   );
@@ -43,7 +45,7 @@ function Field({
 }) {
   return (
     <label className="grid gap-1">
-      <span className="text-xs text-gray-600">{label}</span>
+      <span className="text-xs text-gray-600 dark:text-slate-400">{label}</span>
       {children}
     </label>
   );
@@ -68,54 +70,88 @@ export function EmployeeViewModal({
 }) {
   if (!open) return null;
 
+  // ✅ FIX: id-lər bəzən string/number olur
   const depNameById = (id: number) =>
-    departments.find((d) => d.id === id)?.name ?? "—";
+    departments.find((d) => String(d.id) === String(id))?.name ?? "—";
+
   const storeNameById = (id: number | null) =>
-    id == null ? "—" : (stores.find((s) => s.id === id)?.name ?? "—");
+    id == null
+      ? "—"
+      : (stores.find((s) => String(s.id) === String(id))?.name ?? "—");
+
   const roleNameById = (id: number) =>
-    roles.find((r) => r.id === id)?.name ?? "—";
+    roles.find((r) => String(r.id) === String(id))?.name ?? "—";
 
   return (
     <Modal title="Əməkdaş məlumatı" onClose={onClose}>
       {!employee ? (
-        <div className="text-sm text-gray-600">Yüklənir…</div>
+        <div className="text-sm text-gray-600 dark:text-slate-300">
+          Yüklənir…
+        </div>
       ) : (
-        <div className="grid gap-3 text-sm">
-          <div>
-            <div className="text-xs text-gray-500">Ad Soyad</div>
-            <div className="font-medium">{employee.fullName}</div>
-          </div>
-
-          <div className="grid grid-cols-2 gap-3">
-            <div>
-              <div className="text-xs text-gray-500">Email</div>
-              <div>{employee.email}</div>
+        <div className="grid gap-4 text-sm">
+          <div className="rounded-lg border border-gray-200 bg-gray-50 p-3 dark:border-white/10 dark:bg-white/5">
+            <div className="text-xs text-gray-500 dark:text-slate-400">
+              Ad Soyad
             </div>
-            <div>
-              <div className="text-xs text-gray-500">Telefon</div>
-              <div>{employee.phone}</div>
+            <div className="mt-1 font-medium text-gray-900 dark:text-slate-100">
+              {employee.fullName}
             </div>
           </div>
 
-          <div className="grid grid-cols-3 gap-3">
-            <div>
-              <div className="text-xs text-gray-500">Şöbə</div>
-              <div>{depNameById(employee.departmentId)}</div>
+          <div className="grid gap-3 sm:grid-cols-2">
+            <div className="rounded-lg border border-gray-200 bg-white p-3 dark:border-white/10 dark:bg-white/5">
+              <div className="text-xs text-gray-500 dark:text-slate-400">
+                Email
+              </div>
+              <div className="mt-1 text-gray-900 dark:text-slate-100">
+                {employee.email}
+              </div>
             </div>
-            <div>
-              <div className="text-xs text-gray-500">Filial</div>
-              <div>{storeNameById(employee.storeId)}</div>
+
+            <div className="rounded-lg border border-gray-200 bg-white p-3 dark:border-white/10 dark:bg-white/5">
+              <div className="text-xs text-gray-500 dark:text-slate-400">
+                Telefon
+              </div>
+              <div className="mt-1 text-gray-900 dark:text-slate-100">
+                {employee.phone}
+              </div>
             </div>
-            <div>
-              <div className="text-xs text-gray-500">Vəzifə</div>
-              <div>{roleNameById(employee.roleId)}</div>
+          </div>
+
+          <div className="grid gap-3 sm:grid-cols-3">
+            <div className="rounded-lg border border-gray-200 bg-white p-3 dark:border-white/10 dark:bg-white/5">
+              <div className="text-xs text-gray-500 dark:text-slate-400">
+                Şöbə
+              </div>
+              <div className="mt-1 text-gray-900 dark:text-slate-100">
+                {depNameById(employee.departmentId)}
+              </div>
+            </div>
+
+            <div className="rounded-lg border border-gray-200 bg-white p-3 dark:border-white/10 dark:bg-white/5">
+              <div className="text-xs text-gray-500 dark:text-slate-400">
+                Filial
+              </div>
+              <div className="mt-1 text-gray-900 dark:text-slate-100">
+                {storeNameById(employee.storeId)}
+              </div>
+            </div>
+
+            <div className="rounded-lg border border-gray-200 bg-white p-3 dark:border-white/10 dark:bg-white/5">
+              <div className="text-xs text-gray-500 dark:text-slate-400">
+                Vəzifə
+              </div>
+              <div className="mt-1 text-gray-900 dark:text-slate-100">
+                {roleNameById(employee.roleId)}
+              </div>
             </div>
           </div>
 
           <div className="flex justify-end gap-2 pt-2">
             <button
               onClick={() => onEdit(employee.id)}
-              className="rounded border px-3 py-2 text-sm hover:bg-gray-50"
+              className="rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm text-gray-900 hover:bg-gray-50 dark:border-white/10 dark:bg-white/5 dark:text-slate-100 dark:hover:bg-white/10"
             >
               Redaktə et
             </button>
@@ -155,13 +191,23 @@ export function EmployeeFormModal({
 }) {
   if (!open) return null;
 
+  const inputCls =
+    "h-10 rounded-lg border border-gray-200 bg-white px-3 text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-200 " +
+    "dark:border-white/10 dark:bg-white/5 dark:text-slate-100 dark:placeholder:text-slate-500 dark:focus:ring-white/10";
+
+  const selectCls =
+    "h-10 rounded-lg border px-3 text-sm " +
+    "bg-white text-gray-900 border-gray-200 " +
+    "dark:bg-slate-800 dark:text-slate-100 dark:border-white/10 " +
+    "focus:outline-none focus:ring-2 focus:ring-blue-500/30";
+
   return (
     <Modal title={title} onClose={onClose}>
       <div className="grid gap-4">
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
           <Field label="Ad Soyad">
             <input
-              className="h-10 rounded border px-3 text-sm"
+              className={inputCls}
               value={form.fullName}
               onChange={(e) =>
                 setForm((p) => ({ ...p, fullName: e.target.value }))
@@ -171,7 +217,7 @@ export function EmployeeFormModal({
 
           <Field label="Status">
             <select
-              className="h-10 rounded border px-3 text-sm"
+              className={selectCls}
               value={form.status}
               onChange={(e) =>
                 setForm((p) => ({
@@ -187,10 +233,10 @@ export function EmployeeFormModal({
           </Field>
         </div>
 
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
           <Field label="Email">
             <input
-              className="h-10 rounded border px-3 text-sm"
+              className={inputCls}
               value={form.email}
               onChange={(e) =>
                 setForm((p) => ({ ...p, email: e.target.value }))
@@ -200,7 +246,7 @@ export function EmployeeFormModal({
 
           <Field label="Telefon">
             <input
-              className="h-10 rounded border px-3 text-sm"
+              className={inputCls}
               value={form.phone}
               onChange={(e) =>
                 setForm((p) => ({ ...p, phone: e.target.value }))
@@ -209,10 +255,10 @@ export function EmployeeFormModal({
           </Field>
         </div>
 
-        <div className="grid grid-cols-3 gap-3">
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
           <Field label="Şöbə">
             <select
-              className="h-10 rounded border px-3 text-sm"
+              className={selectCls}
               value={form.departmentId}
               onChange={(e) =>
                 setForm((p) => ({ ...p, departmentId: e.target.value }))
@@ -229,7 +275,7 @@ export function EmployeeFormModal({
 
           <Field label="Filial">
             <select
-              className="h-10 rounded border px-3 text-sm"
+              className={selectCls}
               value={form.storeId}
               onChange={(e) =>
                 setForm((p) => ({ ...p, storeId: e.target.value }))
@@ -246,7 +292,7 @@ export function EmployeeFormModal({
 
           <Field label="Vəzifə">
             <select
-              className="h-10 rounded border px-3 text-sm"
+              className={selectCls}
               value={form.roleId}
               onChange={(e) =>
                 setForm((p) => ({ ...p, roleId: e.target.value }))
@@ -262,10 +308,10 @@ export function EmployeeFormModal({
           </Field>
         </div>
 
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
           <Field label="Menecer (employeeId)">
             <input
-              className="h-10 rounded border px-3 text-sm"
+              className={inputCls}
               placeholder="boş = yoxdur"
               value={form.managerId}
               onChange={(e) =>
@@ -277,7 +323,7 @@ export function EmployeeFormModal({
           <Field label="İşə qəbul tarixi">
             <input
               type="date"
-              className="h-10 rounded border px-3 text-sm"
+              className={inputCls}
               value={form.hireDate}
               onChange={(e) =>
                 setForm((p) => ({ ...p, hireDate: e.target.value }))
@@ -286,11 +332,11 @@ export function EmployeeFormModal({
           </Field>
         </div>
 
-        <div className="grid grid-cols-3 gap-3">
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
           <Field label="Əmək haqqı (base)">
             <input
               type="number"
-              className="h-10 rounded border px-3 text-sm"
+              className={inputCls}
               value={form.salaryBase}
               onChange={(e) =>
                 setForm((p) => ({ ...p, salaryBase: e.target.value }))
@@ -300,7 +346,7 @@ export function EmployeeFormModal({
 
           <Field label="Valyuta">
             <input
-              className="h-10 rounded border px-3 text-sm"
+              className={inputCls}
               value={form.salaryCurrency}
               onChange={(e) =>
                 setForm((p) => ({ ...p, salaryCurrency: e.target.value }))
@@ -311,7 +357,7 @@ export function EmployeeFormModal({
           <Field label="Bonus">
             <input
               type="number"
-              className="h-10 rounded border px-3 text-sm"
+              className={inputCls}
               value={form.salaryBonus}
               onChange={(e) =>
                 setForm((p) => ({ ...p, salaryBonus: e.target.value }))
@@ -325,7 +371,7 @@ export function EmployeeFormModal({
             <button
               onClick={onDelete}
               disabled={saving}
-              className="rounded border border-red-300 px-3 py-2 text-sm text-red-700 hover:bg-red-50 disabled:opacity-50"
+              className="rounded-lg border border-red-300 bg-white px-3 py-2 text-sm text-red-700 hover:bg-red-50 disabled:opacity-50 dark:border-red-500/30 dark:bg-white/5 dark:text-red-300 dark:hover:bg-red-500/10"
             >
               Sil
             </button>
@@ -337,14 +383,14 @@ export function EmployeeFormModal({
             <button
               onClick={onClose}
               disabled={saving}
-              className="rounded border px-3 py-2 text-sm hover:bg-gray-50 disabled:opacity-50"
+              className="rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm text-gray-900 hover:bg-gray-50 disabled:opacity-50 dark:border-white/10 dark:bg-white/5 dark:text-slate-100 dark:hover:bg-white/10"
             >
               Ləğv et
             </button>
             <button
               onClick={onSubmit}
               disabled={saving}
-              className="rounded bg-gray-900 px-3 py-2 text-sm text-white hover:bg-gray-800 disabled:opacity-50"
+              className="rounded-lg bg-gray-900 px-3 py-2 text-sm text-white hover:bg-gray-800 disabled:opacity-50 dark:bg-white/10 dark:text-slate-100 dark:hover:bg-white/15"
             >
               {saving ? "Yadda saxlanır…" : "Yadda saxla"}
             </button>
