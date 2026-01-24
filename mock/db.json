@@ -538,7 +538,6 @@
       }
     },
     {
-      "id": "95d4",
       "companyId": 1,
       "fullName": "Alim Aliyev",
       "email": "alimaliyev0@gmail.com",
@@ -553,7 +552,8 @@
         "currency": "AZN",
         "base": 10000,
         "bonus": 0
-      }
+      },
+      "id": "95d4"
     },
     {
       "companyId": 1,
@@ -673,8 +673,14 @@
       "period": "2025-Q4",
       "reviewerId": 1,
       "rating": 4.6,
-      "strengths": ["Komanda idarəetməsi", "Satış planı icrası"],
-      "improvements": ["Delegasiya", "Həftəlik hesabat formatı"],
+      "strengths": [
+        "Komanda idarəetməsi",
+        "Satış planı icrası"
+      ],
+      "improvements": [
+        "Delegasiya",
+        "Həftəlik hesabat formatı"
+      ],
       "decision": "promotion_candidate",
       "createdAt": "2026-01-05"
     },
@@ -684,8 +690,14 @@
       "period": "2025-Q4",
       "reviewerId": 1,
       "rating": 4.2,
-      "strengths": ["UI keyfiyyəti", "Performans optimallaşdırma"],
-      "improvements": ["Dokumentasiya", "Test coverage"],
+      "strengths": [
+        "UI keyfiyyəti",
+        "Performans optimallaşdırma"
+      ],
+      "improvements": [
+        "Dokumentasiya",
+        "Test coverage"
+      ],
       "decision": "keep",
       "createdAt": "2026-01-06"
     }

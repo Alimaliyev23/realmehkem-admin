@@ -1,3 +1,4 @@
+// EmployeesPage.tsx
 import { useMemo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 
@@ -44,6 +45,42 @@ async function apiDelete(path: string): Promise<void> {
   if (!res.ok) throw new Error(`API error: ${res.status}`);
 }
 
+/* ✅ submit-level sərt yoxlamalar */
+function isValidGmail(email: string) {
+  return /^[A-Za-z0-9._%+-]+@gmail\.com$/.test(email.trim());
+}
+
+function isValidFullName(name: string) {
+  const v = name.trim();
+  if (v.length < 3) return false;
+  if (/\d/.test(v)) return false;
+  // AZ hərfləri + boşluq + - + '
+  if (!/^[A-Za-zƏÖÜĞÇŞİIəöüğçşı \-']+$/.test(v)) return false;
+  return true;
+}
+
+function isValidISODate(dateStr: string) {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(dateStr)) return false;
+
+  const [yS, mS, dS] = dateStr.split("-");
+  const y = Number(yS);
+  const m = Number(mS);
+  const d = Number(dS);
+
+  if (!Number.isInteger(y) || !Number.isInteger(m) || !Number.isInteger(d))
+    return false;
+  if (y < 1900 || y > 2100) return false; // ✅ 22365 kimi olmaz
+  if (m < 1 || m > 12) return false;
+  if (d < 1 || d > 31) return false;
+
+  const dt = new Date(`${dateStr}T00:00:00`);
+  if (Number.isNaN(dt.getTime())) return false;
+
+  return (
+    dt.getFullYear() === y && dt.getMonth() + 1 === m && dt.getDate() === d
+  );
+}
+
 export default function EmployeesPage() {
   const {
     rows,
@@ -57,7 +94,6 @@ export default function EmployeesPage() {
     statusOptions,
   } = useEmployeesData();
 
-  // ✅ URL query: /employees?q=...
   const [searchParams, setSearchParams] = useSearchParams();
   const initialQ = searchParams.get("q") ?? "";
   const [search, setSearch] = useState(initialQ);
@@ -176,10 +212,34 @@ export default function EmployeesPage() {
   );
 
   async function submit() {
-    if (!form.fullName.trim()) return alert("Ad Soyad boş ola bilməz.");
+    const name = form.fullName.trim();
+    const email = form.email.trim();
+
+    if (!isValidFullName(name))
+      return alert(
+        "Ad Soyad: minimum 3 hərf olmalıdır, rəqəm və icazəsiz simvol olmaz.",
+      );
+
+    if (!isValidGmail(email))
+      return alert(
+        "Email yalnız Gmail formatında olmalıdır (example@gmail.com).",
+      );
+
     if (!form.departmentId) return alert("Şöbə seçilməlidir.");
     if (!form.roleId) return alert("Vəzifə seçilməlidir.");
-    if (!form.hireDate) return alert("İşə qəbul tarixi seçilməlidir.");
+
+    if (!form.hireDate || !isValidISODate(form.hireDate))
+      return alert(
+        "Tarix düzgün deyil. Format: YYYY-MM-DD və real tarix olmalıdır.",
+      );
+
+    const base = Number(form.salaryBase);
+    if (!Number.isFinite(base) || base <= 0)
+      return alert("Əmək haqqı (base) 0 ola bilməz. Minimum 1 yazın.");
+
+    const bonus = Number(form.salaryBonus || 0);
+    if (!Number.isFinite(bonus) || bonus < 0)
+      return alert("Bonus mənfi ola bilməz.");
 
     setSaving(true);
     try {
@@ -220,7 +280,6 @@ export default function EmployeesPage() {
 
   return (
     <div className="space-y-4">
-      {/* ✅ responsive page header */}
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <h2 className="text-2xl font-semibold">Employees</h2>
 
@@ -245,7 +304,6 @@ export default function EmployeesPage() {
         emptyText="Heç bir əməkdaş tapılmadı"
         globalSearchPlaceholder="Ad üzrə axtar…"
         globalSearchKeys={["fullName"]}
-        // ✅ Header search -> URL (?q=...) -> DataTable global filter
         globalFilterValue={search}
         onGlobalFilterValueChange={(v) => {
           setSearch(v);

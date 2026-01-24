@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import type {
   DepartmentApi,
   StoreApi,
@@ -6,6 +7,8 @@ import type {
   EmployeeStatus,
 } from "../employees/types";
 import type { EmployeeFormState } from "./employeeForm";
+
+/* ================= MODAL ================= */
 
 function Modal({
   title,
@@ -51,6 +54,8 @@ function Field({
   );
 }
 
+/* ================= VIEW ================= */
+
 export function EmployeeViewModal({
   open,
   employee,
@@ -70,7 +75,6 @@ export function EmployeeViewModal({
 }) {
   if (!open) return null;
 
-  // ✅ FIX: id-lər bəzən string/number olur
   const depNameById = (id: number) =>
     departments.find((d) => String(d.id) === String(id))?.name ?? "—";
 
@@ -104,54 +108,38 @@ export function EmployeeViewModal({
               <div className="text-xs text-gray-500 dark:text-slate-400">
                 Email
               </div>
-              <div className="mt-1 text-gray-900 dark:text-slate-100">
-                {employee.email}
-              </div>
+              <div className="mt-1">{employee.email}</div>
             </div>
 
             <div className="rounded-lg border border-gray-200 bg-white p-3 dark:border-white/10 dark:bg-white/5">
               <div className="text-xs text-gray-500 dark:text-slate-400">
                 Telefon
               </div>
-              <div className="mt-1 text-gray-900 dark:text-slate-100">
-                {employee.phone}
-              </div>
+              <div className="mt-1">{employee.phone}</div>
             </div>
           </div>
 
           <div className="grid gap-3 sm:grid-cols-3">
-            <div className="rounded-lg border border-gray-200 bg-white p-3 dark:border-white/10 dark:bg-white/5">
-              <div className="text-xs text-gray-500 dark:text-slate-400">
-                Şöbə
-              </div>
-              <div className="mt-1 text-gray-900 dark:text-slate-100">
-                {depNameById(employee.departmentId)}
-              </div>
+            <div className="rounded-lg border p-3">
+              <div className="text-xs text-gray-500">Şöbə</div>
+              <div>{depNameById(employee.departmentId)}</div>
             </div>
 
-            <div className="rounded-lg border border-gray-200 bg-white p-3 dark:border-white/10 dark:bg-white/5">
-              <div className="text-xs text-gray-500 dark:text-slate-400">
-                Filial
-              </div>
-              <div className="mt-1 text-gray-900 dark:text-slate-100">
-                {storeNameById(employee.storeId)}
-              </div>
+            <div className="rounded-lg border p-3">
+              <div className="text-xs text-gray-500">Filial</div>
+              <div>{storeNameById(employee.storeId)}</div>
             </div>
 
-            <div className="rounded-lg border border-gray-200 bg-white p-3 dark:border-white/10 dark:bg-white/5">
-              <div className="text-xs text-gray-500 dark:text-slate-400">
-                Vəzifə
-              </div>
-              <div className="mt-1 text-gray-900 dark:text-slate-100">
-                {roleNameById(employee.roleId)}
-              </div>
+            <div className="rounded-lg border p-3">
+              <div className="text-xs text-gray-500">Vəzifə</div>
+              <div>{roleNameById(employee.roleId)}</div>
             </div>
           </div>
 
-          <div className="flex justify-end gap-2 pt-2">
+          <div className="flex justify-end">
             <button
               onClick={() => onEdit(employee.id)}
-              className="rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm text-gray-900 hover:bg-gray-50 dark:border-white/10 dark:bg-white/5 dark:text-slate-100 dark:hover:bg-white/10"
+              className="rounded-lg border px-3 py-2 text-sm"
             >
               Redaktə et
             </button>
@@ -161,6 +149,8 @@ export function EmployeeViewModal({
     </Modal>
   );
 }
+
+/* ================= FORM ================= */
 
 export function EmployeeFormModal({
   open,
@@ -191,187 +181,196 @@ export function EmployeeFormModal({
 }) {
   if (!open) return null;
 
-  const inputCls =
-    "h-10 rounded-lg border border-gray-200 bg-white px-3 text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-200 " +
-    "dark:border-white/10 dark:bg-white/5 dark:text-slate-100 dark:placeholder:text-slate-500 dark:focus:ring-white/10";
+  const [touched, setTouched] = React.useState<Record<string, boolean>>({});
 
-  const selectCls =
-    "h-10 rounded-lg border px-3 text-sm " +
-    "bg-white text-gray-900 border-gray-200 " +
-    "dark:bg-slate-800 dark:text-slate-100 dark:border-white/10 " +
-    "focus:outline-none focus:ring-2 focus:ring-blue-500/30";
+  const errors = {
+    fullName:
+      !form.fullName || form.fullName.trim().length < 3
+        ? "Minimum 3 hərf olmalıdır"
+        : /\d/.test(form.fullName)
+          ? "Rəqəm olmaz"
+          : "",
+
+    email: !/^[A-Za-z0-9._%+-]+@gmail\.com$/.test(form.email)
+      ? "Yalnız Gmail qəbul olunur"
+      : "",
+
+    phone: !/^\+?\d{9,13}$/.test(form.phone) ? "Telefon düzgün deyil" : "",
+
+    departmentId: !form.departmentId ? "Şöbə seçilməlidir" : "",
+    roleId: !form.roleId ? "Vəzifə seçilməlidir" : "",
+
+    hireDate: !form.hireDate ? "Tarix seçilməlidir" : "",
+
+    salaryBase:
+      !form.salaryBase || Number(form.salaryBase) <= 0
+        ? "Əmək haqqı 0 ola bilməz"
+        : "",
+  };
+
+  const inputCls =
+    "h-10 rounded-lg border border-gray-200 bg-white px-3 text-sm text-gray-900 " +
+    "focus:outline-none focus:ring-2 focus:ring-gray-200 dark:border-white/10 dark:bg-white/5";
+
+  const errorCls = "border-red-500";
 
   return (
     <Modal title={title} onClose={onClose}>
       <div className="grid gap-4">
-        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-          <Field label="Ad Soyad">
-            <input
-              className={inputCls}
-              value={form.fullName}
-              onChange={(e) =>
-                setForm((p) => ({ ...p, fullName: e.target.value }))
-              }
-            />
-          </Field>
+        {/* AD */}
+        <Field label="Ad Soyad">
+          <input
+            className={`${inputCls} ${
+              touched.fullName && errors.fullName ? errorCls : ""
+            }`}
+            value={form.fullName}
+            onBlur={() => setTouched((p) => ({ ...p, fullName: true }))}
+            onChange={(e) =>
+              setForm((p) => ({ ...p, fullName: e.target.value }))
+            }
+          />
+          {touched.fullName && errors.fullName && (
+            <div className="text-xs text-red-500">{errors.fullName}</div>
+          )}
+        </Field>
 
-          <Field label="Status">
-            <select
-              className={selectCls}
-              value={form.status}
-              onChange={(e) =>
-                setForm((p) => ({
-                  ...p,
-                  status: e.target.value as EmployeeStatus,
-                }))
-              }
-            >
-              <option value="active">active</option>
-              <option value="on_leave">on_leave</option>
-              <option value="terminated">terminated</option>
-            </select>
-          </Field>
-        </div>
+        {/* EMAIL */}
+        <Field label="Email">
+          <input
+            className={`${inputCls} ${
+              touched.email && errors.email ? errorCls : ""
+            }`}
+            value={form.email}
+            onBlur={() => setTouched((p) => ({ ...p, email: true }))}
+            onChange={(e) => setForm((p) => ({ ...p, email: e.target.value }))}
+          />
+          {touched.email && errors.email && (
+            <div className="text-xs text-red-500">{errors.email}</div>
+          )}
+        </Field>
 
-        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-          <Field label="Email">
-            <input
-              className={inputCls}
-              value={form.email}
-              onChange={(e) =>
-                setForm((p) => ({ ...p, email: e.target.value }))
-              }
-            />
-          </Field>
+        {/* TELEFON */}
+        <Field label="Telefon">
+          <input
+            className={`${inputCls} ${
+              touched.phone && errors.phone ? errorCls : ""
+            }`}
+            value={form.phone}
+            placeholder="+994501234567"
+            onBlur={() => setTouched((p) => ({ ...p, phone: true }))}
+            onChange={(e) => setForm((p) => ({ ...p, phone: e.target.value }))}
+          />
+          {touched.phone && errors.phone && (
+            <div className="text-xs text-red-500">{errors.phone}</div>
+          )}
+        </Field>
 
-          <Field label="Telefon">
-            <input
-              className={inputCls}
-              value={form.phone}
-              onChange={(e) =>
-                setForm((p) => ({ ...p, phone: e.target.value }))
-              }
-            />
-          </Field>
-        </div>
+        {/* ŞÖBƏ */}
+        <Field label="Şöbə">
+          <select
+            className={`${inputCls} ${
+              touched.departmentId && errors.departmentId ? errorCls : ""
+            }`}
+            value={form.departmentId}
+            onBlur={() => setTouched((p) => ({ ...p, departmentId: true }))}
+            onChange={(e) =>
+              setForm((p) => ({ ...p, departmentId: e.target.value }))
+            }
+          >
+            <option value="">— seç —</option>
+            {departments.map((d) => (
+              <option key={d.id} value={String(d.id)}>
+                {d.name}
+              </option>
+            ))}
+          </select>
+          {touched.departmentId && errors.departmentId && (
+            <div className="text-xs text-red-500">{errors.departmentId}</div>
+          )}
+        </Field>
 
-        <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
-          <Field label="Şöbə">
-            <select
-              className={selectCls}
-              value={form.departmentId}
-              onChange={(e) =>
-                setForm((p) => ({ ...p, departmentId: e.target.value }))
-              }
-            >
-              <option value="">— seç —</option>
-              {departments.map((d) => (
-                <option key={d.id} value={String(d.id)}>
-                  {d.name}
-                </option>
-              ))}
-            </select>
-          </Field>
+        {/* FİLİAL */}
+        <Field label="Filial">
+          <select
+            className={inputCls}
+            value={form.storeId}
+            onChange={(e) =>
+              setForm((p) => ({ ...p, storeId: e.target.value }))
+            }
+          >
+            <option value="">— yoxdur —</option>
+            {stores.map((s) => (
+              <option key={s.id} value={String(s.id)}>
+                {s.name}
+              </option>
+            ))}
+          </select>
+        </Field>
 
-          <Field label="Filial">
-            <select
-              className={selectCls}
-              value={form.storeId}
-              onChange={(e) =>
-                setForm((p) => ({ ...p, storeId: e.target.value }))
-              }
-            >
-              <option value="">— yoxdur —</option>
-              {stores.map((s) => (
-                <option key={s.id} value={String(s.id)}>
-                  {s.name}
-                </option>
-              ))}
-            </select>
-          </Field>
+        {/* VƏZİFƏ */}
+        <Field label="Vəzifə">
+          <select
+            className={`${inputCls} ${
+              touched.roleId && errors.roleId ? errorCls : ""
+            }`}
+            value={form.roleId}
+            onBlur={() => setTouched((p) => ({ ...p, roleId: true }))}
+            onChange={(e) => setForm((p) => ({ ...p, roleId: e.target.value }))}
+          >
+            <option value="">— seç —</option>
+            {roles.map((r) => (
+              <option key={r.id} value={String(r.id)}>
+                {r.name}
+              </option>
+            ))}
+          </select>
+          {touched.roleId && errors.roleId && (
+            <div className="text-xs text-red-500">{errors.roleId}</div>
+          )}
+        </Field>
 
-          <Field label="Vəzifə">
-            <select
-              className={selectCls}
-              value={form.roleId}
-              onChange={(e) =>
-                setForm((p) => ({ ...p, roleId: e.target.value }))
-              }
-            >
-              <option value="">— seç —</option>
-              {roles.map((r) => (
-                <option key={r.id} value={String(r.id)}>
-                  {r.name}
-                </option>
-              ))}
-            </select>
-          </Field>
-        </div>
+        {/* TARİX */}
+        <Field label="İşə qəbul tarixi">
+          <input
+            type="date"
+            className={`${inputCls} ${
+              touched.hireDate && errors.hireDate ? errorCls : ""
+            }`}
+            value={form.hireDate}
+            onBlur={() => setTouched((p) => ({ ...p, hireDate: true }))}
+            onChange={(e) =>
+              setForm((p) => ({ ...p, hireDate: e.target.value }))
+            }
+          />
+          {touched.hireDate && errors.hireDate && (
+            <div className="text-xs text-red-500">{errors.hireDate}</div>
+          )}
+        </Field>
 
-        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-          <Field label="Menecer (employeeId)">
-            <input
-              className={inputCls}
-              placeholder="boş = yoxdur"
-              value={form.managerId}
-              onChange={(e) =>
-                setForm((p) => ({ ...p, managerId: e.target.value }))
-              }
-            />
-          </Field>
+        {/* MAAŞ */}
+        <Field label="Əmək haqqı (base)">
+          <input
+            type="number"
+            className={`${inputCls} ${
+              touched.salaryBase && errors.salaryBase ? errorCls : ""
+            }`}
+            value={form.salaryBase}
+            onBlur={() => setTouched((p) => ({ ...p, salaryBase: true }))}
+            onChange={(e) =>
+              setForm((p) => ({ ...p, salaryBase: e.target.value }))
+            }
+          />
+          {touched.salaryBase && errors.salaryBase && (
+            <div className="text-xs text-red-500">{errors.salaryBase}</div>
+          )}
+        </Field>
 
-          <Field label="İşə qəbul tarixi">
-            <input
-              type="date"
-              className={inputCls}
-              value={form.hireDate}
-              onChange={(e) =>
-                setForm((p) => ({ ...p, hireDate: e.target.value }))
-              }
-            />
-          </Field>
-        </div>
-
-        <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
-          <Field label="Əmək haqqı (base)">
-            <input
-              type="number"
-              className={inputCls}
-              value={form.salaryBase}
-              onChange={(e) =>
-                setForm((p) => ({ ...p, salaryBase: e.target.value }))
-              }
-            />
-          </Field>
-
-          <Field label="Valyuta">
-            <input
-              className={inputCls}
-              value={form.salaryCurrency}
-              onChange={(e) =>
-                setForm((p) => ({ ...p, salaryCurrency: e.target.value }))
-              }
-            />
-          </Field>
-
-          <Field label="Bonus">
-            <input
-              type="number"
-              className={inputCls}
-              value={form.salaryBonus}
-              onChange={(e) =>
-                setForm((p) => ({ ...p, salaryBonus: e.target.value }))
-              }
-            />
-          </Field>
-        </div>
-
-        <div className="flex items-center justify-between pt-2">
+        {/* BUTTONS */}
+        <div className="flex justify-between pt-2">
           {showDelete ? (
             <button
               onClick={onDelete}
-              disabled={saving}
-              className="rounded-lg border border-red-300 bg-white px-3 py-2 text-sm text-red-700 hover:bg-red-50 disabled:opacity-50 dark:border-red-500/30 dark:bg-white/5 dark:text-red-300 dark:hover:bg-red-500/10"
+              className="rounded-lg border border-red-300 px-3 py-2 text-sm text-red-700"
             >
               Sil
             </button>
@@ -380,19 +379,15 @@ export function EmployeeFormModal({
           )}
 
           <div className="flex gap-2">
-            <button
-              onClick={onClose}
-              disabled={saving}
-              className="rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm text-gray-900 hover:bg-gray-50 disabled:opacity-50 dark:border-white/10 dark:bg-white/5 dark:text-slate-100 dark:hover:bg-white/10"
-            >
+            <button onClick={onClose} className="rounded-lg border px-3 py-2">
               Ləğv et
             </button>
             <button
               onClick={onSubmit}
-              disabled={saving}
-              className="rounded-lg bg-gray-900 px-3 py-2 text-sm text-white hover:bg-gray-800 disabled:opacity-50 dark:bg-white/10 dark:text-slate-100 dark:hover:bg-white/15"
+              disabled={Object.values(errors).some(Boolean)}
+              className="rounded-lg bg-gray-900 px-3 py-2 text-white"
             >
-              {saving ? "Yadda saxlanır…" : "Yadda saxla"}
+              Yadda saxla
             </button>
           </div>
         </div>

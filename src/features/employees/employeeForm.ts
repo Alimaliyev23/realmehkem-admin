@@ -1,3 +1,4 @@
+// employeeForm.ts
 import type { EmployeeApi, EmployeeStatus, Salary } from "../employees/types";
 
 export type EmployeeFormState = {
@@ -5,13 +6,13 @@ export type EmployeeFormState = {
   email: string;
   phone: string;
   departmentId: string;
-  storeId: string; 
+  storeId: string;
   roleId: string;
-  managerId: string; 
+  managerId: string;
   status: EmployeeStatus;
   hireDate: string;
+
   salaryBase: string;
-  salaryCurrency: string;
   salaryBonus: string;
 };
 
@@ -26,8 +27,9 @@ export function toFormState(e?: EmployeeApi): EmployeeFormState {
     managerId: e?.managerId != null ? String(e.managerId) : "",
     status: e?.status ?? "active",
     hireDate: e?.hireDate ?? "",
-    salaryBase: e?.salary?.base != null ? String(e.salary.base) : "0",
-    salaryCurrency: e?.salary?.currency ?? "AZN",
+
+    // base artıq 0 ola bilməyəcəyi üçün boş saxlayırıq
+    salaryBase: e?.salary?.base != null ? String(e.salary.base) : "",
     salaryBonus: e?.salary?.bonus != null ? String(e.salary.bonus) : "0",
   };
 }
@@ -37,7 +39,7 @@ export function toApiPayload(
   current?: EmployeeApi,
 ): Omit<EmployeeApi, "id"> {
   const salary: Salary = {
-    currency: form.salaryCurrency || "AZN",
+    currency: "AZN", // ✅ valyuta sabit
     base: Number(form.salaryBase || 0),
     bonus: Number(form.salaryBonus || 0),
   };
