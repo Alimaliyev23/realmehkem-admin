@@ -1,14 +1,11 @@
-import React, { useState } from "react";
+import React from "react";
 import type {
   DepartmentApi,
   StoreApi,
   RoleApi,
   EmployeeApi,
-  EmployeeStatus,
 } from "../employees/types";
 import type { EmployeeFormState } from "./employeeForm";
-
-/* ================= MODAL ================= */
 
 function Modal({
   title,
@@ -53,8 +50,6 @@ function Field({
     </label>
   );
 }
-
-/* ================= VIEW ================= */
 
 export function EmployeeViewModal({
   open,
@@ -150,8 +145,6 @@ export function EmployeeViewModal({
   );
 }
 
-/* ================= FORM ================= */
-
 export function EmployeeFormModal({
   open,
   title,
@@ -183,19 +176,34 @@ export function EmployeeFormModal({
 
   const [touched, setTouched] = React.useState<Record<string, boolean>>({});
 
+  // ✅ SAFE values (boş/undefined olarsa problem yaratmasın)
+  const fullName = (form.fullName || "").trim();
+  const email = (form.email || "").trim();
+  const phoneRaw = (form.phone || "").trim();
+
+  // ✅ Telefon normalize (boşluq, -, mötərizə silinsin)
+  const phone = phoneRaw.replace(/[()\s-]/g, "");
+
   const errors = {
-    fullName:
-      !form.fullName || form.fullName.trim().length < 3
+    fullName: !fullName
+      ? "Ad Soyad boş ola bilməz"
+      : fullName.length < 3
         ? "Minimum 3 hərf olmalıdır"
-        : /\d/.test(form.fullName)
+        : /\d/.test(fullName)
           ? "Rəqəm olmaz"
           : "",
 
-    email: !/^[A-Za-z0-9._%+-]+@gmail\.com$/.test(form.email)
-      ? "Yalnız Gmail qəbul olunur"
-      : "",
+    email: !email
+      ? "Email daxil edin"
+      : !/^[A-Za-z0-9._%+-]+@gmail\.com$/.test(email)
+        ? "Yalnız Gmail qəbul olunur"
+        : "",
 
-    phone: !/^\+?\d{9,13}$/.test(form.phone) ? "Telefon düzgün deyil" : "",
+    phone: !phone
+      ? "Telefon daxil edin"
+      : !/^\+?\d{9,13}$/.test(phone)
+        ? "Telefon düzgün deyil"
+        : "",
 
     departmentId: !form.departmentId ? "Şöbə seçilməlidir" : "",
     roleId: !form.roleId ? "Vəzifə seçilməlidir" : "",
@@ -208,16 +216,35 @@ export function EmployeeFormModal({
         : "",
   };
 
+  const hasErrors = Object.values(errors).some(Boolean);
+
   const inputCls =
     "h-10 rounded-lg border border-gray-200 bg-white px-3 text-sm text-gray-900 " +
     "focus:outline-none focus:ring-2 focus:ring-gray-200 dark:border-white/10 dark:bg-white/5";
 
   const errorCls = "border-red-500";
 
+  function markAllTouched() {
+    setTouched({
+      fullName: true,
+      email: true,
+      phone: true,
+      departmentId: true,
+      roleId: true,
+      hireDate: true,
+      salaryBase: true,
+    });
+  }
+
+  function handleSubmitClick() {
+    markAllTouched();
+    if (hasErrors) return;
+    onSubmit();
+  }
+
   return (
     <Modal title={title} onClose={onClose}>
       <div className="grid gap-4">
-        {/* AD */}
         <Field label="Ad Soyad">
           <input
             className={`${inputCls} ${
@@ -234,7 +261,6 @@ export function EmployeeFormModal({
           )}
         </Field>
 
-        {/* EMAIL */}
         <Field label="Email">
           <input
             className={`${inputCls} ${
@@ -249,7 +275,6 @@ export function EmployeeFormModal({
           )}
         </Field>
 
-        {/* TELEFON */}
         <Field label="Telefon">
           <input
             className={`${inputCls} ${
@@ -265,7 +290,6 @@ export function EmployeeFormModal({
           )}
         </Field>
 
-        {/* ŞÖBƏ */}
         <Field label="Şöbə">
           <select
             className={`${inputCls} ${
@@ -289,7 +313,6 @@ export function EmployeeFormModal({
           )}
         </Field>
 
-        {/* FİLİAL */}
         <Field label="Filial">
           <select
             className={inputCls}
@@ -307,7 +330,6 @@ export function EmployeeFormModal({
           </select>
         </Field>
 
-        {/* VƏZİFƏ */}
         <Field label="Vəzifə">
           <select
             className={`${inputCls} ${
@@ -329,7 +351,6 @@ export function EmployeeFormModal({
           )}
         </Field>
 
-        {/* TARİX */}
         <Field label="İşə qəbul tarixi">
           <input
             type="date"
@@ -347,7 +368,6 @@ export function EmployeeFormModal({
           )}
         </Field>
 
-        {/* MAAŞ */}
         <Field label="Əmək haqqı (base)">
           <input
             type="number"
@@ -365,12 +385,12 @@ export function EmployeeFormModal({
           )}
         </Field>
 
-        {/* BUTTONS */}
         <div className="flex justify-between pt-2">
           {showDelete ? (
             <button
               onClick={onDelete}
-              className="rounded-lg border border-red-300 px-3 py-2 text-sm text-red-700"
+              disabled={saving}
+              className="rounded-lg border border-red-300 px-3 py-2 text-sm text-red-700 disabled:opacity-50"
             >
               Sil
             </button>
@@ -379,15 +399,23 @@ export function EmployeeFormModal({
           )}
 
           <div className="flex gap-2">
-            <button onClick={onClose} className="rounded-lg border px-3 py-2">
+            <button
+              onClick={onClose}
+              disabled={saving}
+              className="rounded-lg border px-3 py-2 disabled:opacity-50"
+            >
               Ləğv et
             </button>
+
             <button
-              onClick={onSubmit}
-              disabled={Object.values(errors).some(Boolean)}
-              className="rounded-lg bg-gray-900 px-3 py-2 text-white"
+              onClick={handleSubmitClick}
+              disabled={saving}
+              className="rounded-lg bg-gray-900 px-3 py-2 text-white disabled:opacity-50"
+              title={
+                hasErrors ? "Zəhmət olmasa xətaları düzəldin" : "Yadda saxla"
+              }
             >
-              Yadda saxla
+              {saving ? "Yadda saxlanır…" : "Yadda saxla"}
             </button>
           </div>
         </div>

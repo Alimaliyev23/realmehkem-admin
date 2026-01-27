@@ -207,29 +207,72 @@ export default function DashboardPage() {
         <div className="mb-3 text-sm font-semibold">
           Son əməliyyatlar (audit)
         </div>
+
         {lists.recentLogs.length === 0 ? (
           <div className="text-sm text-gray-600">Log yoxdur.</div>
         ) : (
           <div className="divide-y">
-            {lists.recentLogs.map((l) => (
-              <div
-                key={l.id}
-                className="flex items-center justify-between gap-3 py-3 text-sm"
-              >
-                <div className="min-w-0">
-                  <div className="truncate font-medium text-gray-900">
-                    {l.action}
+            {lists.recentLogs.map((l) => {
+              const action = String(l.action ?? "").toLowerCase();
+
+              // ✅ action-a görə oxunaqlı mətn
+              const actionLabel =
+                action === "create" || action === "added"
+                  ? "Əlavə edildi"
+                  : action === "update" || action === "edited"
+                    ? "Yeniləndi"
+                    : action === "delete" || action === "removed"
+                      ? "Silindi"
+                      : String(l.action ?? "Əməliyyat");
+
+              // ✅ entity adı (istəsən genişləndirə bilərsən)
+              const entityLabel =
+                String(l.entity ?? "").toLowerCase() === "employees"
+                  ? "Əməkdaş"
+                  : String(l.entity ?? "Məlumat");
+
+              // ✅ adı meta-dan götür, yoxdursa employeeNameById ilə tap
+              const name =
+                (l.meta as any)?.fullName ||
+                (l.entity?.toLowerCase() === "employees"
+                  ? employeeNameById(Number(l.entityId))
+                  : "");
+
+              // ✅ badge rəngi: səndə olan Badge komponentindən istifadə edirik
+              const tone =
+                action === "create" || action === "added"
+                  ? "green"
+                  : action === "update" || action === "edited"
+                    ? "yellow"
+                    : action === "delete" || action === "removed"
+                      ? "red"
+                      : "gray";
+
+              return (
+                <div
+                  key={l.id}
+                  className="flex items-center justify-between gap-3 py-3 text-sm"
+                >
+                  <div className="min-w-0">
+                    <div className="flex items-center gap-2">
+                      <div className="truncate font-medium text-gray-900">
+                        {entityLabel}: {name ? name : `#${l.entityId}`}
+                      </div>
+                      <Badge tone={tone as any}>{actionLabel}</Badge>
+                    </div>
+
+                    <div className="truncate text-xs text-gray-500">
+                      {l.entity}:{l.entityId}
+                      {name ? ` • ${name}` : ""}
+                    </div>
                   </div>
-                  <div className="truncate text-xs text-gray-500">
-                    {l.entity}:{l.entityId}
-                    {l.meta?.fullName ? ` • ${l.meta.fullName}` : ""}
+
+                  <div className="shrink-0 text-xs text-gray-500">
+                    {formatDate(l.at)}
                   </div>
                 </div>
-                <div className="shrink-0 text-xs text-gray-500">
-                  {formatDate(l.at)}
-                </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         )}
       </div>

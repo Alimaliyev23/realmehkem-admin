@@ -27,8 +27,6 @@ export function toFormState(e?: EmployeeApi): EmployeeFormState {
     managerId: e?.managerId != null ? String(e.managerId) : "",
     status: e?.status ?? "active",
     hireDate: e?.hireDate ?? "",
-
-    // base artıq 0 ola bilməyəcəyi üçün boş saxlayırıq
     salaryBase: e?.salary?.base != null ? String(e.salary.base) : "",
     salaryBonus: e?.salary?.bonus != null ? String(e.salary.bonus) : "0",
   };

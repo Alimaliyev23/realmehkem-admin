@@ -256,6 +256,9 @@ export default function EmployeesPage() {
       setFormOpen(false);
       setEditId(null);
       setActiveEmployee(null);
+    } catch (err) {
+      console.error(err);
+      alert("Server xətası oldu. Console-a bax (F12 -> Console).");
     } finally {
       setSaving(false);
     }

@@ -231,10 +231,33 @@ export function useDashboardData() {
   }, [announcements]);
 
   const recentLogs = useMemo(() => {
-    return [...auditLogs]
-      .sort((a, b) => new Date(b.at).getTime() - new Date(a.at).getTime())
-      .slice(0, 6);
-  }, [auditLogs]);
+    const sorted = [...auditLogs].sort(
+      (a, b) => new Date(b.at).getTime() - new Date(a.at).getTime(),
+    );
+
+    // ✅ auditLogs varsa -> özünü göstər
+    if (sorted.length > 0) return sorted.slice(0, 6);
+
+    // ✅ auditLogs yoxdursa -> UI boş qalmasın deyə fallback "son əməliyyatlar"
+    // Dizayn dəyişmir, sadəcə data düzəldirik.
+    const fallback = [...employees]
+      .sort(
+        (a, b) =>
+          new Date(b.hireDate).getTime() - new Date(a.hireDate).getTime(),
+      )
+      .slice(0, 6)
+      .map((e, idx) => ({
+        id: `fallback-${e.id}-${idx}`,
+        actorId: 0,
+        action: "create",
+        entity: "employees",
+        entityId: String(e.id),
+        at: e.hireDate || new Date().toISOString(),
+        meta: { fullName: e.fullName },
+      }));
+
+    return fallback;
+  }, [auditLogs, employees]);
 
   const employeeNameById = (id: number) =>
     employees.find((e) => Number(e.id) === id)?.fullName ??

@@ -108,7 +108,7 @@
     {
       "companyId": 1,
       "fullName": "Aysel Əliyeva",
-      "email": "aysel.aliyeva@retailmart.az",
+      "email": "aysel.aliyeva@gmail.com",
       "phone": "+994507778899",
       "departmentId": 1,
       "storeId": 1,
@@ -127,7 +127,7 @@
       "id": "3",
       "companyId": 1,
       "fullName": "Murad Həsənov",
-      "email": "murad.hasanov@retailmart.az",
+      "email": "murad.hasanov@gmail.com",
       "phone": "+994501234567",
       "departmentId": 1,
       "storeId": 1,
@@ -145,7 +145,7 @@
       "id": "4",
       "companyId": 1,
       "fullName": "Nigar Quliyeva",
-      "email": "nigar.quliyeva@retailmart.az",
+      "email": "nigar.quliyeva@gmail.com",
       "phone": "+994559998877",
       "departmentId": 1,
       "storeId": 1,
@@ -163,7 +163,7 @@
       "id": "5",
       "companyId": 1,
       "fullName": "Kənan İsmayılov",
-      "email": "kenan.ismayilov@retailmart.az",
+      "email": "kenan.ismayilov@gmail.com",
       "phone": "+994707070707",
       "departmentId": 1,
       "storeId": 1,
@@ -181,7 +181,7 @@
       "id": "6",
       "companyId": 1,
       "fullName": "Lalə Qəhrəmanova",
-      "email": "lale.qehremanova@retailmart.az",
+      "email": "lale.qehremanova@gmail.com",
       "phone": "+994501010101",
       "departmentId": 2,
       "storeId": null,
@@ -199,7 +199,7 @@
       "id": "7",
       "companyId": 1,
       "fullName": "Orxan Rzayev",
-      "email": "orxan.rzayev@retailmart.az",
+      "email": "orxan.rzayev@gmail.com",
       "phone": "+994503333222",
       "departmentId": 3,
       "storeId": null,
@@ -217,7 +217,7 @@
       "id": "8",
       "companyId": 1,
       "fullName": "Günel Əliyeva",
-      "email": "gunel.hr@retailmart.az",
+      "email": "gunel.hr@gmail.com",
       "phone": "+994505555444",
       "departmentId": 4,
       "storeId": null,
@@ -235,7 +235,7 @@
       "id": "9",
       "companyId": 1,
       "fullName": "Rauf Əliyev",
-      "email": "rauf.aliyev@retailmart.az",
+      "email": "rauf.aliyev@gmail.com",
       "phone": "+994501234111",
       "departmentId": 1,
       "storeId": 2,
@@ -252,7 +252,7 @@
     {
       "companyId": 1,
       "fullName": "Sevda Məmmədli",
-      "email": "sevda.mammadli@retailmart.az",
+      "email": "sevda.mammadli@gmail.com",
       "phone": "+994507654321",
       "departmentId": 1,
       "storeId": 2,
@@ -268,10 +268,9 @@
       "id": "10"
     },
     {
-      "id": "11",
       "companyId": 1,
       "fullName": "Tural Qasımov",
-      "email": "tural.qasimov@retailmart.az",
+      "email": "tural.qasimov@gmail.com",
       "phone": "+994556660011",
       "departmentId": 1,
       "storeId": 2,
@@ -281,15 +280,16 @@
       "hireDate": "2024-05-08",
       "salary": {
         "currency": "AZN",
-        "base": 920,
+        "base": 980,
         "bonus": 60
-      }
+      },
+      "id": "11"
     },
     {
       "id": "12",
       "companyId": 1,
       "fullName": "Nərgiz Hacıyeva",
-      "email": "nergiz.haciyeva@retailmart.az",
+      "email": "nergiz.haciyeva@gmail.com",
       "phone": "+994505551212",
       "departmentId": 1,
       "storeId": 2,
@@ -307,7 +307,7 @@
       "id": "13",
       "companyId": 1,
       "fullName": "Elnur Orucov",
-      "email": "elnur.orucov@retailmart.az",
+      "email": "elnur.orucov@gmail.com",
       "phone": "+994502221313",
       "departmentId": 1,
       "storeId": 3,
@@ -325,7 +325,7 @@
       "id": "14",
       "companyId": 1,
       "fullName": "Aysu Hüseynova",
-      "email": "aysu.huseynova@retailmart.az",
+      "email": "aysu.huseynova@gmail.com",
       "phone": "+994559993314",
       "departmentId": 1,
       "storeId": 3,
@@ -343,7 +343,7 @@
       "id": "15",
       "companyId": 1,
       "fullName": "Əli Səfərov",
-      "email": "eli.seferov@retailmart.az",
+      "email": "eli.seferov@gmail.com",
       "phone": "+994501515151",
       "departmentId": 1,
       "storeId": 3,
@@ -361,7 +361,7 @@
       "id": "16",
       "companyId": 1,
       "fullName": "Fəridə Rəsulova",
-      "email": "feride.resulova@retailmart.az",
+      "email": "feride.resulova@gmail.com",
       "phone": "+994507070716",
       "departmentId": 1,
       "storeId": 3,
@@ -379,7 +379,7 @@
       "id": "17",
       "companyId": 1,
       "fullName": "İlkin Məmmədov",
-      "email": "ilkin.mammadov2@retailmart.az",
+      "email": "ilkin.mammadov2@gmail.com",
       "phone": "+994503171717",
       "departmentId": 2,
       "storeId": null,
@@ -397,7 +397,7 @@
       "id": "18",
       "companyId": 1,
       "fullName": "Zəhra Əliyeva",
-      "email": "zehra.aliyeva@retailmart.az",
+      "email": "zehra.aliyeva@gmail.com",
       "phone": "+994505181818",
       "departmentId": 2,
       "storeId": null,
@@ -415,7 +415,7 @@
       "id": "19",
       "companyId": 1,
       "fullName": "Kamal Əliyev",
-      "email": "kamal.aliyev@retailmart.az",
+      "email": "kamal.aliyev@gmail.com",
       "phone": "+994507191919",
       "departmentId": 2,
       "storeId": null,
@@ -433,7 +433,7 @@
       "id": "20",
       "companyId": 1,
       "fullName": "Nihad Abdullayev",
-      "email": "nihad.abdullayev@retailmart.az",
+      "email": "nihad.abdullayev@gmail.com",
       "phone": "+994501202020",
       "departmentId": 3,
       "storeId": null,
@@ -451,7 +451,7 @@
       "id": "21",
       "companyId": 1,
       "fullName": "Leyla Əliyeva",
-      "email": "leyla.frontend@retailmart.az",
+      "email": "leyla.frontend@gmail.com",
       "phone": "+994507212121",
       "departmentId": 3,
       "storeId": null,
@@ -469,7 +469,7 @@
       "id": "22",
       "companyId": 1,
       "fullName": "Samir Əliyev",
-      "email": "samir.dev@retailmart.az",
+      "email": "samir.dev@gmail.com",
       "phone": "+994505222222",
       "departmentId": 3,
       "storeId": null,
@@ -487,7 +487,7 @@
       "id": "23",
       "companyId": 1,
       "fullName": "Mədinə Nəcəfova",
-      "email": "medine.hr@retailmart.az",
+      "email": "medine.hr@gmail.com",
       "phone": "+994507232323",
       "departmentId": 4,
       "storeId": null,
@@ -505,7 +505,7 @@
       "id": "24",
       "companyId": 1,
       "fullName": "Vüsal Məmmədov",
-      "email": "vusal.hrmanager@retailmart.az",
+      "email": "vusal.hrmanager@gmail.com",
       "phone": "+994501242424",
       "departmentId": 4,
       "storeId": null,
@@ -523,7 +523,7 @@
       "id": "25",
       "companyId": 1,
       "fullName": "Gülşən Əhmədova",
-      "email": "gulsen.ahmedova@retailmart.az",
+      "email": "gulsen.ahmedova@gmail.com",
       "phone": "+994505252525",
       "departmentId": 1,
       "storeId": 1,
@@ -572,6 +572,24 @@
         "bonus": 500
       },
       "id": "2f69"
+    },
+    {
+      "id": "6ce5",
+      "companyId": 1,
+      "fullName": "Mirməhəmməd Seyidzadə",
+      "email": "mirmahammadseyidzade@gmail.com",
+      "phone": "+9940506756525",
+      "departmentId": 4,
+      "storeId": null,
+      "roleId": 11,
+      "managerId": null,
+      "status": "active",
+      "hireDate": "2026-01-27",
+      "salary": {
+        "currency": "AZN",
+        "base": 1000,
+        "bonus": 0
+      }
     }
   ],
   "leaveRequests": [
@@ -673,14 +691,8 @@
       "period": "2025-Q4",
       "reviewerId": 1,
       "rating": 4.6,
-      "strengths": [
-        "Komanda idarəetməsi",
-        "Satış planı icrası"
-      ],
-      "improvements": [
-        "Delegasiya",
-        "Həftəlik hesabat formatı"
-      ],
+      "strengths": ["Komanda idarəetməsi", "Satış planı icrası"],
+      "improvements": ["Delegasiya", "Həftəlik hesabat formatı"],
       "decision": "promotion_candidate",
       "createdAt": "2026-01-05"
     },
@@ -690,14 +702,8 @@
       "period": "2025-Q4",
       "reviewerId": 1,
       "rating": 4.2,
-      "strengths": [
-        "UI keyfiyyəti",
-        "Performans optimallaşdırma"
-      ],
-      "improvements": [
-        "Dokumentasiya",
-        "Test coverage"
-      ],
+      "strengths": ["UI keyfiyyəti", "Performans optimallaşdırma"],
+      "improvements": ["Dokumentasiya", "Test coverage"],
       "decision": "keep",
       "createdAt": "2026-01-06"
     }
@@ -809,6 +815,45 @@
       "meta": {
         "fullName": "Alim Aliyev"
       }
+    },
+    {
+      "id": "log-2",
+      "actorId": 1,
+      "action": "employee.update",
+      "entity": "employees",
+      "entityId": "3",
+      "at": "2026-01-24T14:20:00",
+      "meta": {
+        "fullName": "Murad Həsənov",
+        "changed": ["salary.base", "status"]
+      }
+    },
+    {
+      "id": "log-3",
+      "actorId": 1,
+      "action": "employee.update",
+      "entity": "employees",
+      "entityId": "4",
+      "at": "2026-01-25T10:05:00",
+      "meta": { "fullName": "Nigar Quliyeva", "changed": ["storeId"] }
+    },
+    {
+      "id": "log-4",
+      "actorId": 1,
+      "action": "employee.delete",
+      "entity": "employees",
+      "entityId": "2f69",
+      "at": "2026-01-26T18:35:00",
+      "meta": { "fullName": "Əli Şabanov" }
+    },
+    {
+      "id": "log-5",
+      "actorId": 1,
+      "action": "announcement.create",
+      "entity": "announcements",
+      "entityId": "an-2",
+      "at": "2026-01-18T09:00:00",
+      "meta": { "title": "IT sistem baxışı" }
     }
   ]
 }
