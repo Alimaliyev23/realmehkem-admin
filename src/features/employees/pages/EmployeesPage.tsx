@@ -44,7 +44,26 @@ async function apiDelete(path: string): Promise<void> {
   const res = await fetch(`${API_BASE_URL}${path}`, { method: "DELETE" });
   if (!res.ok) throw new Error(`API error: ${res.status}`);
 }
+function nowIso() {
+  return new Date().toISOString();
+}
 
+async function writeAudit(body: {
+  actorId: number;
+  action: string;
+  entity: string;
+  entityId: string;
+  meta?: Record<string, any>;
+}) {
+  try {
+    await apiPost("/auditLogs", {
+      ...body,
+      at: nowIso(),
+    });
+  } catch (err) {
+    console.warn("Audit yazılmadı:", err);
+  }
+}
 /* ✅ submit-level sərt yoxlamalar */
 function isValidGmail(email: string) {
   return /^[A-Za-z0-9._%+-]+@gmail\.com$/.test(email.trim());
@@ -245,10 +264,32 @@ export default function EmployeesPage() {
     try {
       if (editId != null && activeEmployee) {
         const payload = toApiPayload(form, activeEmployee);
+
         await apiPut(`/employees/${editId}`, { ...payload, id: editId });
+
+        await writeAudit({
+          actorId: 1,
+          action: "employee.update",
+          entity: "employees",
+          entityId: String(editId),
+          meta: { fullName: payload.fullName },
+        });
       } else {
         const payload = toApiPayload(form);
-        await apiPost(`/employees`, payload);
+
+        // ⚠️ created-i götürmək vacibdir ki, entityId düzgün yazılsın
+        const created = await apiPost<unknown, EmployeeApi>(
+          `/employees`,
+          payload,
+        );
+
+        await writeAudit({
+          actorId: 1,
+          action: "employee.create",
+          entity: "employees",
+          entityId: String(created.id),
+          meta: { fullName: created.fullName },
+        });
       }
 
       await refresh();
@@ -271,11 +312,26 @@ export default function EmployeesPage() {
     setSaving(true);
     try {
       await apiDelete(`/employees/${activeEmployee.id}`);
+
+      // ✅ AUDIT LOG
+      await writeAudit({
+        actorId: 1, // hazırda login sistemi olmadığı üçün sabit
+        action: "employee.delete",
+        entity: "employees",
+        entityId: String(activeEmployee.id),
+        meta: {
+          fullName: activeEmployee.fullName,
+        },
+      });
+
       await refresh();
 
       setFormOpen(false);
       setEditId(null);
       setActiveEmployee(null);
+    } catch (err) {
+      console.error(err);
+      alert("Silinmə zamanı xəta baş verdi.");
     } finally {
       setSaving(false);
     }

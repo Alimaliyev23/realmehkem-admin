@@ -262,7 +262,7 @@
       "hireDate": "2024-02-20",
       "salary": {
         "currency": "AZN",
-        "base": 1440,
+        "base": 1500,
         "bonus": 100
       },
       "id": "10"
@@ -691,8 +691,14 @@
       "period": "2025-Q4",
       "reviewerId": 1,
       "rating": 4.6,
-      "strengths": ["Komanda idarəetməsi", "Satış planı icrası"],
-      "improvements": ["Delegasiya", "Həftəlik hesabat formatı"],
+      "strengths": [
+        "Komanda idarəetməsi",
+        "Satış planı icrası"
+      ],
+      "improvements": [
+        "Delegasiya",
+        "Həftəlik hesabat formatı"
+      ],
       "decision": "promotion_candidate",
       "createdAt": "2026-01-05"
     },
@@ -702,8 +708,14 @@
       "period": "2025-Q4",
       "reviewerId": 1,
       "rating": 4.2,
-      "strengths": ["UI keyfiyyəti", "Performans optimallaşdırma"],
-      "improvements": ["Dokumentasiya", "Test coverage"],
+      "strengths": [
+        "UI keyfiyyəti",
+        "Performans optimallaşdırma"
+      ],
+      "improvements": [
+        "Dokumentasiya",
+        "Test coverage"
+      ],
       "decision": "keep",
       "createdAt": "2026-01-06"
     }
@@ -825,7 +837,10 @@
       "at": "2026-01-24T14:20:00",
       "meta": {
         "fullName": "Murad Həsənov",
-        "changed": ["salary.base", "status"]
+        "changed": [
+          "salary.base",
+          "status"
+        ]
       }
     },
     {
@@ -835,7 +850,12 @@
       "entity": "employees",
       "entityId": "4",
       "at": "2026-01-25T10:05:00",
-      "meta": { "fullName": "Nigar Quliyeva", "changed": ["storeId"] }
+      "meta": {
+        "fullName": "Nigar Quliyeva",
+        "changed": [
+          "storeId"
+        ]
+      }
     },
     {
       "id": "log-4",
@@ -844,7 +864,9 @@
       "entity": "employees",
       "entityId": "2f69",
       "at": "2026-01-26T18:35:00",
-      "meta": { "fullName": "Əli Şabanov" }
+      "meta": {
+        "fullName": "Əli Şabanov"
+      }
     },
     {
       "id": "log-5",
@@ -853,7 +875,20 @@
       "entity": "announcements",
       "entityId": "an-2",
       "at": "2026-01-18T09:00:00",
-      "meta": { "title": "IT sistem baxışı" }
+      "meta": {
+        "title": "IT sistem baxışı"
+      }
+    },
+    {
+      "id": "c0a5",
+      "actorId": 1,
+      "action": "employee.update",
+      "entity": "employees",
+      "entityId": "10",
+      "meta": {
+        "fullName": "Sevda Məmmədli"
+      },
+      "at": "2026-01-28T09:27:35.533Z"
     }
   ]
 }
