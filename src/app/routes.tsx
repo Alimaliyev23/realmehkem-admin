@@ -7,6 +7,8 @@ import ProtectedRoute from "../components/layout/ProtectedRoute";
 import LoginPage from "../features/auth/pages/LoginPage";
 import DashboardPage from "../features/dashboard/pages/DashboardPage";
 import EmployeesPage from "../features/employees/pages/EmployeesPage";
+import AuditLogsPage from "../features/audit/pages/AuditLogsPage";
+import AnnouncementsPage from "../features/announcements/pages/AnnouncementsPage";
 
 const routes: RouteObject[] = [
   {
@@ -34,6 +36,8 @@ const routes: RouteObject[] = [
         path: "employees",
         element: <EmployeesPage />,
       },
+      { path: "audit-logs", element: <AuditLogsPage /> },
+      { path: "announcements", element: <AnnouncementsPage /> },
     ],
   },
 

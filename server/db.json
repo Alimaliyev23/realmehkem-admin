@@ -144,7 +144,7 @@
       "hireDate": "2023-05-10",
       "salary": {
         "currency": "AZN",
-        "base": 1800,
+        "base": 1900,
         "bonus": 50
       },
       "id": "2"
@@ -775,20 +775,40 @@
   ],
   "announcements": [
     {
-      "id": "an-1",
-      "companyId": 1,
-      "title": "Yeni daxili qaydalar",
-      "body": "İşə davamiyyət və məzuniyyət prosedurları yenilənib.",
-      "priority": "high",
-      "createdAt": "2026-01-15"
+      "id": "1",
+      "title": "Yeni iş rejimi",
+      "content": "1 fevral tarixindən etibarən iş vaxtı 09:00–18:00 arası müəyyən edilmişdir. Bütün əməkdaşlardan iş saatlarına riayət etmələri xahiş olunur.",
+      "audience": "all",
+      "createdAt": "2025-01-20T09:00:00.000Z"
     },
     {
-      "id": "an-2",
-      "companyId": 1,
-      "title": "IT sistem baxışı",
-      "body": "Şənbə günü 02:00-04:00 arası planlı texniki işlər olacaq.",
-      "priority": "normal",
-      "createdAt": "2026-01-18"
+      "id": "2",
+      "title": "HR üçün daxili təlim",
+      "content": "28 yanvar tarixində HR əməkdaşları üçün daxili təlim keçiriləcək. İştirak məcburidir.",
+      "audience": "hr",
+      "createdAt": "2025-01-22T10:30:00.000Z"
+    },
+    {
+      "id": "3",
+      "title": "Mağazalarda inventar yoxlaması",
+      "content": "Fevral ayının ilk həftəsində bütün mağazalarda inventar yoxlaması aparılacaq. Store manager-lərdən əməkdaşlıq xahiş olunur.",
+      "audience": "store",
+      "createdAt": "2025-01-23T14:15:00.000Z"
+    },
+    {
+      "id": "4",
+      "title": "Əməkhaqqı ödənişi",
+      "content": "Yanvar ayı üzrə əməkhaqları 31 yanvar tarixində köçürüləcək.",
+      "audience": "all",
+      "createdAt": "2025-01-25T11:00:00.000Z"
+    },
+    {
+      "id": "6",
+      "title": "Store manager iclası",
+      "content": "Fevralın 3-də bütün mağaza rəhbərləri üçün onlayn iclas keçiriləcək.",
+      "audience": "store",
+      "createdAt": "2025-01-29T09:30:00.000Z",
+      "updatedAt": "2026-01-30T12:01:18.972Z"
     }
   ],
   "storeTargets": [
@@ -941,6 +961,50 @@
         "fullName": "Nigar Quliyeva"
       },
       "at": "2026-01-30T10:58:05.699Z"
+    },
+    {
+      "id": "6b19",
+      "actorId": "1",
+      "action": "employee.update",
+      "entity": "employees",
+      "entityId": "2",
+      "meta": {
+        "fullName": "Aysel Əliyeva"
+      },
+      "at": "2026-01-30T11:54:25.401Z"
+    },
+    {
+      "id": "e854",
+      "actorId": "1",
+      "action": "announcement.create",
+      "entity": "announcements",
+      "entityId": "980f",
+      "meta": {
+        "title": "Yenilik"
+      },
+      "at": "2026-01-30T12:01:13.774Z"
+    },
+    {
+      "id": "a44a",
+      "actorId": "1",
+      "action": "announcement.delete",
+      "entity": "announcements",
+      "entityId": "5",
+      "meta": {
+        "title": "Təhlükəsizlik qaydaları"
+      },
+      "at": "2026-01-30T12:01:16.733Z"
+    },
+    {
+      "id": "a1f4",
+      "actorId": "1",
+      "action": "announcement.delete",
+      "entity": "announcements",
+      "entityId": "980f",
+      "meta": {
+        "title": "Yenilik"
+      },
+      "at": "2026-01-30T12:01:23.854Z"
     }
   ]
 }

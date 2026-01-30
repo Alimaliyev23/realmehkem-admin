@@ -23,6 +23,12 @@ function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {
         <NavLink to="/employees" className={linkClass} onClick={onNavigate}>
           Employees
         </NavLink>
+        <NavLink to="/audit-logs" className={linkClass} onClick={onNavigate}>
+          Audit Logs
+        </NavLink>
+        <NavLink to="/announcements" className={linkClass} onClick={onNavigate}>
+          Announcements
+        </NavLink>
       </nav>
     </>
   );
