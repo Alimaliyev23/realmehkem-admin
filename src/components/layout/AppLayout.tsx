@@ -9,7 +9,6 @@ export function AppLayout() {
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-[#0b1220]">
       <div className="mx-auto flex min-h-screen max-w-[1400px] px-2 sm:px-4">
-        {/* Desktop */}
         <Sidebar variant="desktop" />
 
         <div className="flex min-w-0 flex-1 flex-col">
@@ -20,8 +19,6 @@ export function AppLayout() {
           </main>
         </div>
       </div>
-
-      {/* Mobile sidebar */}
       <Sidebar
         variant="mobile"
         open={sidebarOpen}

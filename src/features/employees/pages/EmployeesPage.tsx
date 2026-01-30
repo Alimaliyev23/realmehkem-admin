@@ -12,7 +12,15 @@ import {
   type EmployeeFormState,
 } from "../employeeForm";
 
+import { useAuth } from "../../auth/AuthContext";
+
 const API_BASE_URL = "http://127.0.0.1:3001";
+
+function sameStore(empStoreId: number | null, limitStoreId: string | null) {
+  if (!limitStoreId) return true;
+  if (empStoreId == null) return false;
+  return String(empStoreId) === limitStoreId;
+}
 
 async function apiGet<T>(path: string): Promise<T> {
   const res = await fetch(`${API_BASE_URL}${path}`);
@@ -44,6 +52,7 @@ async function apiDelete(path: string): Promise<void> {
   const res = await fetch(`${API_BASE_URL}${path}`, { method: "DELETE" });
   if (!res.ok) throw new Error(`API error: ${res.status}`);
 }
+
 function nowIso() {
   return new Date().toISOString();
 }
@@ -64,7 +73,7 @@ async function writeAudit(body: {
     console.warn("Audit yazılmadı:", err);
   }
 }
-/* ✅ submit-level sərt yoxlamalar */
+
 function isValidGmail(email: string) {
   return /^[A-Za-z0-9._%+-]+@gmail\.com$/.test(email.trim());
 }
@@ -88,7 +97,7 @@ function isValidISODate(dateStr: string) {
 
   if (!Number.isInteger(y) || !Number.isInteger(m) || !Number.isInteger(d))
     return false;
-  if (y < 1900 || y > 2100) return false; // ✅ 22365 kimi olmaz
+  if (y < 1900 || y > 2100) return false;
   if (m < 1 || m > 12) return false;
   if (d < 1 || d > 31) return false;
 
@@ -101,6 +110,8 @@ function isValidISODate(dateStr: string) {
 }
 
 export default function EmployeesPage() {
+  const { user, permissions } = useAuth();
+
   const {
     rows,
     loading,
@@ -134,6 +145,61 @@ export default function EmployeesPage() {
 
   const [form, setForm] = useState<EmployeeFormState>(() => toFormState());
   const [saving, setSaving] = useState(false);
+
+  const visibleRows = useMemo(() => {
+    const limit = permissions.limitToStoreId;
+    if (!limit) return rows;
+
+    return rows.filter((r) => String((r as any).storeId ?? "") === limit);
+  }, [rows, permissions.limitToStoreId]);
+
+  function ensureCanCreate() {
+    if (!permissions.canCreateEmployee) {
+      alert("Yeni əməkdaş əlavə etməyə icazən yoxdur.");
+      throw new Error("Not allowed: create employee");
+    }
+  }
+
+  function ensureCanEdit(emp: EmployeeApi) {
+    if (!permissions.canEditEmployee) {
+      alert("Redaktə etməyə icazən yoxdur.");
+      throw new Error("Not allowed: edit employee");
+    }
+
+    if (!sameStore(emp.storeId, permissions.limitToStoreId)) {
+      alert("Yalnız öz filialının əməkdaşlarını redaktə edə bilərsən.");
+      throw new Error("Cross-store edit blocked");
+    }
+  }
+
+  function ensureCanDelete(emp: EmployeeApi) {
+    if (!permissions.canDeleteEmployee) {
+      alert("Silməyə icazən yoxdur.");
+      throw new Error("Not allowed: delete employee");
+    }
+
+    if (!sameStore(emp.storeId, permissions.limitToStoreId)) {
+      alert("Yalnız öz filialının əməkdaşlarını silə bilərsən.");
+      throw new Error("Cross-store delete blocked");
+    }
+  }
+
+  async function openView(id: number) {
+    setViewOpen(true);
+    setActiveEmployee(null);
+    setActiveEmployee(await apiGet<EmployeeApi>(`/employees/${id}`));
+  }
+
+  async function openEdit(id: number) {
+    const emp = await apiGet<EmployeeApi>(`/employees/${id}`);
+
+    ensureCanEdit(emp);
+
+    setFormOpen(true);
+    setEditId(id);
+    setActiveEmployee(emp);
+    setForm(toFormState(emp));
+  }
 
   const columns: ColumnDef<EmployeeRow>[] = useMemo(
     () => [
@@ -194,43 +260,40 @@ export default function EmployeesPage() {
       {
         key: "actions",
         header: "",
-        className: "w-[160px]",
+        className: "w-[180px]",
         enableColumnFilter: false,
         cell: (e) => (
           <div className="flex gap-2">
             <button
-              onClick={async () => {
-                setViewOpen(true);
-                setActiveEmployee(null);
-                setActiveEmployee(
-                  await apiGet<EmployeeApi>(`/employees/${e.id}`),
-                );
-              }}
+              onClick={() => openView(e.id)}
               className="rounded border px-2 py-1 text-xs hover:bg-gray-50"
             >
               Bax
             </button>
 
-            <button
-              onClick={async () => {
-                setFormOpen(true);
-                setEditId(e.id);
-                const emp = await apiGet<EmployeeApi>(`/employees/${e.id}`);
-                setActiveEmployee(emp);
-                setForm(toFormState(emp));
-              }}
-              className="rounded border px-2 py-1 text-xs hover:bg-gray-50"
-            >
-              Redaktə
-            </button>
+            {permissions.canEditEmployee && (
+              <button
+                onClick={() => openEdit(e.id)}
+                className="rounded border px-2 py-1 text-xs hover:bg-gray-50"
+              >
+                Redaktə
+              </button>
+            )}
           </div>
         ),
       },
     ],
-    [departmentOptions, roleOptions, statusOptions],
+    [
+      departmentOptions,
+      roleOptions,
+      statusOptions,
+      permissions.canEditEmployee,
+    ],
   );
 
   async function submit() {
+    if (editId == null) ensureCanCreate();
+
     const name = form.fullName.trim();
     const email = form.email.trim();
 
@@ -263,12 +326,13 @@ export default function EmployeesPage() {
     setSaving(true);
     try {
       if (editId != null && activeEmployee) {
-        const payload = toApiPayload(form, activeEmployee);
+        ensureCanEdit(activeEmployee);
 
+        const payload = toApiPayload(form, activeEmployee);
         await apiPut(`/employees/${editId}`, { ...payload, id: editId });
 
         await writeAudit({
-          actorId: 1,
+          actorId: user?.id ?? 0,
           action: "employee.update",
           entity: "employees",
           entityId: String(editId),
@@ -277,14 +341,13 @@ export default function EmployeesPage() {
       } else {
         const payload = toApiPayload(form);
 
-        // ⚠️ created-i götürmək vacibdir ki, entityId düzgün yazılsın
         const created = await apiPost<unknown, EmployeeApi>(
           `/employees`,
           payload,
         );
 
         await writeAudit({
-          actorId: 1,
+          actorId: user?.id ?? 0,
           action: "employee.create",
           entity: "employees",
           entityId: String(created.id),
@@ -307,21 +370,21 @@ export default function EmployeesPage() {
 
   async function remove() {
     if (!activeEmployee) return;
+
+    ensureCanDelete(activeEmployee);
+
     if (!confirm("Bu əməkdaşı silmək istəyirsiniz?")) return;
 
     setSaving(true);
     try {
       await apiDelete(`/employees/${activeEmployee.id}`);
 
-      // ✅ AUDIT LOG
       await writeAudit({
-        actorId: 1, // hazırda login sistemi olmadığı üçün sabit
+        actorId: user?.id ?? 0,
         action: "employee.delete",
         entity: "employees",
         entityId: String(activeEmployee.id),
-        meta: {
-          fullName: activeEmployee.fullName,
-        },
+        meta: { fullName: activeEmployee.fullName },
       });
 
       await refresh();
@@ -337,26 +400,30 @@ export default function EmployeesPage() {
     }
   }
 
+  const canCreate = permissions.canCreateEmployee;
+
   return (
     <div className="space-y-4">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <h2 className="text-2xl font-semibold">Employees</h2>
 
-        <button
-          onClick={() => {
-            setFormOpen(true);
-            setEditId(null);
-            setActiveEmployee(null);
-            setForm(toFormState());
-          }}
-          className="w-full sm:w-auto rounded-lg bg-gray-900 px-4 py-2 text-sm text-white hover:bg-gray-800"
-        >
-          Yeni əməkdaş
-        </button>
+        {canCreate && (
+          <button
+            onClick={() => {
+              setFormOpen(true);
+              setEditId(null);
+              setActiveEmployee(null);
+              setForm(toFormState());
+            }}
+            className="w-full sm:w-auto rounded-lg bg-gray-900 px-4 py-2 text-sm text-white hover:bg-gray-800"
+          >
+            Yeni əməkdaş
+          </button>
+        )}
       </div>
 
       <DataTable<EmployeeRow>
-        rows={rows}
+        rows={visibleRows}
         columns={columns}
         getRowKey={(e) => String(e.id)}
         isLoading={loading}
@@ -381,13 +448,11 @@ export default function EmployeesPage() {
           setActiveEmployee(null);
         }}
         onEdit={async (id) => {
-          setViewOpen(false);
-          setFormOpen(true);
-          setEditId(id);
-
-          const emp = await apiGet<EmployeeApi>(`/employees/${id}`);
-          setActiveEmployee(emp);
-          setForm(toFormState(emp));
+          try {
+            setViewOpen(false);
+            await openEdit(id);
+          } catch {
+          }
         }}
       />
 
@@ -400,7 +465,7 @@ export default function EmployeesPage() {
         form={form}
         setForm={setForm}
         saving={saving}
-        showDelete={editId != null}
+        showDelete={editId != null && permissions.canDeleteEmployee}
         onClose={() => {
           setFormOpen(false);
           setEditId(null);

@@ -47,6 +47,7 @@ export function useEmployeesData() {
       id: e.id,
       fullName: e.fullName,
       department: depMap.get(String(e.departmentId)) ?? "—",
+      storeId: e.storeId,
       storeName: e.storeId ? (storeMap.get(String(e.storeId)) ?? "—") : "—",
       role: roleMap.get(String(e.roleId)) ?? "—",
       salary: e.salary,

@@ -175,13 +175,9 @@ export function EmployeeFormModal({
   if (!open) return null;
 
   const [touched, setTouched] = React.useState<Record<string, boolean>>({});
-
-  // ✅ SAFE values (boş/undefined olarsa problem yaratmasın)
   const fullName = (form.fullName || "").trim();
   const email = (form.email || "").trim();
   const phoneRaw = (form.phone || "").trim();
-
-  // ✅ Telefon normalize (boşluq, -, mötərizə silinsin)
   const phone = phoneRaw.replace(/[()\s-]/g, "");
 
   const errors = {

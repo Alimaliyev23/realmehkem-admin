@@ -1,11 +1,14 @@
-import React from "react";
-import { Navigate } from "react-router-dom";
-import { storage } from "../../lib/storage";
+import type { PropsWithChildren } from "react";
+import { Navigate, useLocation } from "react-router-dom";
+import { useAuth } from "../../features/auth/AuthContext";
 
-type Props = { children: React.ReactNode };
+export default function ProtectedRoute({ children }: PropsWithChildren) {
+  const { user } = useAuth();
+  const location = useLocation();
 
-export default function ProtectedRoute({ children }: Props) {
-  const token = storage.getToken();
-  if (!token) return <Navigate to="/login" replace />;
+  if (!user) {
+    return <Navigate to="/login" replace state={{ from: location.pathname }} />;
+  }
+
   return <>{children}</>;
 }

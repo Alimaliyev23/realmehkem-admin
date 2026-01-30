@@ -37,11 +37,12 @@ export type StoreApi = {
 export type RoleApi = { id: number; name: string };
 
 export type EmployeeRow = {
-  id: number; // ✅ DataTable row key üçün
+  id: number; 
   fullName: string;
-  department: string; // ✅ ad olaraq göstəririk
+  storeId: number | null;
+  department: string; 
   storeName?: string;
-  role: string; // ✅ ad olaraq göstəririk
+  role: string;
   salary: Salary;
   hiredAt: string;
   status: EmployeeStatus;

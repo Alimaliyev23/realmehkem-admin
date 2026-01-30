@@ -5,7 +5,6 @@ export function getTheme(): Theme {
   const saved = localStorage.getItem(THEME_KEY);
   if (saved === "dark" || saved === "light") return saved;
 
-  // ilk dəfədirsə sistemə baxırıq
   const prefersDark =
     window.matchMedia?.("(prefers-color-scheme: dark)")?.matches ?? false;
 

@@ -235,11 +235,8 @@ export function useDashboardData() {
       (a, b) => new Date(b.at).getTime() - new Date(a.at).getTime(),
     );
 
-    // ✅ auditLogs varsa -> özünü göstər
     if (sorted.length > 0) return sorted.slice(0, 6);
 
-    // ✅ auditLogs yoxdursa -> UI boş qalmasın deyə fallback "son əməliyyatlar"
-    // Dizayn dəyişmir, sadəcə data düzəldirik.
     const fallback = [...employees]
       .sort(
         (a, b) =>

@@ -1,8 +1,8 @@
 import { useMemo, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { storage } from "../../lib/storage";
 import { Menu, Moon, Sun } from "lucide-react";
 import { toggleTheme } from "../../lib/theme";
+import { useAuth } from "../../features/auth/AuthContext";
 
 type HeaderProps = {
   onOpenSidebar?: () => void;
@@ -18,6 +18,7 @@ function buildEmployeesUrl(q: string) {
 export default function Header({ onOpenSidebar }: HeaderProps) {
   const navigate = useNavigate();
   const location = useLocation();
+  const { logout, user } = useAuth();
 
   const [q, setQ] = useState("");
   const [dark, setDark] = useState(
@@ -29,8 +30,8 @@ export default function Header({ onOpenSidebar }: HeaderProps) {
     [location.pathname],
   );
 
-  function logout() {
-    storage.removeToken();
+  function onLogout() {
+    logout();
     navigate("/login", { replace: true });
   }
 
@@ -50,7 +51,6 @@ export default function Header({ onOpenSidebar }: HeaderProps) {
   dark:border-white/10 dark:bg-white/5"
     >
       <div className="flex flex-col gap-3 px-4 py-3 sm:flex-row sm:items-center sm:justify-between">
-        {/* LEFT */}
         <div className="flex items-center gap-3">
           <button
             onClick={onOpenSidebar}
@@ -61,12 +61,15 @@ export default function Header({ onOpenSidebar }: HeaderProps) {
 
           <div className="font-medium text-gray-900 dark:text-gray-100">
             Admin Panel
+            {user?.fullName ? (
+              <span className="ml-2 text-xs text-gray-500 dark:text-gray-400">
+                • {user.fullName} ({user.role})
+              </span>
+            ) : null}
           </div>
         </div>
 
-        {/* RIGHT */}
         <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
-          {/* SEARCH */}
           <form onSubmit={onSubmit} className="flex w-full sm:w-[420px] gap-2">
             <input
               value={q}
@@ -102,7 +105,6 @@ export default function Header({ onOpenSidebar }: HeaderProps) {
             </button>
           )}
 
-          {/* 🌙 Dark toggle */}
           <button
             onClick={toggle}
             className="h-10 rounded-lg border px-3 text-sm
@@ -113,9 +115,8 @@ export default function Header({ onOpenSidebar }: HeaderProps) {
             {dark ? <Sun size={18} /> : <Moon size={18} />}
           </button>
 
-          {/* Logout */}
           <button
-            onClick={logout}
+            onClick={onLogout}
             className="h-10 rounded-lg bg-gray-900 px-4 text-sm text-white hover:bg-gray-800
                      dark:bg-white dark:text-gray-900 dark:hover:bg-gray-200"
           >

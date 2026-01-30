@@ -37,7 +37,6 @@ export default function Sidebar({
   open?: boolean;
   onClose?: () => void;
 }) {
-  // ✅ scroll lock (mobile open olanda)
   useEffect(() => {
     if (variant !== "mobile") return;
     if (!open) return;
@@ -64,19 +63,16 @@ export default function Sidebar({
     );
   }
 
-  // mobile drawer
   if (!open) return null;
 
   return (
     <div className="fixed inset-0 z-50 lg:hidden">
-      {/* overlay (fade) */}
       <div
         className="absolute inset-0 bg-black/40 opacity-100 transition-opacity"
         onClick={onClose}
         aria-hidden="true"
       />
 
-      {/* drawer (slide in) */}
       <aside
         className="absolute left-0 top-0 h-full w-72 bg-white p-4 shadow-2xl
                    translate-x-0 transition-transform duration-200 ease-out"

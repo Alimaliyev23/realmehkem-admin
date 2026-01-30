@@ -1,4 +1,3 @@
-// employeeForm.ts
 import type { EmployeeApi, EmployeeStatus, Salary } from "../employees/types";
 
 export type EmployeeFormState = {

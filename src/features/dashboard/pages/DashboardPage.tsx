@@ -69,7 +69,6 @@ export default function DashboardPage() {
 
   return (
     <div className="space-y-6">
-      {/* Top */}
       <div className="flex flex-wrap items-end justify-between gap-3">
         <div>
           <h2 className="text-2xl font-semibold text-gray-900">Dashboard</h2>
@@ -80,7 +79,6 @@ export default function DashboardPage() {
         <div className="text-xs text-gray-500">Last updated: {lastUpdated}</div>
       </div>
 
-      {/* KPI */}
       <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
         <StatCard title="Ümumi əməkdaş" value={kpis.total} />
         <StatCard title="Aktiv" value={kpis.active} />
@@ -99,14 +97,12 @@ export default function DashboardPage() {
         <StatCard title="Audit log" value={kpis.auditCount} />
       </div>
 
-      {/* Charts */}
       <DashboardCharts
         storeData={charts.storeChartData}
         departmentData={charts.departmentChartData}
         hiresByMonth={charts.hiresByMonth}
       />
 
-      {/* Announcements + Attendance */}
       <div className="grid gap-4 lg:grid-cols-2">
         <div className="rounded-xl border bg-white p-4 shadow-sm">
           <div className="mb-3 text-sm font-semibold">Elanlar</div>
@@ -173,7 +169,6 @@ export default function DashboardPage() {
         </div>
       </div>
 
-      {/* Latest employees */}
       <div className="rounded-xl border bg-white p-4 shadow-sm">
         <div className="mb-3 text-sm font-semibold">
           Son əlavə olunan əməkdaşlar
@@ -202,7 +197,6 @@ export default function DashboardPage() {
         </div>
       </div>
 
-      {/* Audit */}
       <div className="rounded-xl border bg-white p-4 shadow-sm">
         <div className="mb-3 text-sm font-semibold">
           Son əməliyyatlar (audit)
@@ -215,7 +209,6 @@ export default function DashboardPage() {
             {lists.recentLogs.map((l) => {
               const action = String(l.action ?? "").toLowerCase();
 
-              // ✅ action-a görə oxunaqlı mətn
               const actionLabel =
                 action === "create" || action === "added"
                   ? "Əlavə edildi"
@@ -225,20 +218,16 @@ export default function DashboardPage() {
                       ? "Silindi"
                       : String(l.action ?? "Əməliyyat");
 
-              // ✅ entity adı (istəsən genişləndirə bilərsən)
               const entityLabel =
                 String(l.entity ?? "").toLowerCase() === "employees"
                   ? "Əməkdaş"
                   : String(l.entity ?? "Məlumat");
 
-              // ✅ adı meta-dan götür, yoxdursa employeeNameById ilə tap
               const name =
                 (l.meta as any)?.fullName ||
                 (l.entity?.toLowerCase() === "employees"
                   ? employeeNameById(Number(l.entityId))
                   : "");
-
-              // ✅ badge rəngi: səndə olan Badge komponentindən istifadə edirik
               const tone =
                 action === "create" || action === "added"
                   ? "green"
