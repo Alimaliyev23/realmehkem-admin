@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { useAuth } from "../../auth/AuthContext";
-
+import { API_BASE_URL } from "../../../lib/api";
 type Announcement = {
   id: number;
   title: string;
@@ -9,8 +9,6 @@ type Announcement = {
   createdAt: string;
   updatedAt?: string;
 };
-
-const API_BASE_URL = "http://localhost:3001";
 
 async function apiGet<T>(path: string): Promise<T> {
   const res = await fetch(`${API_BASE_URL}${path}`);

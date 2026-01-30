@@ -5,6 +5,7 @@ import type {
   EmployeeApi,
   EmployeeStatus,
 } from "../../employees/types";
+import { API_BASE_URL } from "../../../lib/api";
 
 type LeaveRequest = {
   id: string;
@@ -56,8 +57,6 @@ type AuditLog = {
   at: string;
   meta?: Record<string, any>;
 };
-
-const API_BASE_URL = "http://127.0.0.1:3001";
 
 async function apiGet<T>(path: string): Promise<T> {
   const res = await fetch(`${API_BASE_URL}${path}`);

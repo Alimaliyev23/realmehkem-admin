@@ -6,8 +6,8 @@ import type {
   StoreApi,
   RoleApi,
 } from "../employees/types";
+import { API_BASE_URL } from "../../lib/api";
 
-const API_BASE_URL = "http://localhost:3001";
 
 async function apiGet<T>(path: string): Promise<T> {
   const res = await fetch(`${API_BASE_URL}${path}`);

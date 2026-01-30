@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { useAuth } from "../../auth/AuthContext";
 import { actionLabels, formatAuditMeta } from "../auditFormatters";
+import { API_BASE_URL } from "../../../lib/api";
 
 type AuditLog = {
   id: number;
@@ -17,8 +18,6 @@ type DbUser = {
   fullName: string;
   role: "admin" | "hr" | "store_manager";
 };
-
-const API_BASE_URL = "http://localhost:3001";
 
 async function apiGet<T>(path: string): Promise<T> {
   const res = await fetch(`${API_BASE_URL}${path}`);

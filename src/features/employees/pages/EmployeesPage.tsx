@@ -12,8 +12,7 @@ import {
 } from "../employeeForm";
 
 import { useAuth } from "../../auth/AuthContext";
-
-const API_BASE_URL = "http://127.0.0.1:3001";
+import { API_BASE_URL } from "../../../lib/api";
 
 function sameStore(empStoreId: number | null, limitStoreId: string | null) {
   if (!limitStoreId) return true;

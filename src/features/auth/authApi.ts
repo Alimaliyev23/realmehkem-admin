@@ -1,6 +1,6 @@
+import { API_BASE_URL } from "../../lib/api";
 import type { AuthUser, LoginCredentials } from "./types";
 
-const API_BASE_URL = "http://localhost:3001";
 
 type DbUser = AuthUser & { password: string };
 
