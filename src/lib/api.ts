@@ -1,4 +1,8 @@
-export const API_BASE_URL = "http://localhost:3001";
+const isDev = import.meta.env.DEV;
+
+export const API_BASE_URL = isDev
+  ? "/api"
+  : (import.meta.env.VITE_API_URL ?? "https://realmehkem-admin.onrender.com");
 
 async function handleJson<T>(res: Response): Promise<T> {
   if (!res.ok) {
@@ -15,7 +19,7 @@ export async function apiGet<T>(path: string): Promise<T> {
 
 export async function apiPost<TBody, TRes>(
   path: string,
-  body: TBody
+  body: TBody,
 ): Promise<TRes> {
   const res = await fetch(`${API_BASE_URL}${path}`, {
     method: "POST",
@@ -27,7 +31,7 @@ export async function apiPost<TBody, TRes>(
 
 export async function apiPut<TBody, TRes>(
   path: string,
-  body: TBody
+  body: TBody,
 ): Promise<TRes> {
   const res = await fetch(`${API_BASE_URL}${path}`, {
     method: "PUT",
