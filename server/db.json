@@ -598,6 +598,146 @@
         "base": 1000,
         "bonus": 0
       }
+    },
+    {
+      "id": "26",
+      "companyId": 1,
+      "fullName": "Sevda Məmmədli",
+      "email": "sevda.mammadli@gmail.com",
+      "phone": "+994505262626",
+      "departmentId": 4,
+      "storeId": null,
+      "roleId": 12,
+      "managerId": 1,
+      "status": "active",
+      "hireDate": "2024-11-11",
+      "salary": { "currency": "AZN", "base": 2300, "bonus": 150 }
+    },
+    {
+      "id": "27",
+      "companyId": 1,
+      "fullName": "Rəşad Həsənli",
+      "email": "reshad.hasenli@gmail.com",
+      "phone": "+994507272727",
+      "departmentId": 1,
+      "storeId": 1,
+      "roleId": 5,
+      "managerId": 2,
+      "status": "active",
+      "hireDate": "2024-09-03",
+      "salary": { "currency": "AZN", "base": 820, "bonus": 0 }
+    },
+    {
+      "id": "28",
+      "companyId": 1,
+      "fullName": "Aytən Qasımova",
+      "email": "ayten.qasimova@gmail.com",
+      "phone": "+994557282828",
+      "departmentId": 2,
+      "storeId": null,
+      "roleId": 6,
+      "managerId": 1,
+      "status": "active",
+      "hireDate": "2023-07-17",
+      "salary": { "currency": "AZN", "base": 1650, "bonus": 200 }
+    },
+    {
+      "id": "29",
+      "companyId": 1,
+      "fullName": "Elvin Əliyev",
+      "email": "elvin.aliyev.dev@gmail.com",
+      "phone": "+994505292929",
+      "departmentId": 3,
+      "storeId": null,
+      "roleId": 9,
+      "managerId": 1,
+      "status": "active",
+      "hireDate": "2024-10-21",
+      "salary": { "currency": "AZN", "base": 3000, "bonus": 0 }
+    },
+    {
+      "id": "30",
+      "companyId": 1,
+      "fullName": "Nərmin Əliyeva",
+      "email": "nermin.aliyeva@gmail.com",
+      "phone": "+994505303030",
+      "departmentId": 1,
+      "storeId": 2,
+      "roleId": 4,
+      "managerId": 9,
+      "status": "active",
+      "hireDate": "2024-12-05",
+      "salary": { "currency": "AZN", "base": 980, "bonus": 40 }
+    },
+    {
+      "id": "31",
+      "companyId": 1,
+      "fullName": "Emin Əliyev",
+      "email": "emin.aliyev@gmail.com",
+      "phone": "+994505313131",
+      "departmentId": 1,
+      "storeId": 3,
+      "roleId": 3,
+      "managerId": 13,
+      "status": "active",
+      "hireDate": "2024-04-09",
+      "salary": { "currency": "AZN", "base": 1550, "bonus": 120 }
+    },
+    {
+      "id": "32",
+      "companyId": 1,
+      "fullName": "Günay Hacıyeva",
+      "email": "gunay.haciyeva@gmail.com",
+      "phone": "+994505323232",
+      "departmentId": 4,
+      "storeId": null,
+      "roleId": 11,
+      "managerId": 8,
+      "status": "active",
+      "hireDate": "2023-09-28",
+      "salary": { "currency": "AZN", "base": 1750, "bonus": 100 }
+    },
+    {
+      "id": "33",
+      "companyId": 1,
+      "fullName": "Fərqanə Rzayeva",
+      "email": "fergane.rzayeva@gmail.com",
+      "phone": "+994505333333",
+      "departmentId": 2,
+      "storeId": null,
+      "roleId": 8,
+      "managerId": 1,
+      "status": "active",
+      "hireDate": "2024-02-14",
+      "salary": { "currency": "AZN", "base": 1800, "bonus": 150 }
+    },
+    {
+      "id": "34",
+      "companyId": 1,
+      "fullName": "Tərlan Məmmədov",
+      "email": "terlan.mammadov@gmail.com",
+      "phone": "+994505343434",
+      "departmentId": 3,
+      "storeId": null,
+      "roleId": 10,
+      "managerId": 1,
+      "status": "active",
+      "hireDate": "2024-06-26",
+      "salary": { "currency": "AZN", "base": 3200, "bonus": 0 }
+    },
+    {
+      "id": "35",
+      "companyId": 1,
+      "fullName": "Səbinə Quliyeva",
+      "email": "sabine.quliyeva@gmail.com",
+      "phone": "+994505353535",
+      "departmentId": 1,
+      "storeId": 1,
+      "roleId": 5,
+      "managerId": 2,
+      "status": "active",
+      "hireDate": "2024-08-08",
+      "salary": { "currency": "AZN", "base": 790, "bonus": 0 }
     }
   ],
   "leaveRequests": [
@@ -620,7 +760,109 @@
       "days": 2,
       "status": "approved",
       "note": "Həkim arayışı var"
-    }
+    },
+    [
+      {
+        "id": "3",
+        "employeeId": 12,
+        "type": "annual",
+        "startDate": "2025-03-10",
+        "endDate": "2025-03-14",
+        "days": 5,
+        "status": "approved",
+        "note": "İstirahət"
+      },
+      {
+        "id": "4",
+        "employeeId": 15,
+        "type": "sick",
+        "startDate": "2025-04-02",
+        "endDate": "2025-04-03",
+        "days": 2,
+        "status": "approved",
+        "note": "Qrip"
+      },
+      {
+        "id": "5",
+        "employeeId": 18,
+        "type": "annual",
+        "startDate": "2025-05-20",
+        "endDate": "2025-05-24",
+        "days": 5,
+        "status": "pending",
+        "note": "Ailə planı"
+      },
+      {
+        "id": "6",
+        "employeeId": 22,
+        "type": "unpaid",
+        "startDate": "2025-06-17",
+        "endDate": "2025-06-18",
+        "days": 2,
+        "status": "rejected",
+        "note": "Təcili şəxsi iş"
+      },
+      {
+        "id": "7",
+        "employeeId": 9,
+        "type": "annual",
+        "startDate": "2025-07-01",
+        "endDate": "2025-07-07",
+        "days": 7,
+        "status": "approved",
+        "note": "Məzuniyyət"
+      },
+      {
+        "id": "8",
+        "employeeId": 6,
+        "type": "sick",
+        "startDate": "2025-08-13",
+        "endDate": "2025-08-14",
+        "days": 2,
+        "status": "pending",
+        "note": "Həkim müayinəsi"
+      },
+      {
+        "id": "9",
+        "employeeId": 21,
+        "type": "annual",
+        "startDate": "2025-09-09",
+        "endDate": "2025-09-13",
+        "days": 5,
+        "status": "approved",
+        "note": "Səyahət"
+      },
+      {
+        "id": "10",
+        "employeeId": 24,
+        "type": "unpaid",
+        "startDate": "2025-10-28",
+        "endDate": "2025-10-29",
+        "days": 2,
+        "status": "approved",
+        "note": "Şəxsi səbəb"
+      },
+      {
+        "id": "11",
+        "employeeId": 3,
+        "type": "sick",
+        "startDate": "2025-11-05",
+        "endDate": "2025-11-06",
+        "days": 2,
+        "status": "approved",
+        "note": "Soyuqdəymə"
+      },
+      {
+        "id": "12",
+        "employeeId": 17,
+        "type": "annual",
+        "startDate": "2025-12-16",
+        "endDate": "2025-12-20",
+        "days": 5,
+        "status": "pending",
+        "note": "İlin sonu məzuniyyəti"
+      }
+    ]
   ],
   "payroll": [
     {
@@ -641,6 +883,86 @@
       "bonus": 50,
       "deductions": 0,
       "net": 950,
+      "status": "paid"
+    },
+    {
+      "id": "3",
+      "employeeId": 3,
+      "month": "2025-02",
+      "base": 1400,
+      "bonus": 120,
+      "deductions": 20,
+      "net": 1500,
+      "status": "paid"
+    },
+    {
+      "id": "4",
+      "employeeId": 6,
+      "month": "2025-02",
+      "base": 1600,
+      "bonus": 150,
+      "deductions": 50,
+      "net": 1700,
+      "status": "paid"
+    },
+    {
+      "id": "5",
+      "employeeId": 7,
+      "month": "2025-02",
+      "base": 2800,
+      "bonus": 0,
+      "deductions": 100,
+      "net": 2700,
+      "status": "paid"
+    },
+    {
+      "id": "6",
+      "employeeId": 12,
+      "month": "2025-03",
+      "base": 780,
+      "bonus": 0,
+      "deductions": 10,
+      "net": 770,
+      "status": "draft"
+    },
+    {
+      "id": "7",
+      "employeeId": 15,
+      "month": "2025-03",
+      "base": 950,
+      "bonus": 50,
+      "deductions": 0,
+      "net": 1000,
+      "status": "paid"
+    },
+    {
+      "id": "8",
+      "employeeId": 19,
+      "month": "2025-03",
+      "base": 2600,
+      "bonus": 250,
+      "deductions": 80,
+      "net": 2770,
+      "status": "paid"
+    },
+    {
+      "id": "9",
+      "employeeId": 21,
+      "month": "2025-04",
+      "base": 2900,
+      "bonus": 0,
+      "deductions": 100,
+      "net": 2800,
+      "status": "draft"
+    },
+    {
+      "id": "10",
+      "employeeId": 24,
+      "month": "2025-04",
+      "base": 2400,
+      "bonus": 200,
+      "deductions": 60,
+      "net": 2540,
       "status": "paid"
     }
   ],
@@ -690,6 +1012,96 @@
       "checkOut": "18:10",
       "status": "late",
       "note": "Nəqliyyat"
+    },
+    {
+      "id": "att-3",
+      "employeeId": 2,
+      "date": "2026-01-21",
+      "checkIn": "09:02",
+      "checkOut": "18:00",
+      "status": "present",
+      "note": ""
+    },
+    {
+      "id": "att-4",
+      "employeeId": 3,
+      "date": "2026-01-21",
+      "checkIn": "09:18",
+      "checkOut": "18:05",
+      "status": "late",
+      "note": "Nəqliyyat"
+    },
+    {
+      "id": "att-5",
+      "employeeId": 4,
+      "date": "2026-01-21",
+      "checkIn": "08:57",
+      "checkOut": "18:01",
+      "status": "present",
+      "note": ""
+    },
+    {
+      "id": "att-6",
+      "employeeId": 7,
+      "date": "2026-01-21",
+      "checkIn": "09:00",
+      "checkOut": "18:22",
+      "status": "present",
+      "note": "Yığıncaq"
+    },
+    {
+      "id": "att-7",
+      "employeeId": 9,
+      "date": "2026-01-21",
+      "checkIn": "09:11",
+      "checkOut": "18:03",
+      "status": "late",
+      "note": "Gecikmə"
+    },
+    {
+      "id": "att-8",
+      "employeeId": 12,
+      "date": "2026-01-22",
+      "checkIn": "09:05",
+      "checkOut": "18:00",
+      "status": "present",
+      "note": ""
+    },
+    {
+      "id": "att-9",
+      "employeeId": 15,
+      "date": "2026-01-22",
+      "checkIn": "09:28",
+      "checkOut": "18:06",
+      "status": "late",
+      "note": "Səhər tıxac"
+    },
+    {
+      "id": "att-10",
+      "employeeId": 18,
+      "date": "2026-01-22",
+      "checkIn": "09:00",
+      "checkOut": "17:40",
+      "status": "early_leave",
+      "note": "Şəxsi səbəb"
+    },
+    {
+      "id": "att-11",
+      "employeeId": 21,
+      "date": "2026-01-23",
+      "checkIn": "09:03",
+      "checkOut": "18:12",
+      "status": "present",
+      "note": ""
+    },
+    {
+      "id": "att-12",
+      "employeeId": 24,
+      "date": "2026-01-23",
+      "checkIn": "09:00",
+      "checkOut": "18:00",
+      "status": "present",
+      "note": "İclas"
     }
   ],
   "performanceReviews": [
@@ -699,14 +1111,8 @@
       "period": "2025-Q4",
       "reviewerId": 1,
       "rating": 4.6,
-      "strengths": [
-        "Komanda idarəetməsi",
-        "Satış planı icrası"
-      ],
-      "improvements": [
-        "Delegasiya",
-        "Həftəlik hesabat formatı"
-      ],
+      "strengths": ["Komanda idarəetməsi", "Satış planı icrası"],
+      "improvements": ["Delegasiya", "Həftəlik hesabat formatı"],
       "decision": "promotion_candidate",
       "createdAt": "2026-01-05"
     },
@@ -716,16 +1122,76 @@
       "period": "2025-Q4",
       "reviewerId": 1,
       "rating": 4.2,
-      "strengths": [
-        "UI keyfiyyəti",
-        "Performans optimallaşdırma"
-      ],
-      "improvements": [
-        "Dokumentasiya",
-        "Test coverage"
-      ],
+      "strengths": ["UI keyfiyyəti", "Performans optimallaşdırma"],
+      "improvements": ["Dokumentasiya", "Test coverage"],
       "decision": "keep",
       "createdAt": "2026-01-06"
+    },
+    {
+      "id": "rev-3",
+      "employeeId": 3,
+      "period": "2025-Q4",
+      "reviewerId": 1,
+      "rating": 4.1,
+      "strengths": ["Satış kommunikasiya", "Müştəri məmnuniyyəti"],
+      "improvements": ["Vaxt idarəetməsi"],
+      "decision": "keep",
+      "createdAt": "2026-01-08"
+    },
+    {
+      "id": "rev-4",
+      "employeeId": 6,
+      "period": "2025-Q4",
+      "reviewerId": 1,
+      "rating": 4.4,
+      "strengths": ["Kontent planlama", "Brend üslub"],
+      "improvements": ["Hesabat formatı"],
+      "decision": "promotion_candidate",
+      "createdAt": "2026-01-09"
+    },
+    {
+      "id": "rev-5",
+      "employeeId": 9,
+      "period": "2025-Q4",
+      "reviewerId": 1,
+      "rating": 4.0,
+      "strengths": ["Komanda idarəetməsi"],
+      "improvements": ["Delegasiya", "Mentorluq"],
+      "decision": "keep",
+      "createdAt": "2026-01-10"
+    },
+    {
+      "id": "rev-6",
+      "employeeId": 15,
+      "period": "2025-Q4",
+      "reviewerId": 1,
+      "rating": 3.8,
+      "strengths": ["Kassa intizamı"],
+      "improvements": ["Satış əlavələri", "Sürət"],
+      "decision": "keep",
+      "createdAt": "2026-01-11"
+    },
+    {
+      "id": "rev-7",
+      "employeeId": 19,
+      "period": "2025-Q4",
+      "reviewerId": 1,
+      "rating": 4.7,
+      "strengths": ["Dizayn keyfiyyəti", "Yaradıcı yanaşma"],
+      "improvements": ["Proses sənədləşməsi"],
+      "decision": "promotion_candidate",
+      "createdAt": "2026-01-12"
+    },
+    {
+      "id": "rev-8",
+      "employeeId": 24,
+      "period": "2025-Q4",
+      "reviewerId": 1,
+      "rating": 4.3,
+      "strengths": ["HR prosesləri", "İşə qəbul planlaması"],
+      "improvements": ["Rəqəmsal alətlər"],
+      "decision": "keep",
+      "createdAt": "2026-01-13"
     }
   ],
   "assets": [
@@ -809,6 +1275,48 @@
       "audience": "store",
       "createdAt": "2025-01-29T09:30:00.000Z",
       "updatedAt": "2026-01-30T12:01:18.972Z"
+    },
+    {
+      "id": "7",
+      "title": "Yeni geyim qaydası",
+      "content": "Fevral ayından etibarən filiallarda vahid geyim qaydasına keçid edilir. Store manager-lərdən nəzarət xahiş olunur.",
+      "audience": "store",
+      "createdAt": "2025-02-02T10:00:00.000Z"
+    },
+    {
+      "id": "8",
+      "title": "İT dəstəyi biletləri",
+      "content": "İT sorğuları üçün daxili bilet sistemi tətbiq olunur. Sorğular bilet vasitəsilə göndərilməlidir.",
+      "audience": "all",
+      "createdAt": "2025-02-06T09:20:00.000Z"
+    },
+    {
+      "id": "9",
+      "title": "Məxfilik təlimatı",
+      "content": "Müştəri məlumatlarının məxfiliyinə dair təlimat yenilənmişdir. Bütün əməkdaşlar tanış olmalıdır.",
+      "audience": "all",
+      "createdAt": "2025-02-10T12:15:00.000Z"
+    },
+    {
+      "id": "10",
+      "title": "HR sənədləri yoxlanışı",
+      "content": "HR şöbəsi işçi sənədlərini yenidən yoxlayacaq. Əksik sənədlər 1 həftə ərzində tamamlanmalıdır.",
+      "audience": "hr",
+      "createdAt": "2025-02-15T08:30:00.000Z"
+    },
+    {
+      "id": "11",
+      "title": "Inventar təlimi",
+      "content": "Fevralın 20-də inventar prosesinə dair qısa təlim keçiriləcək. Store komandası üçün vacibdir.",
+      "audience": "store",
+      "createdAt": "2025-02-18T14:00:00.000Z"
+    },
+    {
+      "id": "12",
+      "title": "İş saatlarında dəyişiklik yoxdur",
+      "content": "Hazırkı iş saatları qüvvədə qalır. Dəyişiklik olarsa əlavə elan veriləcək.",
+      "audience": "all",
+      "createdAt": "2025-02-25T09:00:00.000Z"
     }
   ],
   "storeTargets": [
@@ -865,10 +1373,7 @@
       "at": "2026-01-24T14:20:00",
       "meta": {
         "fullName": "Murad Həsənov",
-        "changed": [
-          "salary.base",
-          "status"
-        ]
+        "changed": ["salary.base", "status"]
       }
     },
     {
@@ -880,9 +1385,7 @@
       "at": "2026-01-25T10:05:00",
       "meta": {
         "fullName": "Nigar Quliyeva",
-        "changed": [
-          "storeId"
-        ]
+        "changed": ["storeId"]
       }
     },
     {
@@ -1005,6 +1508,114 @@
         "title": "Yenilik"
       },
       "at": "2026-01-30T12:01:23.854Z"
+    },
+    {
+      "id": "log-6",
+      "actorId": 1,
+      "action": "leaveRequest.create",
+      "entity": "leaveRequests",
+      "entityId": "3",
+      "at": "2026-01-31T09:05:00",
+      "meta": { "employeeId": 12 }
+    },
+    {
+      "id": "log-7",
+      "actorId": 1,
+      "action": "leaveRequest.approve",
+      "entity": "leaveRequests",
+      "entityId": "3",
+      "at": "2026-01-31T09:20:00",
+      "meta": { "status": "approved" }
+    },
+    {
+      "id": "log-8",
+      "actorId": 1,
+      "action": "payroll.create",
+      "entity": "payroll",
+      "entityId": "6",
+      "at": "2026-01-31T10:10:00",
+      "meta": { "month": "2025-03", "employeeId": 12 }
+    },
+    {
+      "id": "log-9",
+      "actorId": 1,
+      "action": "attendance.create",
+      "entity": "attendance",
+      "entityId": "att-9",
+      "at": "2026-01-31T10:40:00",
+      "meta": { "employeeId": 15, "status": "late" }
+    },
+    {
+      "id": "log-10",
+      "actorId": 1,
+      "action": "employee.update",
+      "entity": "employees",
+      "entityId": "15",
+      "at": "2026-01-31T11:05:00",
+      "meta": { "changed": ["phone"] }
+    },
+    {
+      "id": "log-11",
+      "actorId": 1,
+      "action": "announcement.create",
+      "entity": "announcements",
+      "entityId": "9",
+      "at": "2026-01-31T11:20:00",
+      "meta": { "title": "Məxfilik təlimatı" }
+    },
+    {
+      "id": "log-12",
+      "actorId": 1,
+      "action": "payroll.update",
+      "entity": "payroll",
+      "entityId": "6",
+      "at": "2026-01-31T12:00:00",
+      "meta": { "status": "draft" }
+    },
+    {
+      "id": "log-13",
+      "actorId": 1,
+      "action": "performanceReview.create",
+      "entity": "performanceReviews",
+      "entityId": "rev-6",
+      "at": "2026-01-31T12:35:00",
+      "meta": { "employeeId": 15, "rating": 3.8 }
+    },
+    {
+      "id": "log-14",
+      "actorId": 1,
+      "action": "employee.update",
+      "entity": "employees",
+      "entityId": "19",
+      "at": "2026-01-31T13:10:00",
+      "meta": { "changed": ["salary.base"] }
+    },
+    {
+      "id": "log-15",
+      "actorId": 1,
+      "action": "attendance.create",
+      "entity": "attendance",
+      "entityId": "att-12",
+      "at": "2026-01-31T13:25:00",
+      "meta": { "employeeId": 24, "status": "present" }
+    },
+    {
+      "id": "log-16",
+      "actorId": 1,
+      "action": "leaveRequest.create",
+      "entity": "leaveRequests",
+      "entityId": "12",
+      "at": "2026-01-31T14:00:00",
+      "meta": { "employeeId": 17, "type": "annual" }
+    },
+    {
+      "id": "log-17",
+      "actorId": 1,
+      "action": "leaveRequest.update",
+      "entity": "leaveRequests",
+      "entityId": "12",
+      "at": "2026-01-31T14:15:00",
+      "meta": { "status": "pending" }
     }
   ]
 }
