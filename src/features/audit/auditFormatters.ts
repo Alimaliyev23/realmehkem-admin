@@ -8,6 +8,26 @@ export const actionLabels: Record<string, string> = {
   "announcement.create": "Elan yaradıldı",
   "announcement.update": "Elan yeniləndi",
   "announcement.delete": "Elan silindi",
+
+  "leaveRequest.create": "Məzuniyyət sorğusu yaradıldı",
+  "leaveRequest.update": "Məzuniyyət sorğusu yeniləndi",
+  "leaveRequest.approve": "Məzuniyyət sorğusu təsdiqləndi",
+  "leaveRequest.reject": "Məzuniyyət sorğusu rədd edildi",
+
+  "payroll.create": "Əməkhaqqı qeydiyyatı yaradıldı",
+  "payroll.update": "Əməkhaqqı qeydiyyatı yeniləndi",
+  "payroll.delete": "Əməkhaqqı qeydiyyatı silindi",
+
+  "attendance.create": "Davamiyyət əlavə edildi",
+  "attendance.update": "Davamiyyət yeniləndi",
+  "attendance.delete": "Davamiyyət silindi",
+
+  "performanceReview.create": "Qiymətləndirmə yaradıldı",
+  "performanceReview.update": "Qiymətləndirmə yeniləndi",
+  "performanceReview.delete": "Qiymətləndirmə silindi",
+
+  "asset.assign": "Əmlak əməkdaşa təhkim edildi",
+  "asset.return": "Əmlak geri qaytarıldı",
 };
 
 export function formatAuditMeta(meta?: Record<string, any>) {
@@ -47,5 +67,40 @@ export function formatAuditMeta(meta?: Record<string, any>) {
   if (meta.fullName) return `Ad: ${meta.fullName}`;
   if (meta.title) return `Elan: ${meta.title}`;
 
-  return JSON.stringify(meta);
+  const keyMap: Record<string, string> = {
+    employeeId: "Əməkdaş ID",
+    storeId: "Filial",
+    departmentId: "Şöbə",
+    roleId: "Vəzifə",
+    status: "Status",
+    type: "Növ",
+    month: "Ay",
+    rating: "Reytinq",
+    days: "Gün sayı",
+    startDate: "Başlama tarixi",
+    endDate: "Bitmə tarixi",
+  };
+
+  const statusMap: Record<string, string> = {
+    pending: "Gözləmədə",
+    approved: "Təsdiqləndi",
+    rejected: "Rədd edildi",
+    active: "Aktiv",
+    on_leave: "Məzuniyyətdə",
+    terminated: "İşdən çıxıb",
+    present: "İştirak edib",
+    late: "Gecikib",
+    early_leave: "Erkən çıxıb",
+    draft: "Qaralama",
+    paid: "Ödənilib",
+  };
+
+  const parts = Object.entries(meta).map(([k, v]) => {
+    const label = keyMap[k] ?? k;
+    const value =
+      typeof v === "string" && statusMap[v] ? statusMap[v] : JSON.stringify(v);
+    return `${label}: ${value.replace(/^"|"$/g, "")}`;
+  });
+
+  return parts.join(", ");
 }
