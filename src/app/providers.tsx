@@ -23,6 +23,7 @@ export function AppProviders({ children }: PropsWithChildren) {
         closeOnClick
         pauseOnHover
         theme="colored"
+        style={{ zIndex: 9999 }}
       />
     </AuthProvider>
   );
