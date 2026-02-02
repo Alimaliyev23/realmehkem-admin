@@ -7,6 +7,11 @@ import type {
 } from "../employees/types";
 import type { EmployeeFormState } from "./employeeForm";
 
+import { Button } from "../../components/ui/Button";
+import { Input } from "../../components/ui/Input";
+import { Loader } from "../../components/ui/Loader";
+import { Select } from "../../components/ui/Select";
+
 function Modal({
   title,
   children,
@@ -23,12 +28,9 @@ function Modal({
           <h3 className="text-lg font-semibold text-gray-900 dark:text-slate-100">
             {title}
           </h3>
-          <button
-            onClick={onClose}
-            className="rounded-lg px-3 py-1.5 text-sm text-gray-700 hover:bg-gray-100 dark:text-slate-200 dark:hover:bg-white/10"
-          >
+          <Button variant="ghost" onClick={onClose}>
             Bağla
-          </button>
+          </Button>
         </div>
         <div className="p-4 text-gray-900 dark:text-slate-100">{children}</div>
       </div>
@@ -39,14 +41,17 @@ function Modal({
 function Field({
   label,
   children,
+  error,
 }: {
   label: string;
   children: React.ReactNode;
+  error?: string;
 }) {
   return (
     <label className="grid gap-1">
       <span className="text-xs text-gray-600 dark:text-slate-400">{label}</span>
       {children}
+      {error ? <div className="text-xs text-red-500">{error}</div> : null}
     </label>
   );
 }
@@ -84,9 +89,7 @@ export function EmployeeViewModal({
   return (
     <Modal title="Əməkdaş məlumatı" onClose={onClose}>
       {!employee ? (
-        <div className="text-sm text-gray-600 dark:text-slate-300">
-          Yüklənir…
-        </div>
+        <Loader />
       ) : (
         <div className="grid gap-4 text-sm">
           <div className="rounded-lg border border-gray-200 bg-gray-50 p-3 dark:border-white/10 dark:bg-white/5">
@@ -132,12 +135,9 @@ export function EmployeeViewModal({
           </div>
 
           <div className="flex justify-end">
-            <button
-              onClick={() => onEdit(employee.id)}
-              className="rounded-lg border px-3 py-2 text-sm"
-            >
+            <Button variant="secondary" onClick={() => onEdit(employee.id)}>
               Redaktə et
-            </button>
+            </Button>
           </div>
         </div>
       )}
@@ -188,24 +188,19 @@ export function EmployeeFormModal({
         : /\d/.test(fullName)
           ? "Rəqəm olmaz"
           : "",
-
     email: !email
       ? "Email daxil edin"
       : !/^[A-Za-z0-9._%+-]+@gmail\.com$/.test(email)
         ? "Yalnız Gmail qəbul olunur"
         : "",
-
     phone: !phone
       ? "Telefon daxil edin"
       : !/^\+?\d{9,13}$/.test(phone)
         ? "Telefon düzgün deyil"
         : "",
-
     departmentId: !form.departmentId ? "Şöbə seçilməlidir" : "",
     roleId: !form.roleId ? "Vəzifə seçilməlidir" : "",
-
     hireDate: !form.hireDate ? "Tarix seçilməlidir" : "",
-
     salaryBase:
       !form.salaryBase || Number(form.salaryBase) <= 0
         ? "Əmək haqqı 0 ola bilməz"
@@ -213,12 +208,6 @@ export function EmployeeFormModal({
   };
 
   const hasErrors = Object.values(errors).some(Boolean);
-
-  const inputCls =
-    "h-10 rounded-lg border border-gray-200 bg-white px-3 text-sm text-gray-900 " +
-    "focus:outline-none focus:ring-2 focus:ring-gray-200 dark:border-white/10 dark:bg-white/5";
-
-  const errorCls = "border-red-500";
 
   function markAllTouched() {
     setTouched({
@@ -238,181 +227,132 @@ export function EmployeeFormModal({
     onSubmit();
   }
 
+  const departmentSelectOptions = departments.map((d) => ({
+    value: String(d.id),
+    label: d.name,
+  }));
+
+  const storeSelectOptions = stores.map((s) => ({
+    value: String(s.id),
+    label: s.name,
+  }));
+
+  const roleSelectOptions = roles.map((r) => ({
+    value: String(r.id),
+    label: r.name,
+  }));
+
   return (
     <Modal title={title} onClose={onClose}>
       <div className="grid gap-4">
-        <Field label="Ad Soyad">
-          <input
-            className={`${inputCls} ${
-              touched.fullName && errors.fullName ? errorCls : ""
-            }`}
-            value={form.fullName}
-            onBlur={() => setTouched((p) => ({ ...p, fullName: true }))}
-            onChange={(e) =>
-              setForm((p) => ({ ...p, fullName: e.target.value }))
-            }
-          />
-          {touched.fullName && errors.fullName && (
-            <div className="text-xs text-red-500">{errors.fullName}</div>
-          )}
-        </Field>
+        <Input
+          label="Ad Soyad"
+          value={form.fullName}
+          onBlur={() => setTouched((p) => ({ ...p, fullName: true }))}
+          onChange={(e) => setForm((p) => ({ ...p, fullName: e.target.value }))}
+          error={touched.fullName ? errors.fullName : ""}
+        />
 
-        <Field label="Email">
-          <input
-            className={`${inputCls} ${
-              touched.email && errors.email ? errorCls : ""
-            }`}
-            value={form.email}
-            onBlur={() => setTouched((p) => ({ ...p, email: true }))}
-            onChange={(e) => setForm((p) => ({ ...p, email: e.target.value }))}
-          />
-          {touched.email && errors.email && (
-            <div className="text-xs text-red-500">{errors.email}</div>
-          )}
-        </Field>
+        <Input
+          label="Email"
+          value={form.email}
+          onBlur={() => setTouched((p) => ({ ...p, email: true }))}
+          onChange={(e) => setForm((p) => ({ ...p, email: e.target.value }))}
+          error={touched.email ? errors.email : ""}
+        />
 
-        <Field label="Telefon">
-          <input
-            className={`${inputCls} ${
-              touched.phone && errors.phone ? errorCls : ""
-            }`}
-            value={form.phone}
-            placeholder="+994501234567"
-            onBlur={() => setTouched((p) => ({ ...p, phone: true }))}
-            onChange={(e) => setForm((p) => ({ ...p, phone: e.target.value }))}
-          />
-          {touched.phone && errors.phone && (
-            <div className="text-xs text-red-500">{errors.phone}</div>
-          )}
-        </Field>
+        <Input
+          label="Telefon"
+          value={form.phone}
+          placeholder="+994501234567"
+          onBlur={() => setTouched((p) => ({ ...p, phone: true }))}
+          onChange={(e) => setForm((p) => ({ ...p, phone: e.target.value }))}
+          error={touched.phone ? errors.phone : ""}
+        />
 
-        <Field label="Şöbə">
-          <select
-            className={`${inputCls} ${
-              touched.departmentId && errors.departmentId ? errorCls : ""
-            }`}
-            value={form.departmentId}
-            onBlur={() => setTouched((p) => ({ ...p, departmentId: true }))}
-            onChange={(e) =>
-              setForm((p) => ({ ...p, departmentId: e.target.value }))
-            }
-          >
-            <option value="">— seç —</option>
-            {departments.map((d) => (
-              <option key={d.id} value={String(d.id)}>
-                {d.name}
-              </option>
-            ))}
-          </select>
-          {touched.departmentId && errors.departmentId && (
-            <div className="text-xs text-red-500">{errors.departmentId}</div>
-          )}
-        </Field>
+        {/* ✅ Select: Şöbə */}
+        <Select
+          label="Şöbə"
+          value={form.departmentId}
+          onBlur={() => setTouched((p) => ({ ...p, departmentId: true }))}
+          onChange={(e) =>
+            setForm((p) => ({ ...p, departmentId: e.target.value }))
+          }
+          error={touched.departmentId ? errors.departmentId : ""}
+          options={departmentSelectOptions}
+          placeholder="— seç —"
+        />
 
-        <Field label="Filial">
-          <select
-            className={inputCls}
-            value={form.storeId}
-            onChange={(e) =>
-              setForm((p) => ({ ...p, storeId: e.target.value }))
-            }
-          >
-            <option value="">— yoxdur —</option>
-            {stores.map((s) => (
-              <option key={s.id} value={String(s.id)}>
-                {s.name}
-              </option>
-            ))}
-          </select>
-        </Field>
+        {/* ✅ Select: Filial */}
+        <Select
+          label="Filial"
+          value={form.storeId}
+          onChange={(e) => setForm((p) => ({ ...p, storeId: e.target.value }))}
+          options={storeSelectOptions}
+          placeholder="— yoxdur —"
+        />
 
-        <Field label="Vəzifə">
-          <select
-            className={`${inputCls} ${
-              touched.roleId && errors.roleId ? errorCls : ""
-            }`}
-            value={form.roleId}
-            onBlur={() => setTouched((p) => ({ ...p, roleId: true }))}
-            onChange={(e) => setForm((p) => ({ ...p, roleId: e.target.value }))}
-          >
-            <option value="">— seç —</option>
-            {roles.map((r) => (
-              <option key={r.id} value={String(r.id)}>
-                {r.name}
-              </option>
-            ))}
-          </select>
-          {touched.roleId && errors.roleId && (
-            <div className="text-xs text-red-500">{errors.roleId}</div>
-          )}
-        </Field>
+        {/* ✅ Select: Vəzifə */}
+        <Select
+          label="Vəzifə"
+          value={form.roleId}
+          onBlur={() => setTouched((p) => ({ ...p, roleId: true }))}
+          onChange={(e) => setForm((p) => ({ ...p, roleId: e.target.value }))}
+          error={touched.roleId ? errors.roleId : ""}
+          options={roleSelectOptions}
+          placeholder="— seç —"
+        />
 
-        <Field label="İşə qəbul tarixi">
-          <input
-            type="date"
-            className={`${inputCls} ${
-              touched.hireDate && errors.hireDate ? errorCls : ""
-            }`}
-            value={form.hireDate}
-            onBlur={() => setTouched((p) => ({ ...p, hireDate: true }))}
-            onChange={(e) =>
-              setForm((p) => ({ ...p, hireDate: e.target.value }))
-            }
-          />
-          {touched.hireDate && errors.hireDate && (
-            <div className="text-xs text-red-500">{errors.hireDate}</div>
-          )}
-        </Field>
+        <Input
+          label="İşə qəbul tarixi"
+          type="date"
+          value={form.hireDate}
+          onBlur={() => setTouched((p) => ({ ...p, hireDate: true }))}
+          onChange={(e) => setForm((p) => ({ ...p, hireDate: e.target.value }))}
+          error={touched.hireDate ? errors.hireDate : ""}
+        />
 
-        <Field label="Əmək haqqı (base)">
-          <input
-            type="number"
-            className={`${inputCls} ${
-              touched.salaryBase && errors.salaryBase ? errorCls : ""
-            }`}
-            value={form.salaryBase}
-            onBlur={() => setTouched((p) => ({ ...p, salaryBase: true }))}
-            onChange={(e) =>
-              setForm((p) => ({ ...p, salaryBase: e.target.value }))
-            }
-          />
-          {touched.salaryBase && errors.salaryBase && (
-            <div className="text-xs text-red-500">{errors.salaryBase}</div>
-          )}
-        </Field>
+        <Input
+          label="Əmək haqqı (base)"
+          type="number"
+          value={form.salaryBase}
+          onBlur={() => setTouched((p) => ({ ...p, salaryBase: true }))}
+          onChange={(e) =>
+            setForm((p) => ({ ...p, salaryBase: e.target.value }))
+          }
+          error={touched.salaryBase ? errors.salaryBase : ""}
+        />
 
         <div className="flex justify-between pt-2">
           {showDelete ? (
-            <button
+            <Button
+              variant="secondary"
               onClick={onDelete}
+              loading={false}
               disabled={saving}
-              className="rounded-lg border border-red-300 px-3 py-2 text-sm text-red-700 disabled:opacity-50"
+              className="border-red-300 text-red-700"
             >
               Sil
-            </button>
+            </Button>
           ) : (
             <span />
           )}
 
           <div className="flex gap-2">
-            <button
-              onClick={onClose}
-              disabled={saving}
-              className="rounded-lg border px-3 py-2 disabled:opacity-50"
-            >
+            <Button variant="secondary" onClick={onClose} disabled={saving}>
               Ləğv et
-            </button>
+            </Button>
 
-            <button
+            <Button
+              variant="primary"
               onClick={handleSubmitClick}
-              disabled={saving}
-              className="rounded-lg bg-gray-900 px-3 py-2 text-white disabled:opacity-50"
+              loading={saving}
               title={
                 hasErrors ? "Zəhmət olmasa xətaları düzəldin" : "Yadda saxla"
               }
             >
-              {saving ? "Yadda saxlanır…" : "Yadda saxla"}
-            </button>
+              Yadda saxla
+            </Button>
           </div>
         </div>
       </div>

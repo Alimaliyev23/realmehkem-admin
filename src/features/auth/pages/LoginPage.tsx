@@ -1,6 +1,7 @@
 import React, { useMemo, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../AuthContext";
+import { toast } from "react-toastify";
 
 export default function LoginPage() {
   const { login } = useAuth();
@@ -23,8 +24,10 @@ export default function LoginPage() {
     setLoading(true);
     try {
       await login({ email, password });
+      toast.success("Uğurla daxil oldunuz!");
       navigate(from, { replace: true });
     } catch (err) {
+      toast.error("Login alınmadı. Email/şifrəni yoxlayın.");
       setError(err instanceof Error ? err.message : "Login error");
     } finally {
       setLoading(false);

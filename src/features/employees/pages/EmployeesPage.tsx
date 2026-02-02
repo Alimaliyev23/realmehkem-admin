@@ -1,7 +1,10 @@
 import { useMemo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
+import { toast } from "react-toastify";
 
 import { DataTable, type ColumnDef } from "../../../components/ui/DataTable";
+import { ConfirmModal } from "../../../components/ui/ConfirmModal";
+
 import type { EmployeeApi, EmployeeRow } from "../types";
 import { useEmployeesData } from "../useEmployeesData";
 import { EmployeeFormModal, EmployeeViewModal } from "../EmployeeModals";
@@ -12,44 +15,15 @@ import {
 } from "../employeeForm";
 
 import { useAuth } from "../../auth/AuthContext";
-import { API_BASE_URL } from "../../../lib/api";
+import { apiGet, apiPost, apiPut, apiDelete } from "../../../lib/api";
 
-function sameStore(empStoreId: number | null, limitStoreId: string | null) {
-  if (!limitStoreId) return true;
-  if (empStoreId == null) return false;
-  return String(empStoreId) === limitStoreId;
-}
-
-async function apiGet<T>(path: string): Promise<T> {
-  const res = await fetch(`${API_BASE_URL}${path}`);
-  if (!res.ok) throw new Error(`API error: ${res.status}`);
-  return res.json();
-}
-
-async function apiPost<TBody, TRes>(path: string, body: TBody): Promise<TRes> {
-  const res = await fetch(`${API_BASE_URL}${path}`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(body),
-  });
-  if (!res.ok) throw new Error(`API error: ${res.status}`);
-  return res.json();
-}
-
-async function apiPut<TBody, TRes>(path: string, body: TBody): Promise<TRes> {
-  const res = await fetch(`${API_BASE_URL}${path}`, {
-    method: "PUT",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(body),
-  });
-  if (!res.ok) throw new Error(`API error: ${res.status}`);
-  return res.json();
-}
-
-async function apiDelete(path: string): Promise<void> {
-  const res = await fetch(`${API_BASE_URL}${path}`, { method: "DELETE" });
-  if (!res.ok) throw new Error(`API error: ${res.status}`);
-}
+// ✅ Guards
+import {
+  canCreateEmployee,
+  canEditEmployee,
+  canDeleteEmployee,
+  guardMessage,
+} from "../../auth/guards";
 
 function nowIso() {
   return new Date().toISOString();
@@ -80,7 +54,6 @@ function isValidFullName(name: string) {
   const v = name.trim();
   if (v.length < 3) return false;
   if (/\d/.test(v)) return false;
-  // AZ hərfləri + boşluq + - + '
   if (!/^[A-Za-zƏÖÜĞÇŞİIəöüğçşı \-']+$/.test(v)) return false;
   return true;
 }
@@ -144,6 +117,8 @@ export default function EmployeesPage() {
   const [form, setForm] = useState<EmployeeFormState>(() => toFormState());
   const [saving, setSaving] = useState(false);
 
+  const [confirmOpen, setConfirmOpen] = useState(false);
+
   const visibleRows = useMemo(() => {
     const limit = permissions.limitToStoreId;
     if (!limit) return rows;
@@ -151,47 +126,27 @@ export default function EmployeesPage() {
     return rows.filter((r) => String((r as any).storeId ?? "") === limit);
   }, [rows, permissions.limitToStoreId]);
 
-  function ensureCanCreate() {
-    if (!permissions.canCreateEmployee) {
-      alert("Yeni əməkdaş əlavə etməyə icazən yoxdur.");
-      throw new Error("Not allowed: create employee");
-    }
-  }
-
-  function ensureCanEdit(emp: EmployeeApi) {
-    if (!permissions.canEditEmployee) {
-      alert("Redaktə etməyə icazən yoxdur.");
-      throw new Error("Not allowed: edit employee");
-    }
-
-    if (!sameStore(emp.storeId, permissions.limitToStoreId)) {
-      alert("Yalnız öz filialının əməkdaşlarını redaktə edə bilərsən.");
-      throw new Error("Cross-store edit blocked");
-    }
-  }
-
-  function ensureCanDelete(emp: EmployeeApi) {
-    if (!permissions.canDeleteEmployee) {
-      alert("Silməyə icazən yoxdur.");
-      throw new Error("Not allowed: delete employee");
-    }
-
-    if (!sameStore(emp.storeId, permissions.limitToStoreId)) {
-      alert("Yalnız öz filialının əməkdaşlarını silə bilərsən.");
-      throw new Error("Cross-store delete blocked");
-    }
-  }
-
   async function openView(id: number) {
-    setViewOpen(true);
-    setActiveEmployee(null);
-    setActiveEmployee(await apiGet<EmployeeApi>(`/employees/${id}`));
+    try {
+      setViewOpen(true);
+      setActiveEmployee(null);
+      setActiveEmployee(await apiGet<EmployeeApi>(`/employees/${id}`));
+    } catch (err) {
+      console.error(err);
+      toast.error("Əməkdaş məlumatı açılmadı.");
+      setViewOpen(false);
+      setActiveEmployee(null);
+    }
   }
 
   async function openEdit(id: number) {
     const emp = await apiGet<EmployeeApi>(`/employees/${id}`);
 
-    ensureCanEdit(emp);
+    const chk = canEditEmployee(emp, permissions);
+    if (!chk.ok) {
+      toast.warning(guardMessage(chk.reason));
+      return;
+    }
 
     setFormOpen(true);
     setEditId(id);
@@ -286,45 +241,72 @@ export default function EmployeesPage() {
       roleOptions,
       statusOptions,
       permissions.canEditEmployee,
+      permissions, // guards üçün
     ],
   );
 
   async function submit() {
-    if (editId == null) ensureCanCreate();
+    // ✅ Create guard
+    if (editId == null && !canCreateEmployee(permissions)) {
+      toast.warning("Yeni əməkdaş əlavə etməyə icazən yoxdur.");
+      return;
+    }
 
     const name = form.fullName.trim();
     const email = form.email.trim();
 
-    if (!isValidFullName(name))
-      return alert(
+    if (!isValidFullName(name)) {
+      toast.warning(
         "Ad Soyad: minimum 3 hərf olmalıdır, rəqəm və icazəsiz simvol olmaz.",
       );
+      return;
+    }
 
-    if (!isValidGmail(email))
-      return alert(
+    if (!isValidGmail(email)) {
+      toast.warning(
         "Email yalnız Gmail formatında olmalıdır (example@gmail.com).",
       );
+      return;
+    }
 
-    if (!form.departmentId) return alert("Şöbə seçilməlidir.");
-    if (!form.roleId) return alert("Vəzifə seçilməlidir.");
+    if (!form.departmentId) {
+      toast.warning("Şöbə seçilməlidir.");
+      return;
+    }
 
-    if (!form.hireDate || !isValidISODate(form.hireDate))
-      return alert(
+    if (!form.roleId) {
+      toast.warning("Vəzifə seçilməlidir.");
+      return;
+    }
+
+    if (!form.hireDate || !isValidISODate(form.hireDate)) {
+      toast.warning(
         "Tarix düzgün deyil. Format: YYYY-MM-DD və real tarix olmalıdır.",
       );
+      return;
+    }
 
     const base = Number(form.salaryBase);
-    if (!Number.isFinite(base) || base <= 0)
-      return alert("Əmək haqqı (base) 0 ola bilməz. Minimum 1 yazın.");
+    if (!Number.isFinite(base) || base <= 0) {
+      toast.warning("Əmək haqqı (base) 0 ola bilməz. Minimum 1 yazın.");
+      return;
+    }
 
     const bonus = Number(form.salaryBonus || 0);
-    if (!Number.isFinite(bonus) || bonus < 0)
-      return alert("Bonus mənfi ola bilməz.");
+    if (!Number.isFinite(bonus) || bonus < 0) {
+      toast.warning("Bonus mənfi ola bilməz.");
+      return;
+    }
 
     setSaving(true);
     try {
       if (editId != null && activeEmployee) {
-        ensureCanEdit(activeEmployee);
+        // ✅ Edit guard
+        const chk = canEditEmployee(activeEmployee, permissions);
+        if (!chk.ok) {
+          toast.warning(guardMessage(chk.reason));
+          return;
+        }
 
         const payload = toApiPayload(form, activeEmployee);
         await apiPut(`/employees/${editId}`, { ...payload, id: editId });
@@ -336,6 +318,8 @@ export default function EmployeesPage() {
           entityId: String(editId),
           meta: { fullName: payload.fullName },
         });
+
+        toast.success("Əməkdaş məlumatı yeniləndi");
       } else {
         const payload = toApiPayload(form);
 
@@ -351,6 +335,8 @@ export default function EmployeesPage() {
           entityId: String(created.id),
           meta: { fullName: created.fullName },
         });
+
+        toast.success("Yeni əməkdaş yaradıldı");
       }
 
       await refresh();
@@ -360,18 +346,26 @@ export default function EmployeesPage() {
       setActiveEmployee(null);
     } catch (err) {
       console.error(err);
-      alert("Server xətası oldu. Console-a bax (F12 -> Console).");
+      toast.error("Server xətası oldu. Zəhmət olmasa yenidən yoxlayın.");
     } finally {
       setSaving(false);
     }
   }
 
-  async function remove() {
+  function askRemove() {
     if (!activeEmployee) return;
 
-    ensureCanDelete(activeEmployee);
+    const chk = canDeleteEmployee(activeEmployee, permissions);
+    if (!chk.ok) {
+      toast.warning(guardMessage(chk.reason));
+      return;
+    }
 
-    if (!confirm("Bu əməkdaşı silmək istəyirsiniz?")) return;
+    setConfirmOpen(true);
+  }
+
+  async function confirmRemove() {
+    if (!activeEmployee) return;
 
     setSaving(true);
     try {
@@ -385,20 +379,23 @@ export default function EmployeesPage() {
         meta: { fullName: activeEmployee.fullName },
       });
 
+      toast.success("Əməkdaş silindi");
+
       await refresh();
 
       setFormOpen(false);
       setEditId(null);
       setActiveEmployee(null);
+      setConfirmOpen(false);
     } catch (err) {
       console.error(err);
-      alert("Silinmə zamanı xəta baş verdi.");
+      toast.error("Server xətası oldu. Zəhmət olmasa yenidən yoxlayın.");
     } finally {
       setSaving(false);
     }
   }
 
-  const canCreate = permissions.canCreateEmployee;
+  const canCreate = canCreateEmployee(permissions);
 
   return (
     <div className="space-y-4">
@@ -446,11 +443,8 @@ export default function EmployeesPage() {
           setActiveEmployee(null);
         }}
         onEdit={async (id) => {
-          try {
-            setViewOpen(false);
-            await openEdit(id);
-          } catch {
-          }
+          setViewOpen(false);
+          await openEdit(id);
         }}
       />
 
@@ -470,7 +464,23 @@ export default function EmployeesPage() {
           setActiveEmployee(null);
         }}
         onSubmit={submit}
-        onDelete={remove}
+        onDelete={askRemove}
+      />
+
+      <ConfirmModal
+        open={confirmOpen}
+        title="Əməkdaşı sil"
+        description={
+          activeEmployee
+            ? `"${activeEmployee.fullName}" adlı əməkdaşı silmək istəyirsiniz? Bu əməliyyat geri qaytarılmaya bilər.`
+            : "Bu əməliyyatı təsdiqləyirsiniz?"
+        }
+        confirmText="Sil"
+        cancelText="Ləğv et"
+        loading={saving}
+        danger
+        onClose={() => setConfirmOpen(false)}
+        onConfirm={confirmRemove}
       />
     </div>
   );

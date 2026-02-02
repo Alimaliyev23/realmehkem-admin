@@ -1,19 +1,25 @@
 import React from "react";
 
-type InputProps = React.InputHTMLAttributes<HTMLInputElement> & {
+type Option = { label: string; value: string };
+
+type SelectProps = React.SelectHTMLAttributes<HTMLSelectElement> & {
   label?: string;
   error?: string;
   helperText?: string;
+  options: Option[];
+  placeholder?: string; // default option
 };
 
-export function Input({
+export function Select({
   label,
   error,
   helperText,
+  options,
+  placeholder = "— seç —",
   className = "",
   ...props
-}: InputProps) {
-  const inputCls =
+}: SelectProps) {
+  const selectCls =
     "h-10 w-full rounded-lg border bg-white px-3 text-sm text-gray-900 " +
     "border-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-200 " +
     "dark:border-white/10 dark:bg-white/5 dark:text-slate-100 dark:focus:ring-white/10";
@@ -22,7 +28,15 @@ export function Input({
 
   const body = (
     <>
-      <input {...props} className={`${inputCls} ${errorCls} ${className}`} />
+      <select {...props} className={`${selectCls} ${errorCls} ${className}`}>
+        <option value="">{placeholder}</option>
+        {options.map((o) => (
+          <option key={o.value} value={o.value}>
+            {o.label}
+          </option>
+        ))}
+      </select>
+
       {error ? (
         <div className="text-xs text-red-500">{error}</div>
       ) : helperText ? (
