@@ -1,4 +1,4 @@
-import React from "react";
+
 
 export function Loader({ text = "Yüklənir…" }: { text?: string }) {
   return (
