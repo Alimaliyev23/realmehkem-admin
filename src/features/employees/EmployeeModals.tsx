@@ -38,24 +38,6 @@ function Modal({
   );
 }
 
-function Field({
-  label,
-  children,
-  error,
-}: {
-  label: string;
-  children: React.ReactNode;
-  error?: string;
-}) {
-  return (
-    <label className="grid gap-1">
-      <span className="text-xs text-gray-600 dark:text-slate-400">{label}</span>
-      {children}
-      {error ? <div className="text-xs text-red-500">{error}</div> : null}
-    </label>
-  );
-}
-
 export function EmployeeViewModal({
   open,
   employee,

@@ -37,3 +37,6 @@ select option {
   background-color: #0f172a;
   color: #e5e7eb;
 }
+.Toastify__toast-container {
+  z-index: 9999;
+}
