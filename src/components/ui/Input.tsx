@@ -1,5 +1,3 @@
-import type React from "react";
-
 type InputProps = React.InputHTMLAttributes<HTMLInputElement> & {
   label?: string;
   error?: string;

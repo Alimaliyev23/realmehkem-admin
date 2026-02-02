@@ -1,4 +1,4 @@
-import type React from "react";
+
 
 type ButtonVariant = "primary" | "secondary" | "danger" | "ghost";
 
