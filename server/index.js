@@ -25,6 +25,30 @@ try {
   );
   seed = {};
 }
+function validateDb(db) {
+  const problems = [];
+
+  for (const [key, value] of Object.entries(db)) {
+    if (!Array.isArray(value)) continue;
+
+    value.forEach((item, idx) => {
+      if (item == null || typeof item !== "object" || Array.isArray(item)) {
+        problems.push(`${key}[${idx}] -> NOT an object`);
+        return;
+      }
+      if (item.id == null) {
+        problems.push(`${key}[${idx}] -> id is null/missing`);
+      }
+    });
+  }
+
+  if (problems.length) {
+    console.warn("❌ DB validation problems:");
+    problems.forEach((p) => console.warn("  -", p));
+  } else {
+    console.log("✅ DB validation OK");
+  }
+}
 
 // In-memory DB (FAYLA YAZMIR!)
 const router = jsonServer.router(seed);
