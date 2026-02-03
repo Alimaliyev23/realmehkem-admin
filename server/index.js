@@ -58,6 +58,28 @@ function validateDb(db) {
 
 validateDb(seed);
 
+function sanitizeDb(db) {
+  for (const [key, value] of Object.entries(db)) {
+    if (!Array.isArray(value)) continue;
+
+    db[key] = value.filter((item) => {
+      // array/null/obyekt olmayan elementləri at
+      if (item == null || typeof item !== "object" || Array.isArray(item)) {
+        console.warn(`[SANITIZE] Removed non-object item from ${key}`);
+        return false;
+      }
+      // id null olanları at
+      if (item.id == null) {
+        console.warn(`[SANITIZE] Removed item with null id from ${key}`);
+        return false;
+      }
+      return true;
+    });
+  }
+}
+
+sanitizeDb(seed);
+
 /* =========================
    🚧 JSON-SERVER ROUTER
    ========================= */
