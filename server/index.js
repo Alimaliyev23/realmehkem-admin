@@ -7,11 +7,11 @@ import { fileURLToPath } from "url";
 const app = jsonServer.create();
 const middlewares = jsonServer.defaults();
 
-// __dirname ekvivalenti (ESM üçün)
+// __dirname (ESM üçün)
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Seed data: repo-dakı server/db.json-dan yalnız startda oxuyuruq
+// Seed data (yalnız startda oxunur)
 const seedPath = path.resolve(__dirname, "db.json");
 
 let seed = {};
@@ -25,6 +25,10 @@ try {
   );
   seed = {};
 }
+
+/* =========================
+   🔎 DB VALIDATION
+   ========================= */
 function validateDb(db) {
   const problems = [];
 
@@ -50,29 +54,68 @@ function validateDb(db) {
   }
 }
 
-// In-memory DB (FAYLA YAZMIR!)
+validateDb(seed);
+
+/* =========================
+   🚧 JSON-SERVER ROUTER
+   ========================= */
 const router = jsonServer.router(seed);
 
-// Render üçün port
+// Port
 const PORT = process.env.PORT || 3001;
 
-// Middlewares
+// Default middlewares
 app.use(middlewares);
 app.use(jsonServer.bodyParser);
 
-// (istəyə görə) sadə healthcheck
+/* =========================
+   🛡️ ID PROTECTION MIDDLEWARE
+   =========================
+   - id: null gəlməsinin qarşısını alır
+   - PUT /resource/:id → body.id = params.id
+*/
+app.use((req, _res, next) => {
+  const method = req.method.toUpperCase();
+
+  if (
+    (method === "POST" || method === "PUT" || method === "PATCH") &&
+    req.body &&
+    typeof req.body === "object"
+  ) {
+    // id null/undefined-dirsə sil
+    if (req.body.id == null) {
+      delete req.body.id;
+    }
+
+    // PUT /resource/:id üçün id-ni URL-dən məcburi götür
+    const match = req.path.match(/^\/([^/]+)\/([^/]+)$/);
+    if (method === "PUT" && match) {
+      req.body.id = String(match[2]);
+    }
+  }
+
+  next();
+});
+
+/* =========================
+   ❤️ HEALTHCHECK
+   ========================= */
 app.get("/", (_req, res) => {
   res.json({
     ok: true,
     mode: "in-memory",
-    note: "Restart olanda data sifirlanir",
+    note: "Restart olanda data sıfırlanır",
   });
 });
 
-// Router
+/* =========================
+   🚀 ROUTER
+   ========================= */
 app.use(router);
 
-// Start
+/* =========================
+   ▶️ START
+   ========================= */
 app.listen(PORT, "0.0.0.0", () => {
   console.log(`✅ In-memory json-server running on port ${PORT}`);
 });
