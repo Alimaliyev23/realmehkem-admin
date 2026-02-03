@@ -36,10 +36,12 @@ function validateDb(db) {
     if (!Array.isArray(value)) continue;
 
     value.forEach((item, idx) => {
+      // element mütləq obyekt olmalıdır (array/null olmamalıdır)
       if (item == null || typeof item !== "object" || Array.isArray(item)) {
         problems.push(`${key}[${idx}] -> NOT an object`);
         return;
       }
+      // hər obyektin id-si olmalıdır
       if (item.id == null) {
         problems.push(`${key}[${idx}] -> id is null/missing`);
       }
@@ -69,10 +71,11 @@ app.use(middlewares);
 app.use(jsonServer.bodyParser);
 
 /* =========================
-   🛡️ ID PROTECTION MIDDLEWARE
+   🛡️ ID PROTECTION
    =========================
-   - id: null gəlməsinin qarşısını alır
-   - PUT /resource/:id → body.id = params.id
+   - POST/PUT/PATCH zamanı id:null gəlirsə silir
+   - PUT /resource/:id zamanı body.id-ni URL-dən məcburi götürür
+   Bu, lodash-id null.toString() xətasını kəsir.
 */
 app.use((req, _res, next) => {
   const method = req.method.toUpperCase();
@@ -82,12 +85,12 @@ app.use((req, _res, next) => {
     req.body &&
     typeof req.body === "object"
   ) {
-    // id null/undefined-dirsə sil
+    // id null/undefined isə sil (json-server id-ni korlamasın)
     if (req.body.id == null) {
       delete req.body.id;
     }
 
-    // PUT /resource/:id üçün id-ni URL-dən məcburi götür
+    // PUT /resource/:id üçün id-ni URL-dən götür
     const match = req.path.match(/^\/([^/]+)\/([^/]+)$/);
     if (method === "PUT" && match) {
       req.body.id = String(match[2]);
