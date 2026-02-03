@@ -11,16 +11,14 @@
       "fullName": "Super Admin",
       "email": "admin@demo.az",
       "password": "admin123",
-      "role": "admin",
-      "storeId": null
+      "role": "admin"
     },
     {
       "id": "2",
       "fullName": "HR User",
       "email": "hr@demo.az",
       "password": "hr123",
-      "role": "hr",
-      "storeId": null
+      "role": "hr"
     },
     {
       "id": "3",
@@ -210,7 +208,7 @@
       "email": "lale.qehremanova@gmail.com",
       "phone": "+994501010101",
       "departmentId": 2,
-      "storeId": null,
+
       "roleId": 6,
       "managerId": 1,
       "status": "active",
@@ -228,7 +226,7 @@
       "email": "orxan.rzayev@gmail.com",
       "phone": "+994503333222",
       "departmentId": 3,
-      "storeId": null,
+
       "roleId": 9,
       "managerId": 1,
       "status": "active",
@@ -390,7 +388,7 @@
       "email": "ilkin.mammadov2@gmail.com",
       "phone": "+994503171717",
       "departmentId": 2,
-      "storeId": null,
+
       "roleId": 8,
       "managerId": 1,
       "status": "active",
@@ -408,7 +406,7 @@
       "email": "zehra.aliyeva@gmail.com",
       "phone": "+994505181818",
       "departmentId": 2,
-      "storeId": null,
+
       "roleId": 6,
       "managerId": 1,
       "status": "active",
@@ -426,7 +424,7 @@
       "email": "kamal.aliyev@gmail.com",
       "phone": "+994507191919",
       "departmentId": 2,
-      "storeId": null,
+
       "roleId": 7,
       "managerId": 1,
       "status": "active",
@@ -444,7 +442,7 @@
       "email": "nihad.abdullayev@gmail.com",
       "phone": "+994501202020",
       "departmentId": 3,
-      "storeId": null,
+
       "roleId": 10,
       "managerId": 1,
       "status": "active",
@@ -462,7 +460,7 @@
       "email": "leyla.frontend@gmail.com",
       "phone": "+994507212121",
       "departmentId": 3,
-      "storeId": null,
+
       "roleId": 9,
       "managerId": 1,
       "status": "active",
@@ -480,7 +478,7 @@
       "email": "samir.dev@gmail.com",
       "phone": "+994505222222",
       "departmentId": 3,
-      "storeId": null,
+
       "roleId": 9,
       "managerId": 1,
       "status": "on_leave",
@@ -498,7 +496,7 @@
       "email": "medine.hr@gmail.com",
       "phone": "+994507232323",
       "departmentId": 4,
-      "storeId": null,
+
       "roleId": 11,
       "managerId": 8,
       "status": "active",
@@ -516,7 +514,7 @@
       "email": "vusal.hrmanager@gmail.com",
       "phone": "+994501242424",
       "departmentId": 4,
-      "storeId": null,
+
       "roleId": 12,
       "managerId": 1,
       "status": "active",
@@ -551,7 +549,7 @@
       "email": "alimaliyev0@gmail.com",
       "phone": "0773199387",
       "departmentId": 1,
-      "storeId": null,
+
       "roleId": 1,
       "managerId": null,
       "status": "active",
@@ -569,7 +567,7 @@
       "email": "alishabanov@gmail.com",
       "phone": "0555555555",
       "departmentId": 3,
-      "storeId": null,
+
       "roleId": 9,
       "managerId": null,
       "status": "active",
@@ -588,7 +586,7 @@
       "email": "mirmahammadseyidzade@gmail.com",
       "phone": "+9940506756525",
       "departmentId": 4,
-      "storeId": null,
+
       "roleId": 11,
       "managerId": null,
       "status": "active",
@@ -606,7 +604,7 @@
       "email": "sevda.mammadli@gmail.com",
       "phone": "+994505262626",
       "departmentId": 4,
-      "storeId": null,
+
       "roleId": 12,
       "managerId": 1,
       "status": "active",
@@ -634,7 +632,7 @@
       "email": "ayten.qasimova@gmail.com",
       "phone": "+994557282828",
       "departmentId": 2,
-      "storeId": null,
+
       "roleId": 6,
       "managerId": 1,
       "status": "active",
@@ -648,7 +646,7 @@
       "email": "elvin.aliyev.dev@gmail.com",
       "phone": "+994505292929",
       "departmentId": 3,
-      "storeId": null,
+
       "roleId": 9,
       "managerId": 1,
       "status": "active",
@@ -690,7 +688,7 @@
       "email": "gunay.haciyeva@gmail.com",
       "phone": "+994505323232",
       "departmentId": 4,
-      "storeId": null,
+
       "roleId": 11,
       "managerId": 8,
       "status": "active",
@@ -704,7 +702,7 @@
       "email": "fergane.rzayeva@gmail.com",
       "phone": "+994505333333",
       "departmentId": 2,
-      "storeId": null,
+
       "roleId": 8,
       "managerId": 1,
       "status": "active",
@@ -718,7 +716,7 @@
       "email": "terlan.mammadov@gmail.com",
       "phone": "+994505343434",
       "departmentId": 3,
-      "storeId": null,
+
       "roleId": 10,
       "managerId": 1,
       "status": "active",
