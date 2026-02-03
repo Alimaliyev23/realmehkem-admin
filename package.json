@@ -13,6 +13,9 @@
     "dev:all": "concurrently -k -n API,WEB -c yellow,cyan \"npm run api\" \"npm run client\"",
     "client": "vite --port 5173 --open"
   },
+  "engines": {
+    "node": "20.x"
+  },
   "dependencies": {
     "@tanstack/react-table": "^8.21.3",
     "lucide-react": "^0.563.0",
