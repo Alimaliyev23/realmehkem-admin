@@ -309,7 +309,7 @@ export default function EmployeesPage() {
         }
 
         const payload = toApiPayload(form, activeEmployee);
-        await apiPut(`/employees/${editId}`, { ...payload, id: editId });
+        await apiPut(`/employees/${editId}`, payload);
 
         await writeAudit({
           actorId: user?.id ?? 0,
