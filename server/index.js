@@ -58,17 +58,20 @@ function validateDb(db) {
 
 validateDb(seed);
 
+/* =========================
+   🧼 SANITIZE SEED
+   - array/null/obyekt olmayan elementləri atır
+   - id null olanları atır
+   ========================= */
 function sanitizeDb(db) {
   for (const [key, value] of Object.entries(db)) {
     if (!Array.isArray(value)) continue;
 
     db[key] = value.filter((item) => {
-      // array/null/obyekt olmayan elementləri at
       if (item == null || typeof item !== "object" || Array.isArray(item)) {
         console.warn(`[SANITIZE] Removed non-object item from ${key}`);
         return false;
       }
-      // id null olanları at
       if (item.id == null) {
         console.warn(`[SANITIZE] Removed item with null id from ${key}`);
         return false;
@@ -78,7 +81,30 @@ function sanitizeDb(db) {
   }
 }
 
+/* =========================
+   🧹 REMOVE null FOREIGN KEYS
+   - json-server delete zamanı relation check edərkən
+     getById(null) çağırıb 500 verə bilir.
+   - Ona görə seed-dəki "*Id: null" sahələrini silirik.
+   ========================= */
+function stripNullForeignKeys(db) {
+  for (const [key, value] of Object.entries(db)) {
+    if (!Array.isArray(value)) continue;
+
+    value.forEach((doc) => {
+      if (!doc || typeof doc !== "object" || Array.isArray(doc)) return;
+
+      for (const [k, v] of Object.entries(doc)) {
+        if (k.endsWith("Id") && v === null) {
+          delete doc[k];
+        }
+      }
+    });
+  }
+}
+
 sanitizeDb(seed);
+stripNullForeignKeys(seed);
 
 /* =========================
    🚧 JSON-SERVER ROUTER
@@ -93,12 +119,11 @@ app.use(middlewares);
 app.use(jsonServer.bodyParser);
 
 /* =========================
-   🛡️ ID PROTECTION
-   =========================
+   🛡️ ID + FK PROTECTION
    - POST/PUT/PATCH zamanı id:null gəlirsə silir
+   - foreign key-lərdə (*Id) null gəlirsə silir (DB-yə yazdırmır)
    - PUT /resource/:id zamanı body.id-ni URL-dən məcburi götürür
-   Bu, lodash-id null.toString() xətasını kəsir.
-*/
+   ========================= */
 app.use((req, _res, next) => {
   const method = req.method.toUpperCase();
 
@@ -107,9 +132,16 @@ app.use((req, _res, next) => {
     req.body &&
     typeof req.body === "object"
   ) {
-    // id null/undefined isə sil (json-server id-ni korlamasın)
+    // id null/undefined isə sil
     if (req.body.id == null) {
       delete req.body.id;
+    }
+
+    // ✅ foreign key null-ları sil (storeId, managerId, departmentId və s.)
+    for (const [k, v] of Object.entries(req.body)) {
+      if (k.endsWith("Id") && v == null) {
+        delete req.body[k];
+      }
     }
 
     // PUT /resource/:id üçün id-ni URL-dən götür
