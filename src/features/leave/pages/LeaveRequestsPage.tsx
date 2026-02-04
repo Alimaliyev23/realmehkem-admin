@@ -189,11 +189,12 @@ export default function LeaveRequestsPage() {
 
   async function submit() {
     if (!user) return;
-
+    console.log("FORM", form);
     const payload = toApiPayload({
       ...form,
       status: isApprover ? form.status : "pending",
     });
+    console.log("PAYLOAD", payload);
 
     setSaving(true);
     try {
