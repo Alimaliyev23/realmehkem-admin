@@ -14,6 +14,11 @@ export const actionLabels: Record<string, string> = {
   "leaveRequest.approve": "Məzuniyyət sorğusu təsdiqləndi",
   "leaveRequest.reject": "Məzuniyyət sorğusu rədd edildi",
 
+  "leave.create": "Məzuniyyət sorğusu yaradıldı",
+  "leave.update": "Məzuniyyət sorğusu yeniləndi",
+  "leave.delete": "Məzuniyyət sorğusu silindi",
+  "leave.status": "Məzuniyyət statusu dəyişdi",
+
   "payroll.create": "Əməkhaqqı qeydiyyatı yaradıldı",
   "payroll.update": "Əməkhaqqı qeydiyyatı yeniləndi",
   "payroll.delete": "Əməkhaqqı qeydiyyatı silindi",

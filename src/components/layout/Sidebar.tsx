@@ -29,6 +29,13 @@ function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {
         <NavLink to="/announcements" className={linkClass} onClick={onNavigate}>
           Announcements
         </NavLink>
+        <NavLink
+          to="/leave-requests"
+          className={linkClass}
+          onClick={onNavigate}
+        >
+          Leave Requests
+        </NavLink>
       </nav>
     </>
   );

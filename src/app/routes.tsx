@@ -9,6 +9,7 @@ import DashboardPage from "../features/dashboard/pages/DashboardPage";
 import EmployeesPage from "../features/employees/pages/EmployeesPage";
 import AuditLogsPage from "../features/audit/pages/AuditLogsPage";
 import AnnouncementsPage from "../features/announcements/pages/AnnouncementsPage";
+import LeaveRequestsPage from "../features/leave/pages/LeaveRequestsPage";
 
 const routes: RouteObject[] = [
   {
@@ -38,6 +39,7 @@ const routes: RouteObject[] = [
       },
       { path: "audit-logs", element: <AuditLogsPage /> },
       { path: "announcements", element: <AnnouncementsPage /> },
+      { path: "leave-requests", element: <LeaveRequestsPage /> },
     ],
   },
 
