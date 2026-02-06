@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 
 import { DataTable, type ColumnDef } from "../../../components/ui/DataTable";
 import { ConfirmModal } from "../../../components/ui/ConfirmModal";
+import { exportToExcel } from "../../../lib/exportExcel";
 
 import type { EmployeeApi, EmployeeRow } from "../types";
 import { useEmployeesData } from "../useEmployeesData";
@@ -17,7 +18,6 @@ import {
 import { useAuth } from "../../auth/AuthContext";
 import { apiGet, apiPost, apiPut, apiDelete } from "../../../lib/api";
 
-// ✅ Guards
 import {
   canCreateEmployee,
   canEditEmployee,
@@ -241,12 +241,11 @@ export default function EmployeesPage() {
       roleOptions,
       statusOptions,
       permissions.canEditEmployee,
-      permissions, // guards üçün
+      permissions,
     ],
   );
 
   async function submit() {
-    // ✅ Create guard
     if (editId == null && !canCreateEmployee(permissions)) {
       toast.warning("Yeni əməkdaş əlavə etməyə icazən yoxdur.");
       return;
@@ -402,19 +401,77 @@ export default function EmployeesPage() {
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <h2 className="text-2xl font-semibold">Employees</h2>
 
-        {canCreate && (
-          <button
-            onClick={() => {
-              setFormOpen(true);
-              setEditId(null);
-              setActiveEmployee(null);
-              setForm(toFormState());
-            }}
-            className="w-full sm:w-auto rounded-lg bg-gray-900 px-4 py-2 text-sm text-white hover:bg-gray-800"
-          >
-            Yeni əməkdaş
-          </button>
-        )}
+        <div className="flex gap-2">
+          {/* Export – yalnız Admin / HR */}
+          {(user?.role === "admin" || user?.role === "hr") && (
+            <button
+              onClick={async () => {
+                try {
+                  const all = await apiGet<EmployeeApi[]>("/employees");
+                  const limit = permissions.limitToStoreId;
+                  const data = limit
+                    ? all.filter(
+                        (e) => String(e.storeId ?? "") === String(limit),
+                      )
+                    : all;
+
+                  exportToExcel(data, "employees", "Employees", [
+                    { header: "Ad Soyad", value: (e) => e.fullName, width: 24 },
+                    { header: "Email", value: (e) => e.email ?? "", width: 28 },
+                    {
+                      header: "Telefon",
+                      value: (e) => e.phone ?? "",
+                      width: 16,
+                    },
+                    {
+                      header: "Filial ID",
+                      value: (e) => String(e.storeId ?? ""),
+                      width: 10,
+                    },
+                    {
+                      header: "Şöbə ID",
+                      value: (e) => String(e.departmentId ?? ""),
+                      width: 10,
+                    },
+                    {
+                      header: "Vəzifə",
+                      value: (e) =>
+                        roles.find((r) => String(r.id) === String(e.roleId))
+                          ?.name ?? String(e.roleId ?? ""),
+                      width: 18,
+                    },
+                    { header: "Status", value: (e) => e.status, width: 12 },
+                    {
+                      header: "İşə qəbul tarixi",
+                      value: (e) => e.hireDate ?? "",
+                      width: 14,
+                    },
+                  ]);
+                } catch (err) {
+                  console.error(err);
+                  toast.error("Export alınmadı. Server cavab vermədi.");
+                }
+              }}
+              className="rounded-lg border border-gray-300 px-4 py-2 text-sm hover:bg-gray-50 dark:border-white/20 dark:hover:bg-white/10"
+            >
+              Export (Excel)
+            </button>
+          )}
+
+          {canCreate && (
+            <button
+              onClick={() => {
+                setFormOpen(true);
+                setEditId(null);
+                setActiveEmployee(null);
+                setForm(toFormState());
+              }}
+              className="w-full sm:w-auto rounded-lg bg-gray-900 px-4 py-2 text-sm text-white hover:bg-gray-800"
+            >
+              Yeni əməkdaş
+            </button>
+          )}
+        </div>
       </div>
 
       <DataTable<EmployeeRow>

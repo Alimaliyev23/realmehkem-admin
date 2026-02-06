@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import { DataTable, type ColumnDef } from "../../../components/ui/DataTable";
 import { ConfirmModal } from "../../../components/ui/ConfirmModal";
 import { Button } from "../../../components/ui/Button";
+import { exportToExcel } from "../../../lib/exportExcel";
 
 import type { EmployeeApi } from "../../employees/types";
 import type {
@@ -389,7 +390,34 @@ export default function LeaveRequestsPage() {
           </div>
         </div>
 
-        <Button onClick={openCreate}>Yeni sorğu</Button>
+        <div className="flex gap-2">
+          {/* Export düyməsi - yalnız HR/Admin görsün */}
+          {isApprover && (
+            <Button
+              variant="outline"
+              onClick={() => {
+                exportToExcel(rows, "leave-requests", "Leave Requests", [
+                  {
+                    header: "Əməkdaş",
+                    value: (r) => r.employeeName,
+                    width: 24,
+                  },
+                  { header: "Filial", value: (r) => r.storeName, width: 16 },
+                  { header: "Tip", value: (r) => r.type, width: 14 },
+                  { header: "Başlanğıc", value: (r) => r.startDate, width: 12 },
+                  { header: "Bitmə", value: (r) => r.endDate, width: 12 },
+                  { header: "Gün", value: (r) => r.days, width: 6 },
+                  { header: "Status", value: (r) => r.status, width: 12 },
+                  { header: "Qeyd", value: (r) => r.note ?? "", width: 28 },
+                ]);
+              }}
+            >
+              Export (Excel)
+            </Button>
+          )}
+
+          <Button onClick={openCreate}>Yeni sorğu</Button>
+        </div>
       </div>
 
       <DataTable

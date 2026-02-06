@@ -1,5 +1,3 @@
-
-
 export function Loader({ text = "Yüklənir…" }: { text?: string }) {
   return (
     <div className="inline-flex items-center gap-2 text-sm text-gray-600 dark:text-slate-300">

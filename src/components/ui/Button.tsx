@@ -1,6 +1,4 @@
-
-
-type ButtonVariant = "primary" | "secondary" | "danger" | "ghost";
+type ButtonVariant = "primary" | "secondary" | "danger" | "ghost" | "outline";
 
 type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   variant?: ButtonVariant;
@@ -21,6 +19,9 @@ const variants: Record<ButtonVariant, string> = {
   danger: "bg-red-600 text-white hover:bg-red-700",
   ghost:
     "text-gray-700 hover:bg-gray-100 dark:text-slate-200 dark:hover:bg-white/10",
+  outline:
+    "border border-gray-300 bg-transparent text-gray-900 hover:bg-gray-50 " +
+    "dark:border-white/20 dark:text-white dark:hover:bg-white/10",
 };
 
 export function Button({
