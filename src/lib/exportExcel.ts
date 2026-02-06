@@ -5,7 +5,14 @@ export type ExcelColumn<T> = {
   value: (row: T) => any;
   width?: number;
 };
-
+function safeSheetName(name: string) {
+  return (
+    name
+      .replace(/[:\\\/\?\*\[\]]/g, " ")
+      .slice(0, 31)
+      .trim() || "Sheet1"
+  );
+}
 export function exportToExcel<T>(
   rows: T[],
   filename: string,
@@ -27,7 +34,7 @@ export function exportToExcel<T>(
   (ws as any)["!cols"] = widths;
 
   const wb = XLSX.utils.book_new();
-  XLSX.utils.book_append_sheet(wb, ws, sheetName);
+  XLSX.utils.book_append_sheet(wb, ws, safeSheetName(sheetName));
 
   const file = filename.endsWith(".xlsx") ? filename : `${filename}.xlsx`;
   XLSX.writeFile(wb, file);
