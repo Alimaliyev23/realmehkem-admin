@@ -139,7 +139,7 @@ export function LeaveFormModal({
   setForm: React.Dispatch<React.SetStateAction<LeaveFormState>>;
   saving: boolean;
 
-  canSetStatus: boolean; 
+  canSetStatus: boolean;
   showDelete?: boolean;
 
   onClose: () => void;
@@ -214,7 +214,9 @@ export function LeaveFormModal({
           label="Tip"
           value={form.type}
           options={typeOptions}
-          onChange={(v) => setForm((p) => ({ ...p, type: v as any }))}
+          onChange={(e) =>
+            setForm((p) => ({ ...p, type: e.target.value as any }))
+          }
         />
 
         <div className="grid gap-3 sm:grid-cols-2">
@@ -253,7 +255,9 @@ export function LeaveFormModal({
             label="Status (HR/Admin)"
             value={form.status}
             options={statusOptions}
-            onChange={(v) => setForm((p) => ({ ...p, status: v as any }))}
+            onChange={(e) =>
+              setForm((p) => ({ ...p, status: e.target.value as any }))
+            }
           />
         )}
 

@@ -1,13 +1,18 @@
-
+import React from "react";
 
 type Option = { label: string; value: string };
 
-type SelectProps = React.SelectHTMLAttributes<HTMLSelectElement> & {
+type SelectProps = Omit<
+  React.SelectHTMLAttributes<HTMLSelectElement>,
+  "onChange"
+> & {
   label?: string;
   error?: string;
   helperText?: string;
   options: Option[];
-  placeholder?: string; // default option
+  placeholder?: string;
+  onChange?: (e: React.ChangeEvent<HTMLSelectElement>) => void; // əvvəlki kimi qalır
+  onValueChange?: (value: string) => void; // ✅ yeni
 };
 
 export function Select({
@@ -17,6 +22,8 @@ export function Select({
   options,
   placeholder = "— seç —",
   className = "",
+  onChange,
+  onValueChange,
   ...props
 }: SelectProps) {
   const selectCls =
@@ -26,9 +33,18 @@ export function Select({
 
   const errorCls = error ? "border-red-500 focus:ring-red-200" : "";
 
+  const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    onChange?.(e); // köhnə istifadə edənlər üçün
+    onValueChange?.(e.target.value); // ✅ string qaytarır
+  };
+
   const body = (
     <>
-      <select {...props} className={`${selectCls} ${errorCls} ${className}`}>
+      <select
+        {...props}
+        onChange={handleChange}
+        className={`${selectCls} ${errorCls} ${className}`}
+      >
         <option value="">{placeholder}</option>
         {options.map((o) => (
           <option key={o.value} value={o.value}>
