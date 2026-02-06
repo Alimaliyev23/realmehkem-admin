@@ -1,5 +1,3 @@
-// src/features/leave/pages/LeaveRequestsPage.tsx
-
 import { useEffect, useMemo, useState } from "react";
 import { toast } from "react-toastify";
 
@@ -396,20 +394,65 @@ export default function LeaveRequestsPage() {
             <Button
               variant="outline"
               onClick={() => {
-                exportToExcel(rows, "leave-requests", "Leave Requests", [
-                  {
-                    header: "Əməkdaş",
-                    value: (r) => r.employeeName,
-                    width: 24,
-                  },
-                  { header: "Filial", value: (r) => r.storeName, width: 16 },
-                  { header: "Tip", value: (r) => r.type, width: 14 },
-                  { header: "Başlanğıc", value: (r) => r.startDate, width: 12 },
-                  { header: "Bitmə", value: (r) => r.endDate, width: 12 },
-                  { header: "Gün", value: (r) => r.days, width: 6 },
-                  { header: "Status", value: (r) => r.status, width: 12 },
-                  { header: "Qeyd", value: (r) => r.note ?? "", width: 28 },
-                ]);
+                const statusAz = (s: LeaveStatus) =>
+                  s === "pending"
+                    ? "Gözləmədə"
+                    : s === "approved"
+                      ? "Təsdiqlənib"
+                      : "Rədd edilib";
+
+                const typeAz = (t: LeaveType) =>
+                  t === "annual"
+                    ? "İllik"
+                    : t === "sick"
+                      ? "Xəstəlik"
+                      : t === "unpaid"
+                        ? "Ödənişsiz"
+                        : t === "business"
+                          ? "Ezamiyyət"
+                          : "Digər";
+
+                exportToExcel(
+                  rows,
+                  "mezuniyyet-icazeler",
+                  "Məzuniyyət / İcazələr",
+                  [
+                    {
+                      header: "Əməkdaş",
+                      value: (r) => r.employeeName,
+                      width: 24,
+                    },
+                    {
+                      header: "Filial",
+                      value: (r) => r.storeName ?? "—",
+                      width: 18,
+                    },
+                    { header: "Tip", value: (r) => typeAz(r.type), width: 14 },
+                    {
+                      header: "Başlanğıc",
+                      value: (r) => r.startDate,
+                      width: 12,
+                    },
+                    { header: "Bitmə", value: (r) => r.endDate, width: 12 },
+                    {
+                      header: "Gün",
+                      value: (r) => String(r.days ?? ""),
+                      width: 6,
+                    },
+                    {
+                      header: "Status",
+                      value: (r) => statusAz(r.status),
+                      width: 14,
+                    },
+                    {
+                      header: "Qeyd",
+                      value: (r) => (r.note?.trim() ? r.note : "—"),
+                      width: 28,
+                    },
+                  ],
+                );
+
+                toast.success("Excel export hazırdır");
               }}
             >
               Export (Excel)

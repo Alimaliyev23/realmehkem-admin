@@ -408,6 +408,7 @@ export default function EmployeesPage() {
               onClick={async () => {
                 try {
                   const all = await apiGet<EmployeeApi[]>("/employees");
+
                   const limit = permissions.limitToStoreId;
                   const data = limit
                     ? all.filter(
@@ -415,7 +416,25 @@ export default function EmployeesPage() {
                       )
                     : all;
 
-                  exportToExcel(data, "employees", "Employees", [
+                  // ✅ ID -> Name map-lər
+                  const storeNameById = new Map(
+                    stores.map((s) => [String(s.id), s.name]),
+                  );
+                  const deptNameById = new Map(
+                    departments.map((d) => [String(d.id), d.name]),
+                  );
+                  const roleNameById = new Map(
+                    roles.map((r) => [String(r.id), r.name]),
+                  );
+
+                  const statusAz = (s: EmployeeApi["status"]) =>
+                    s === "active"
+                      ? "Aktiv"
+                      : s === "on_leave"
+                        ? "Məzuniyyətdə"
+                        : "Xitam";
+
+                  exportToExcel(data, "employees", "Əməkdaşlar", [
                     { header: "Ad Soyad", value: (e) => e.fullName, width: 24 },
                     { header: "Email", value: (e) => e.email ?? "", width: 28 },
                     {
@@ -423,30 +442,40 @@ export default function EmployeesPage() {
                       value: (e) => e.phone ?? "",
                       width: 16,
                     },
+
                     {
-                      header: "Filial ID",
-                      value: (e) => String(e.storeId ?? ""),
-                      width: 10,
+                      header: "Filial",
+                      value: (e) =>
+                        e.storeId != null
+                          ? (storeNameById.get(String(e.storeId)) ?? "—")
+                          : "—",
+                      width: 18,
                     },
                     {
-                      header: "Şöbə ID",
-                      value: (e) => String(e.departmentId ?? ""),
-                      width: 10,
+                      header: "Şöbə",
+                      value: (e) =>
+                        deptNameById.get(String(e.departmentId)) ?? "—",
+                      width: 18,
                     },
                     {
                       header: "Vəzifə",
-                      value: (e) =>
-                        roles.find((r) => String(r.id) === String(e.roleId))
-                          ?.name ?? String(e.roleId ?? ""),
+                      value: (e) => roleNameById.get(String(e.roleId)) ?? "—",
                       width: 18,
                     },
-                    { header: "Status", value: (e) => e.status, width: 12 },
+
+                    {
+                      header: "Status",
+                      value: (e) => statusAz(e.status),
+                      width: 14,
+                    },
                     {
                       header: "İşə qəbul tarixi",
                       value: (e) => e.hireDate ?? "",
                       width: 14,
                     },
                   ]);
+
+                  toast.success("Excel export hazırdır");
                 } catch (err) {
                   console.error(err);
                   toast.error("Export alınmadı. Server cavab vermədi.");

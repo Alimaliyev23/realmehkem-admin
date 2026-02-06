@@ -7,7 +7,7 @@ export type Salary = {
 };
 
 export type EmployeeApi = {
-  id: number; // ✅ json-server NUMBER qaytarır
+  id: number; 
   companyId: number;
   fullName: string;
   email: string;
@@ -17,7 +17,7 @@ export type EmployeeApi = {
   roleId: number;
   managerId: number | null;
   status: EmployeeStatus;
-  hireDate: string; // API-də hireDate gəlir
+  hireDate: string; 
   salary: Salary;
 };
 
