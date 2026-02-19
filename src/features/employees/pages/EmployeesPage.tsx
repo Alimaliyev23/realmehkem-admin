@@ -12,7 +12,6 @@ import { toFormState, type EmployeeFormState } from "../employeeForm";
 
 import { useAuth } from "../../auth/AuthContext";
 import { useEmployeeActions } from "../hooks/useEmployeeActions";
-
 import { canCreateEmployee } from "../../auth/guards";
 
 export default function EmployeesPage() {
@@ -60,53 +59,105 @@ export default function EmployeesPage() {
     setViewOpen,
   });
 
+  // Store limit (store_manager üçün)
   const visibleRows = useMemo(() => {
     const limit = permissions.limitToStoreId;
     if (!limit) return rows;
-    return rows.filter((r) => String((r as any).storeId ?? "") === limit);
+    return rows.filter(
+      (r) => String((r as any).storeId ?? "") === String(limit),
+    );
   }, [rows, permissions.limitToStoreId]);
 
   const columns: ColumnDef<EmployeeRow>[] = useMemo(
     () => [
-      { key: "fullName", header: "Ad Soyad" },
+      { key: "fullName", header: "Ad Soyad", enableColumnFilter: false },
+
       {
         key: "department",
         header: "Şöbə",
+        enableColumnFilter: true,
         filterVariant: "select",
         filterOptions: departmentOptions,
       },
-      { key: "storeName", header: "Filial", cell: (e) => e.storeName ?? "—" },
+
+      {
+        key: "storeName",
+        header: "Filial",
+        enableColumnFilter: false,
+        cell: (e) => e.storeName ?? "—",
+      },
+
       {
         key: "role",
         header: "Vəzifə",
+        enableColumnFilter: true,
         filterVariant: "select",
         filterOptions: roleOptions,
       },
+
       {
         key: "salary",
         header: "Əmək haqqı",
+        enableSorting: true,
+        enableColumnFilter: false,
         sortValue: (e) => e.salary?.base ?? 0,
         cell: (e) => `${e.salary.base.toLocaleString()} ${e.salary.currency}`,
       },
+
       {
         key: "hiredAt",
         header: "İşə qəbul",
+        enableSorting: true,
+        enableColumnFilter: false,
         sortValue: (e) => new Date(e.hiredAt).getTime(),
       },
+
       {
         key: "status",
         header: "Status",
+        enableColumnFilter: true,
         filterVariant: "select",
         filterOptions: statusOptions,
+        cell: (e) => (
+          <span
+            className={`inline-flex rounded px-2 py-1 text-xs ${
+              e.status === "active"
+                ? "bg-green-100 text-green-700"
+                : e.status === "on_leave"
+                  ? "bg-yellow-100 text-yellow-700"
+                  : "bg-red-100 text-red-700"
+            }`}
+          >
+            {e.status === "active"
+              ? "Aktiv"
+              : e.status === "on_leave"
+                ? "Məzuniyyətdə"
+                : "Xitam"}
+          </span>
+        ),
       },
+
       {
         key: "actions",
         header: "",
+        className: "w-[180px]",
+        enableColumnFilter: false,
         cell: (e) => (
           <div className="flex gap-2">
-            <button onClick={() => actions.openView(e.id)}>Bax</button>
+            <button
+              onClick={() => actions.openView(e.id)}
+              className="rounded border px-2 py-1 text-xs hover:bg-gray-50 dark:border-white/20 dark:hover:bg-white/10"
+            >
+              Bax
+            </button>
+
             {permissions.canEditEmployee && (
-              <button onClick={() => actions.openEdit(e.id)}>Redaktə</button>
+              <button
+                onClick={() => actions.openEdit(e.id)}
+                className="rounded border px-2 py-1 text-xs hover:bg-gray-50 dark:border-white/20 dark:hover:bg-white/10"
+              >
+                Redaktə
+              </button>
             )}
           </div>
         ),
@@ -125,16 +176,26 @@ export default function EmployeesPage() {
 
   return (
     <div className="space-y-4">
-      <div className="flex justify-between">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <h2 className="text-2xl font-semibold">Employees</h2>
 
         <div className="flex gap-2">
           {actions.canExport && (
-            <button onClick={actions.exportExcel}>Export</button>
+            <button
+              onClick={actions.exportExcel}
+              className="rounded-lg border border-gray-300 px-4 py-2 text-sm hover:bg-gray-50 dark:border-white/20 dark:hover:bg-white/10"
+            >
+              Export (Excel)
+            </button>
           )}
 
           {canCreate && (
-            <button onClick={actions.openCreate}>Yeni əməkdaş</button>
+            <button
+              onClick={actions.openCreate}
+              className="w-full sm:w-auto rounded-lg bg-gray-900 px-4 py-2 text-sm text-white hover:bg-gray-800"
+            >
+              Yeni əməkdaş
+            </button>
           )}
         </div>
       </div>
@@ -144,6 +205,8 @@ export default function EmployeesPage() {
         columns={columns}
         getRowKey={(e) => String(e.id)}
         isLoading={loading}
+        emptyText="Heç bir əməkdaş tapılmadı"
+        globalSearchPlaceholder="Ad üzrə axtar…"
         globalSearchKeys={["fullName"]}
         globalFilterValue={search}
         onGlobalFilterValueChange={(v) => {
@@ -170,7 +233,7 @@ export default function EmployeesPage() {
 
       <EmployeeFormModal
         open={formOpen}
-        title={actions.editId != null ? "Redaktə" : "Yeni əməkdaş"}
+        title={actions.editId != null ? "Əməkdaşı redaktə et" : "Yeni əməkdaş"}
         departments={departments}
         stores={stores}
         roles={roles}
@@ -192,9 +255,11 @@ export default function EmployeesPage() {
         title="Əməkdaşı sil"
         description={
           actions.activeEmployee
-            ? `"${actions.activeEmployee.fullName}" silinsin?`
-            : ""
+            ? `"${actions.activeEmployee.fullName}" adlı əməkdaşı silmək istəyirsiniz? Bu əməliyyat geri qaytarılmaya bilər.`
+            : "Bu əməliyyatı təsdiqləyirsiniz?"
         }
+        confirmText="Sil"
+        cancelText="Ləğv et"
         loading={actions.saving}
         danger
         onClose={() => actions.setConfirmOpen(false)}
